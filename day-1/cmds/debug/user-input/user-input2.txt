@@ -1,0 +1,93 @@
+(dlv) stack
+0  0x0000000000435140 in runtime.fatalpanic
+   at /usr/local/go/src/runtime/panic.go:1065
+1  0x000000000043499a in runtime.gopanic
+   at /usr/local/go/src/runtime/panic.go:941
+2  0x00000000004ae245 in main.gatherSentiment
+   at ./main.go:38
+3  0x00000000004add3c in main.main
+   at ./main.go:9
+4  0x0000000000437478 in runtime.main
+   at /usr/local/go/src/runtime/proc.go:250
+5  0x0000000000461a61 in runtime.goexit
+   at /usr/local/go/src/runtime/asm_amd64.s:1571
+(dlv) break main.go:38
+Breakpoint 1 set at 0x4ae188 for main.gatherSentiment() ./main.go:38
+(dlv) restart
+Process restarted with PID 1920649
+(dlv) continue
+> main.gatherSentiment() ./main.go:38 (hits goroutine(1):1 total:1) (PC: 0x4ae188)
+    33:		case i > 2 && i < 7:
+    34:			fmt.Println("Guess it's going alright... :-|")
+    35:		case i > 6 && i < 11:
+    36:			fmt.Println("Guess it's going GREAT!!! :-D")
+    37:		default:
+=>  38:			panic(fmt.Sprintf("Invalid response received: %d\n", i))
+    39:		}
+    40:	}
+    41:	
+    42:	func withinBounds(n *int) bool {
+    43:		*n -= 10
+(dlv) list -15
+Showing /home/deparker/Code/ultimate-go-debugging/day-1/cmds/debug/user-input/main.go:23 (PC: 0x4ae25f)
+    18:		fmt.Println("How would you rate the class from 1-10:")
+    19:	
+    20:		var i int
+    21:		_, err := fmt.Scanln(&i)
+    22:		if err != nil {
+    23:			panic(err)
+    24:		}
+    25:	
+    26:		if !withinBounds(&i) {
+    27:			panic("user input not within expected bounds")
+    28:		}
+(dlv) list -10
+Showing /home/deparker/Code/ultimate-go-debugging/day-1/cmds/debug/user-input/main.go:28 (PC: 0x0)
+    23:			panic(err)
+    24:		}
+    25:	
+    26:		if !withinBounds(&i) {
+    27:			panic("user input not within expected bounds")
+    28:		}
+    29:	
+    30:		switch {
+    31:		case i > 0 && i < 3:
+    32:			fmt.Println("Guess it's going terribly... :(")
+    33:		case i > 2 && i < 7:
+(dlv) break main.go:26
+Breakpoint 2 set at 0x4adf77 for main.gatherSentiment() ./main.go:26
+(dlv) restart
+Process restarted with PID 1921261
+(dlv) continue
+> main.gatherSentiment() ./main.go:26 (hits goroutine(1):1 total:1) (PC: 0x4adf77)
+    21:		_, err := fmt.Scanln(&i)
+    22:		if err != nil {
+    23:			panic(err)
+    24:		}
+    25:	
+=>  26:		if !withinBounds(&i) {
+    27:			panic("user input not within expected bounds")
+    28:		}
+    29:	
+    30:		switch {
+    31:		case i > 0 && i < 3:
+(dlv) print i
+5
+(dlv) watch -w i
+Watchpoint i set at 0xc00001c0c8
+(dlv) continue
+> watchpoint on [i] main.withinBounds() ./main.go:44 (hits goroutine(1):1 total:1) (PC: 0x4ae2f0)
+    39:		}
+    40:	}
+    41:	
+    42:	func withinBounds(n *int) bool {
+    43:		*n -= 10
+=>  44:		return *n <= 0
+    45:	}
+(dlv) rebuild
+not all breakpoints could be restored.(dlv) 
+(dlv) clearall
+Breakpoint 1 cleared at 0x4ae18b for main.gatherSentiment() ./main.go:38
+Breakpoint 2 cleared at 0x4adf77 for main.gatherSentiment() ./main.go:26
+(dlv) continue
+(dlv) exit
