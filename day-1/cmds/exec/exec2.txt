@@ -1,0 +1,139 @@
+(dlv) break Rectangle.Area
+Breakpoint 1 set at 0x4988e6 for main.(*Rectangle).Area() ./main.go:20
+(dlv) break Rectangle.Width
+Breakpoint 2 set at 0x4988a0 for main.(*Rectangle).Width() ./main.go:16
+(dlv) disassemble -l main.main
+TEXT main.main(SB) /home/deparker/Code/ultimate-go-debugging/day-1/cmds/exec/main.go
+	main.go:22	0x498960	4c8d6424d0			lea r12, ptr [rsp-0x30]
+	main.go:22	0x498965	4d3b6610			cmp r12, qword ptr [r14+0x10]
+	main.go:22	0x498969	0f86dd010000			jbe 0x498b4c
+	main.go:22	0x49896f	4881ecb0000000			sub rsp, 0xb0
+	main.go:22	0x498976	4889ac24a8000000		mov qword ptr [rsp+0xa8], rbp
+	main.go:22	0x49897e	488dac24a8000000		lea rbp, ptr [rsp+0xa8]
+	main.go:24	0x498986	e87572faff			call $runtime.Breakpoint
+	main.go:25	0x49898b	488d442418			lea rax, ptr [rsp+0x18]
+	main.go:25	0x498990	e84bffffff			call $main.(*Rectangle).Area
+	main.go:25	0x498995	4889442418			mov qword ptr [rsp+0x18], rax
+	main.go:25	0x49899a	440f117c2450			movups xmmword ptr [rsp+0x50], xmm15
+	main.go:25	0x4989a0	488d442450			lea rax, ptr [rsp+0x50]
+	main.go:25	0x4989a5	4889442438			mov qword ptr [rsp+0x38], rax
+	main.go:25	0x4989aa	488b442418			mov rax, qword ptr [rsp+0x18]
+	main.go:25	0x4989af	e88c1af7ff			call $runtime.convT64
+	main.go:25	0x4989b4	4889442430			mov qword ptr [rsp+0x30], rax
+	main.go:25	0x4989b9	488b4c2438			mov rcx, qword ptr [rsp+0x38]
+	main.go:25	0x4989be	8401				test byte ptr [rcx], al
+	main.go:25	0x4989c0	488d15796e0000			lea rdx, ptr [rip+0x6e79]
+	main.go:25	0x4989c7	488911				mov qword ptr [rcx], rdx
+	main.go:25	0x4989ca	488d7908			lea rdi, ptr [rcx+0x8]
+	main.go:25	0x4989ce	833d1b280c0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:25	0x4989d5	7402				jz 0x4989d9
+	main.go:25	0x4989d7	eb07				jmp 0x4989e0
+	main.go:25	0x4989d9	48894108			mov qword ptr [rcx+0x8], rax
+	main.go:25	0x4989dd	eb08				jmp 0x4989e7
+	main.go:25	0x4989df	90				nop
+	main.go:25	0x4989e0	e89b8bfcff			call $runtime.gcWriteBarrier
+	main.go:25	0x4989e5	eb00				jmp 0x4989e7
+	main.go:25	0x4989e7	488b442438			mov rax, qword ptr [rsp+0x38]
+	main.go:25	0x4989ec	8400				test byte ptr [rax], al
+	main.go:25	0x4989ee	eb00				jmp 0x4989f0
+	main.go:25	0x4989f0	4889842490000000		mov qword ptr [rsp+0x90], rax
+	main.go:25	0x4989f8	48c784249800000001000000	mov qword ptr [rsp+0x98], 0x1
+	main.go:25	0x498a04	48c78424a000000001000000	mov qword ptr [rsp+0xa0], 0x1
+	main.go:25	0x498a10	bb01000000			mov ebx, 0x1
+	main.go:25	0x498a15	4889d9				mov rcx, rbx
+	main.go:25	0x498a18	e843aaffff			call $fmt.Println
+	main.go:26	0x498a1d	488d442418			lea rax, ptr [rsp+0x18]
+	main.go:26	0x498a22	e8b9feffff			call $main.(*Rectangle).Area
+	main.go:26	0x498a27	4889442418			mov qword ptr [rsp+0x18], rax
+	main.go:26	0x498a2c	440f117c2450			movups xmmword ptr [rsp+0x50], xmm15
+	main.go:26	0x498a32	488d542450			lea rdx, ptr [rsp+0x50]
+	main.go:26	0x498a37	4889542428			mov qword ptr [rsp+0x28], rdx
+	main.go:26	0x498a3c	488b442418			mov rax, qword ptr [rsp+0x18]
+	main.go:26	0x498a41	48d1e0				shl rax, 0x1
+	main.go:26	0x498a44	e8f719f7ff			call $runtime.convT64
+	main.go:26	0x498a49	4889442420			mov qword ptr [rsp+0x20], rax
+	main.go:26	0x498a4e	488b542428			mov rdx, qword ptr [rsp+0x28]
+	main.go:26	0x498a53	8402				test byte ptr [rdx], al
+	main.go:26	0x498a55	488d35e46d0000			lea rsi, ptr [rip+0x6de4]
+	main.go:26	0x498a5c	488932				mov qword ptr [rdx], rsi
+	main.go:26	0x498a5f	488d7a08			lea rdi, ptr [rdx+0x8]
+	main.go:26	0x498a63	833d86270c0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:26	0x498a6a	7402				jz 0x498a6e
+	main.go:26	0x498a6c	eb06				jmp 0x498a74
+	main.go:26	0x498a6e	48894208			mov qword ptr [rdx+0x8], rax
+	main.go:26	0x498a72	eb07				jmp 0x498a7b
+	main.go:26	0x498a74	e8078bfcff			call $runtime.gcWriteBarrier
+	main.go:26	0x498a79	eb00				jmp 0x498a7b
+	main.go:26	0x498a7b	488b442428			mov rax, qword ptr [rsp+0x28]
+	main.go:26	0x498a80	8400				test byte ptr [rax], al
+	main.go:26	0x498a82	eb00				jmp 0x498a84
+	main.go:26	0x498a84	4889442478			mov qword ptr [rsp+0x78], rax
+	main.go:26	0x498a89	48c784248000000001000000	mov qword ptr [rsp+0x80], 0x1
+	main.go:26	0x498a95	48c784248800000001000000	mov qword ptr [rsp+0x88], 0x1
+	main.go:26	0x498aa1	bb01000000			mov ebx, 0x1
+	main.go:26	0x498aa6	4889d9				mov rcx, rbx
+	main.go:26	0x498aa9	e8b2a9ffff			call $fmt.Println
+	main.go:27	0x498aae	488d442418			lea rax, ptr [rsp+0x18]
+	main.go:27	0x498ab3	e828feffff			call $main.(*Rectangle).Area
+	main.go:27	0x498ab8	4889442418			mov qword ptr [rsp+0x18], rax
+	main.go:27	0x498abd	440f117c2450			movups xmmword ptr [rsp+0x50], xmm15
+	main.go:27	0x498ac3	488d542450			lea rdx, ptr [rsp+0x50]
+	main.go:27	0x498ac8	4889542448			mov qword ptr [rsp+0x48], rdx
+	main.go:27	0x498acd	488b542418			mov rdx, qword ptr [rsp+0x18]
+	main.go:27	0x498ad2	488d0452			lea rax, ptr [rdx+rdx*2]
+	main.go:27	0x498ad6	e86519f7ff			call $runtime.convT64
+	main.go:27	0x498adb	4889442440			mov qword ptr [rsp+0x40], rax
+	main.go:27	0x498ae0	488b542448			mov rdx, qword ptr [rsp+0x48]
+	main.go:27	0x498ae5	8402				test byte ptr [rdx], al
+	main.go:27	0x498ae7	488d35526d0000			lea rsi, ptr [rip+0x6d52]
+	main.go:27	0x498aee	488932				mov qword ptr [rdx], rsi
+	main.go:27	0x498af1	488d7a08			lea rdi, ptr [rdx+0x8]
+	main.go:27	0x498af5	833df4260c0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:27	0x498afc	7404				jz 0x498b02
+	main.go:27	0x498afe	6690				data16 nop
+	main.go:27	0x498b00	eb06				jmp 0x498b08
+	main.go:27	0x498b02	48894208			mov qword ptr [rdx+0x8], rax
+	main.go:27	0x498b06	eb07				jmp 0x498b0f
+	main.go:27	0x498b08	e8738afcff			call $runtime.gcWriteBarrier
+	main.go:27	0x498b0d	eb00				jmp 0x498b0f
+	main.go:27	0x498b0f	488b442448			mov rax, qword ptr [rsp+0x48]
+	main.go:27	0x498b14	8400				test byte ptr [rax], al
+	main.go:27	0x498b16	eb00				jmp 0x498b18
+	main.go:27	0x498b18	4889442460			mov qword ptr [rsp+0x60], rax
+	main.go:27	0x498b1d	48c744246801000000		mov qword ptr [rsp+0x68], 0x1
+	main.go:27	0x498b26	48c744247001000000		mov qword ptr [rsp+0x70], 0x1
+	main.go:27	0x498b2f	bb01000000			mov ebx, 0x1
+	main.go:27	0x498b34	4889d9				mov rcx, rbx
+	main.go:27	0x498b37	e824a9ffff			call $fmt.Println
+	main.go:28	0x498b3c	488bac24a8000000		mov rbp, qword ptr [rsp+0xa8]
+	main.go:28	0x498b44	4881c4b0000000			add rsp, 0xb0
+	main.go:28	0x498b4b	c3				ret
+	main.go:22	0x498b4c	e86f6afcff			call $runtime.morestack_noctxt
+	.:0		0x498b51	e90afeffff			jmp $main.main
+(dlv) disassemble -l Rectangle.Area
+TEXT main.(*Rectangle).Area(SB) /home/deparker/Code/ultimate-go-debugging/day-1/cmds/exec/main.go
+	main.go:20	0x4988e0	493b6610		cmp rsp, qword ptr [r14+0x10]
+	main.go:20	0x4988e4	7652			jbe 0x498938
+	main.go:20	0x4988e6*	4883ec28		sub rsp, 0x28
+	main.go:20	0x4988ea	48896c2420		mov qword ptr [rsp+0x20], rbp
+	main.go:20	0x4988ef	488d6c2420		lea rbp, ptr [rsp+0x20]
+	main.go:20	0x4988f4	4889442430		mov qword ptr [rsp+0x30], rax
+	main.go:20	0x4988f9	48c744240800000000	mov qword ptr [rsp+0x8], 0x0
+	main.go:20	0x498902	488b442430		mov rax, qword ptr [rsp+0x30]
+	main.go:20	0x498907	e814ffffff		call $main.(*Rectangle).Height
+	main.go:20	0x49890c	4889442418		mov qword ptr [rsp+0x18], rax
+	main.go:20	0x498911	488b442430		mov rax, qword ptr [rsp+0x30]
+	main.go:20	0x498916	e885ffffff		call $main.(*Rectangle).Width
+	main.go:20	0x49891b	4889442410		mov qword ptr [rsp+0x10], rax
+	main.go:20	0x498920	488b4c2418		mov rcx, qword ptr [rsp+0x18]
+	main.go:20	0x498925	480fafc1		imul rax, rcx
+	main.go:20	0x498929	4889442408		mov qword ptr [rsp+0x8], rax
+	main.go:20	0x49892e	488b6c2420		mov rbp, qword ptr [rsp+0x20]
+	main.go:20	0x498933	4883c428		add rsp, 0x28
+	main.go:20	0x498937	c3			ret
+	main.go:20	0x498938	4889442408		mov qword ptr [rsp+0x8], rax
+	main.go:20	0x49893d	0f1f00			nop dword ptr [rax], eax
+	main.go:20	0x498940	e87b6cfcff		call $runtime.morestack_noctxt
+	.:0		0x498945	488b442408		mov rax, qword ptr [rsp+0x8]
+	.:0		0x49894a	eb94			jmp $main.(*Rectangle).Area
+(dlv) exit
