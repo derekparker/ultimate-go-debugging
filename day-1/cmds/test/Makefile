@@ -4,4 +4,4 @@ clone-trie:
 
 .PHONY: test
 test:
-	go test -v ./trie
+	go test -v ./trie/trie.go ./trie/trie_test.go
