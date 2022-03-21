@@ -1,4 +1,4 @@
-bin/tracme:
+bin/traceme:
 	go build -gcflags="all=-N -l" -o bin/traceme
 
 .PHONY: strace
