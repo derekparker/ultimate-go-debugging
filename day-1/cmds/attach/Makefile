@@ -8,7 +8,7 @@ run:
 
 .PHONY: curl-app
 curl-app:
-	curl localhost:8081/foo/bar
+	curl localhost:8082/foo/bar
 
 .PHONY: attach-debugger
 attach-debugger:
