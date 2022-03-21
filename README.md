@@ -6,7 +6,6 @@ This course will teach you various techniques that can be used to debug a Go pro
 
 ## Getting Started
 
-
 ### Clone this repo:
 
 ```
@@ -45,7 +44,7 @@ The full install documentation is [here](https://github.com/go-delve/delve/tree/
 
 ### Day 1
 
-* Basics of using Debugging
+* Basics of using debuggers
 * Intro into CLI usage
 * Getting familiar with debugging mindset
 * How debuggers work
