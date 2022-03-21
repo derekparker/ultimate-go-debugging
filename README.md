@@ -65,7 +65,7 @@ The full install documentation is [here](https://github.com/go-delve/delve/tree/
 
 ### Day 4
 
-* Debugging in containers
+* Debugging in Containers
 * Debugging in Kubernetes
 
 ### Day 5
