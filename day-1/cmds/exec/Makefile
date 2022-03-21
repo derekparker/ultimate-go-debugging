@@ -8,3 +8,7 @@ dlv-exec:
 .PHONY: build-showing-inlining
 build-showing-inlining:
 	go build -gcflags=-m=2 -o bin/prog
+
+.PHONY: search-dwarf-info
+search-dwarf-info: bin/execme
+	objdump --dwarf=info bin/execme | grep -C 2 Rectangle
