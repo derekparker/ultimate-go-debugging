@@ -14,6 +14,6 @@ debug-with-tty:
 install-ptyme:
 	git clone https://github.com/derekparker/ptyme.git && cd ptyme && cargo build --release
 
-.PHONY: run-ptyme
+.PHONY: 
 run-ptyme: install-ptyme
 	cd ptyme && cargo run
