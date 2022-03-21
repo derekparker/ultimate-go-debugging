@@ -23,4 +23,4 @@ objdump-debug-info:
 
 .PHONY: go-objdump
 go-objdump:
-	go tool objdump -s "main.callme" -S ./bin/trace > go-objdump-disassemble.txt
+	go tool objdump -gnu -s "main.callme" -S ./bin/trace > go-objdump-disassemble.txt
