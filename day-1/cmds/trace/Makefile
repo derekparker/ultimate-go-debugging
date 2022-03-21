@@ -16,3 +16,7 @@ trace-with-stack:
 .PHONY: trace-with-ebpf
 trace-with-ebpf:
 	sudo env "PATH=$$PATH" dlv trace callme --ebpf
+
+.PHONY: objdump-debug-info
+objdump-debug-info:
+	objdump -g ./bin/trace > debug-info.txt
