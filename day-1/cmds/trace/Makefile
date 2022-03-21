@@ -20,3 +20,7 @@ trace-with-ebpf:
 .PHONY: objdump-debug-info
 objdump-debug-info:
 	objdump -g ./bin/trace > debug-info.txt
+
+.PHONY: go-objdump
+go-objdump:
+	go tool objdump -s "main.callme" -S ./bin/trace > go-objdump-disassemble.txt

@@ -1,0 +1,27 @@
+TEXT main.callme(SB) /home/deparker/Code/ultimate-go-debugging/day-1/cmds/trace/main.go
+func callme(i int) int {
+  0x47df40		493b6610		CMPQ 0x10(R14), SP	
+  0x47df44		7634			JBE 0x47df7a		
+  0x47df46		4883ec10		SUBQ $0x10, SP		
+  0x47df4a		48896c2408		MOVQ BP, 0x8(SP)	
+  0x47df4f		488d6c2408		LEAQ 0x8(SP), BP	
+	if i == 0 {
+  0x47df54		4885c0			TESTQ AX, AX		
+  0x47df57		750f			JNE 0x47df68		
+		return 100
+  0x47df59		b864000000		MOVL $0x64, AX		
+  0x47df5e		488b6c2408		MOVQ 0x8(SP), BP	
+  0x47df63		4883c410		ADDQ $0x10, SP		
+  0x47df67		c3			RET			
+	return callme(i - 1)
+  0x47df68		48ffc8			DECQ AX			
+  0x47df6b		e8d0ffffff		CALL main.callme(SB)	
+  0x47df70		488b6c2408		MOVQ 0x8(SP), BP	
+  0x47df75		4883c410		ADDQ $0x10, SP		
+  0x47df79		c3			RET			
+func callme(i int) int {
+  0x47df7a		4889442408		MOVQ AX, 0x8(SP)			
+  0x47df7f		90			NOPL					
+  0x47df80		e8fba9fdff		CALL runtime.morestack_noctxt.abi0(SB)	
+  0x47df85		488b442408		MOVQ 0x8(SP), AX			
+  0x47df8a		ebb4			JMP main.callme(SB)			
