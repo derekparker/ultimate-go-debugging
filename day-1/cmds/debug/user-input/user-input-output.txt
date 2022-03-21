@@ -1,0 +1,52 @@
+(dlv) continue
+> [unrecovered-panic] runtime.fatalpanic() /usr/local/go/src/runtime/panic.go:1065 (hits goroutine(1):1 total:1) (PC: 0x435140)
+Warning: debugging optimized function
+	runtime.curg._panic.arg: interface {}(string) "read /dev/stdin: bad file descriptor"
+  1060:	// fatalpanic implements an unrecoverable panic. It is like fatalthrow, except
+  1061:	// that if msgs != nil, fatalpanic also prints panic messages and decrements
+  1062:	// runningPanicDefers once main is blocked from exiting.
+  1063:	//
+  1064:	//go:nosplit
+=>1065:	func fatalpanic(msgs *_panic) {
+  1066:		pc := getcallerpc()
+  1067:		sp := getcallersp()
+  1068:		gp := getg()
+  1069:		var docrash bool
+  1070:		// Switch to the system stack to avoid any stack growth, which
+(dlv) stack
+0  0x0000000000435140 in runtime.fatalpanic
+   at /usr/local/go/src/runtime/panic.go:1065
+1  0x000000000043499a in runtime.gopanic
+   at /usr/local/go/src/runtime/panic.go:941
+2  0x00000000004ae2ab in main.gatherSentiment
+   at ./main.go:23
+3  0x00000000004add3c in main.main
+   at ./main.go:9
+4  0x0000000000437478 in runtime.main
+   at /usr/local/go/src/runtime/proc.go:250
+5  0x0000000000461a61 in runtime.goexit
+   at /usr/local/go/src/runtime/asm_amd64.s:1571
+(dlv) break main.go:23
+Breakpoint 1 set at 0x4ae25f for main.gatherSentiment() ./main.go:23
+(dlv) continue
+(dlv) restart
+Process restarted with PID 1911474
+(dlv) continue
+> main.gatherSentiment() ./main.go:23 (hits goroutine(1):1 total:1) (PC: 0x4ae25f)
+    18:		fmt.Println("How would you rate the class from 1-10:")
+    19:	
+    20:		var i int
+    21:		_, err := fmt.Scanln(&i)
+    22:		if err != nil {
+=>  23:			panic(err)
+    24:		}
+    25:	
+    26:		if !withinBounds(&i) {
+    27:			panic("user input not within expected bounds")
+    28:		}
+(dlv) print err
+error(*io/fs.PathError) *{
+	Op: "read",
+	Path: "/dev/stdin",
+	Err: error(syscall.Errno) EBADF (9),}
+(dlv) exit
