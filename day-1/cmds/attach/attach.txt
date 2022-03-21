@@ -1,0 +1,85 @@
+(dlv) continue
+received SIGINT, stopping process (will not forward signal)
+> runtime.futex() /usr/local/go/src/runtime/sys_linux_amd64.s:553 (PC: 0x4651c3)
+Warning: debugging optimized function
+   548:		MOVQ	ts+16(FP), R10
+   549:		MOVQ	addr2+24(FP), R8
+   550:		MOVL	val3+32(FP), R9
+   551:		MOVL	$SYS_futex, AX
+   552:		SYSCALL
+=> 553:		MOVL	AX, ret+40(FP)
+   554:		RET
+   555:	
+   556:	// int32 clone(int32 flags, void *stk, M *mp, G *gp, void (*fn)(void));
+   557:	TEXT runtime·clone(SB),NOSPLIT,$0
+   558:		MOVL	flags+0(FP), DI
+(dlv) funcs ^main.*
+main.main
+main.setupHandlers
+main.setupHandlers.func1
+main.startServer
+(dlv) break main.setupHandlers.func1
+Breakpoint 1 set at 0x606d0a for main.setupHandlers.func1() ./main.go:16
+(dlv) continue
+> main.setupHandlers.func1() ./main.go:16 (hits goroutine(13):1 total:1) (PC: 0x606d0a)
+Warning: debugging optimized function
+    11:		setupHandlers()
+    12:		startServer()
+    13:	}
+    14:	
+    15:	func setupHandlers() {
+=>  16:		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    17:			_, err := fmt.Fprintf(w, "Hello, %q\n", html.EscapeString(r.URL.Path))
+    18:			if err != nil {
+    19:				panic(err)
+    20:			}
+    21:		})
+(dlv) next
+> main.setupHandlers.func1() ./main.go:17 (PC: 0x606d1d)
+Warning: debugging optimized function
+    12:		startServer()
+    13:	}
+    14:	
+    15:	func setupHandlers() {
+    16:		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+=>  17:			_, err := fmt.Fprintf(w, "Hello, %q\n", html.EscapeString(r.URL.Path))
+    18:			if err != nil {
+    19:				panic(err)
+    20:			}
+    21:		})
+    22:	}
+(dlv) args
+w = net/http.ResponseWriter(*net/http.response) 0xbeef000000000008
+r = ("*net/http.Request")(0xc00002c800)
+(dlv) next
+> main.setupHandlers.func1() ./main.go:18 (PC: 0x606d96)
+Warning: debugging optimized function
+    13:	}
+    14:	
+    15:	func setupHandlers() {
+    16:		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    17:			_, err := fmt.Fprintf(w, "Hello, %q\n", html.EscapeString(r.URL.Path))
+=>  18:			if err != nil {
+    19:				panic(err)
+    20:			}
+    21:		})
+    22:	}
+    23:	
+(dlv) locals
+err = error nil
+(dlv) continue
+received SIGINT, stopping process (will not forward signal)
+> runtime.epollwait() /usr/local/go/src/runtime/sys_linux_amd64.s:699 (PC: 0x4653e0)
+Warning: debugging optimized function
+   694:		MOVL	nev+16(FP), DX
+   695:		MOVL	timeout+20(FP), R10
+   696:		MOVQ	$0, R8
+   697:		MOVL	$SYS_epoll_pwait, AX
+   698:		SYSCALL
+=> 699:		MOVL	AX, ret+24(FP)
+   700:		RET
+   701:	
+   702:	// void runtime·closeonexec(int32 fd);
+   703:	TEXT runtime·closeonexec(SB),NOSPLIT,$0
+   704:		MOVL    fd+0(FP), DI  // fd
+(dlv) exit
