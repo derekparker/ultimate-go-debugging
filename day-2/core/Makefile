@@ -1,6 +1,6 @@
 .PHONY: build-crash
 build-crash:
-	go build -o bin/crash crash.go
+	go build gcflags="all=-N -l" -o bin/crash crash.go
 
 .PHONY: run-crash
 run-crash:

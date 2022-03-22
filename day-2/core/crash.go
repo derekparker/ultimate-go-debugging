@@ -5,9 +5,9 @@ import (
 )
 
 func main() {
-	var i *int
+	var i int
 	for {
-		*i++
+		i++
 		time.Sleep(500 * time.Millisecond)
 	}
 }
