@@ -21,3 +21,7 @@ dlv-core:
 .PHONY: gcore
 gcore:
 	gcore $(PID)
+
+.PHONY: dlv-exec
+dlv-exec:
+	dlv exec ./bin/crash
