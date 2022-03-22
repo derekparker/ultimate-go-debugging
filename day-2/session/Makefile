@@ -5,3 +5,7 @@ build:
 .PHONY: run
 run:
 	./bin/session
+
+.PHONY: debug
+debug:
+	dlv debug -r stdin.txt
