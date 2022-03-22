@@ -1,6 +1,6 @@
 .PHONY: build-crash
 build-crash:
-	go build gcflags="all=-N -l" -o bin/crash crash.go
+	go build -gcflags="all=-N -l" -o bin/crash crash.go
 
 .PHONY: run-crash
 run-crash:
@@ -17,3 +17,7 @@ set-core-pattern:
 .PHONY: dlv-core
 dlv-core:
 	dlv core ./bin/crash core.$(PID)
+
+.PHONY: gcore
+gcore:
+	gcore $(PID)
