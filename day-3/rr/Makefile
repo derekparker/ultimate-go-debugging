@@ -17,3 +17,7 @@ rr-record:
 .PHONY: dlv-replay
 dlv-replay:
 	dlv replay $(TRACE)
+
+.PHONY: dlv-rr
+dlv-rr:
+	dlv debug --backend=rr
