@@ -25,5 +25,7 @@ func main() {
 
 	t := time.Now()
 
-	fmt.Println(pid, t, buf)
+	fmt.Println("pid:", pid)
+	fmt.Println("time:", t)
+	fmt.Println("buf:", buf)
 }
