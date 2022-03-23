@@ -13,3 +13,7 @@ build:
 .PHONY: rr-record
 rr-record:
 	rr record ./bin/recordme
+
+.PHONY: dlv-replay
+dlv-replay:
+	dlv replay $(TRACE)
