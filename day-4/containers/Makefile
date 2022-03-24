@@ -13,4 +13,8 @@ build-image:
 
 .PHONY: run-basic-image
 run-basic-image:
-	docker run -it --detach -p 8080:8080 --rm $(BASIC_IMG)
+	docker run -it --detach -p 8080:8080 --rm $(
+
+.PHONY: curl-app
+curl-app:
+	curl localhost:8080/foo/bar
