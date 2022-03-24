@@ -1,0 +1,21 @@
+# This Dockerfile shows how to build a container that contains the
+# debugger already and then shows how to run your app via the debugger
+# so that you can easily connect to it from the host.
+FROM golang:1.17 as builder
+
+WORKDIR /project
+
+COPY . .
+
+ENV CGO_ENABLED=0
+RUN go build -o /project/bin/app
+RUN go install github.com/go-delve/delve/cmd/dlv@latest
+
+FROM ubuntu:22.04
+
+COPY --from=builder /project/bin/app .
+COPY --from=builder /go/bin/dlv /dlv
+
+EXPOSE 9090
+
+CMD [ "/dlv", "exec", "--continue", "--headless", "--accept-multiclient", "--api-version", "2", "--listen", "0.0.0.0:9090", "./app" ]
