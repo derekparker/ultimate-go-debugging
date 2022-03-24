@@ -17,3 +17,7 @@ ssh-to-vm:
 .PHONY: port-forward
 port-forward:
 	vagrant ssh -- -NL 4040:localhost:4040
+
+.PHONY: connect-to-remote
+connect-to-remote:
+	dlv connect :4040
