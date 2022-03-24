@@ -63,7 +63,7 @@ build-scratch-image:
 
 .PHONY: build-debug-image
 build-debug-image:
-	docker build --pull --rm -f build/Dockerfile-debug -t buggy-debug:latest .
+	docker build --rm -f build/Dockerfile-debug -t buggy-debug:latest .
 
 # Run scratch image.
 .PHONY: run-scratch-image
