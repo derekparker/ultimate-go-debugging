@@ -5,3 +5,7 @@ build:
 .PHONY: copy-dlv
 copy-dlv:
 	cp $$(which dlv) ./bin
+
+.PHONY: start-vm
+start-vm:
+	vagrant up
