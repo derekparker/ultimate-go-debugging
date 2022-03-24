@@ -21,3 +21,11 @@ port-forward:
 .PHONY: connect-to-remote
 connect-to-remote:
 	dlv connect :4040
+
+.PHONY: start-dap-server
+start-dap-server:
+	dlv dap --listen localhost:4040
+
+.PHONY: dlv-exec-headless
+dlv-exec-headless:
+	dlv exec --headless --accept-multiclient --listen :4040 /vagrant/bin/prog

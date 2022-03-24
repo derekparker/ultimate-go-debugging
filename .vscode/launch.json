@@ -20,6 +20,15 @@
             "request": "attach",
             "mode": "local",
             "program": "${fileDirname}",
+        },
+        {
+            "name": "dlv connect",
+            "type": "go",
+            "debugAdapter": "dlv-dap", // `legacy` by default
+            "request": "launch",
+            "mode": "exec",
+            "program": "/vagrant/bin/prog",
+            "port": 4040,
         }
     ]
 }
