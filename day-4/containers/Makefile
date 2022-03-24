@@ -32,3 +32,7 @@ exec-dlv-basic-container:
 .PHONY: exec-basic-with-bash
 exec-basic-with-bash:
 	docker exec -it $$(docker ps -aqf "ancestor=buggy-basic") /bin/bash
+
+.PHONY: change-ptrace-yama
+change-ptrace-yama:
+	echo "0" | sudo tee /proc/sys/kernel/yama/ptrace_scope
