@@ -13,3 +13,7 @@ start-vm:
 .PHONY: ssh-to-vm
 ssh-to-vm:
 	vagrant ssh
+
+.PHONY: port-forward
+port-forward:
+	vagrant ssh -- -NL 4040:localhost:4040
