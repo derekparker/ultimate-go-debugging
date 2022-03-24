@@ -1,0 +1,6 @@
+FROM golang:1.17
+
+RUN go install github.com/go-delve/delve/cmd/dlv@latest
+
+RUN mv /go/bin/dlv /dlv
+COPY . /project
