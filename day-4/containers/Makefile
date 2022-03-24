@@ -36,3 +36,11 @@ exec-basic-with-bash:
 .PHONY: change-ptrace-yama
 change-ptrace-yama:
 	echo "0" | sudo tee /proc/sys/kernel/yama/ptrace_scope
+
+.PHONY: docker-stop-basic
+docker-stop-basic:
+	docker stop $$(docker ps -aqf "ancestor=buggy-basic")
+
+.PHONY: restrict-ptrace-yama
+restrict-ptrace-yama:
+	echo "2" | sudo tee /proc/sys/kernel/yama/ptrace_scope
