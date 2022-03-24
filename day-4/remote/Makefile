@@ -9,3 +9,7 @@ copy-dlv:
 .PHONY: start-vm
 start-vm:
 	vagrant up
+
+.PHONY: ssh-to-vm
+ssh-to-vm:
+	vagrant ssh
