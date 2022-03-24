@@ -1,0 +1,13 @@
+FROM golang:1.17 as builder
+
+WORKDIR /project
+
+COPY . .
+
+RUN go build -o /project/bin/app
+
+FROM scratch
+
+COPY --from=builder /project/bin/app /app
+
+CMD [ "/app" ]
