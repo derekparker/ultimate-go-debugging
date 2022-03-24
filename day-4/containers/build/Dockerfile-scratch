@@ -4,6 +4,7 @@ WORKDIR /project
 
 COPY . .
 
+ENV CGO_ENABLED=0
 RUN go build -o /project/bin/app
 
 FROM scratch
