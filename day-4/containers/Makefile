@@ -79,3 +79,8 @@ debug-scratch-image:
 .PHONY: build-image-with-delve
 build-image-with-delve:
 	docker build --pull --rm -f build/Dockerfile-with-delve -t $(DELVE_IMG):latest .
+
+# Run docker image containing delve binary.
+.PHONY: run-dlv-container
+run-dlv-container:
+	docker run --cap-add=SYS_PTRACE --rm -it --detach -p 8080:8080 -p 9090:9090 $(DELVE_IMG)
