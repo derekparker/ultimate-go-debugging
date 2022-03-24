@@ -28,3 +28,7 @@ copy-dlv-to-container:
 .PHONY: exec-dlv-basic-container
 exec-dlv-basic-container:
 	docker exec -it $$(docker ps -aqf "ancestor=$(BASIC_IMG)") /dlv attach 1
+
+.PHONY: exec-basic-with-bash
+exec-basic-with-bash:
+	docker exec -it $$(docker ps -aqf "ancestor=buggy-basic") /bin/bash
