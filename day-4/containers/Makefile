@@ -140,4 +140,4 @@ port-forward:
 
 .PHONY: kube-debug
 kube-debug:
-	kubectl debug -it $(POD) --image=derekparker/dlv-service --share-processes --copy-to=debug-pod -- /bin/sh
+	kubectl debug -it $(POD) --image=derekparker/dlv-service --share-processes --copy-to=debug-pod -- /bin/bash
