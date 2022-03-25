@@ -30,3 +30,6 @@ spec:
           image: derekparker/basic-service:latest
           ports:
             - containerPort: 80
+          securityContext:
+            capabilities:
+              add: ["SYS_PTRACE"]
