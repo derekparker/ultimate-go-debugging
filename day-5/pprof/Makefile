@@ -21,3 +21,7 @@ run-cpu-profile:
 .PHONY: view-cpu-profile
 view-cpu-profile:
 	go tool pprof ./bin/prog ./cpu.pprof
+
+.PHONY: run-perf-stat
+run-perf-stat:
+	perf stat ./bin/prog
