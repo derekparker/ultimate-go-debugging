@@ -1,15 +1,25 @@
 package main
 
 import (
+	"flag"
 	"log"
-	"net/http"
-	_ "net/http/pprof"
+	"os"
+	"runtime/pprof"
 	"sync"
-	"time"
 )
 
+var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
+
 func main() {
-	go func() { log.Println(http.ListenAndServe("localhost:6060", nil)) }()
+	flag.Parse()
+	if *cpuprofile != "" {
+		f, err := os.Create(*cpuprofile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go leakyFunction(&wg)
@@ -19,10 +29,7 @@ func main() {
 func leakyFunction(wg *sync.WaitGroup) {
 	defer wg.Done()
 	s := make([]string, 3)
-	for i := 0; i < 10000000; i++ {
-		s = append(s, "debug this!!")
-		if (i % 100000) == 0 {
-			time.Sleep(500 * time.Millisecond)
-		}
+	for i := 0; i < 100000000; i++ {
+		s = append(s, "debug me!!!")
 	}
 }

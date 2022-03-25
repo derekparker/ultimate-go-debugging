@@ -13,3 +13,7 @@ get-heap-profile:
 .PHONY: go-tool-pprof-heap
 go-tool-pprof-heap:
 	go tool pprof heap.pprof
+
+.PHONY: run-cpu-profile
+run-cpu-profile:
+	./bin/prog -cpuprofile cpu.pprof
