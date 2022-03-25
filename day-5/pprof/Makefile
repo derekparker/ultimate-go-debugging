@@ -17,3 +17,7 @@ go-tool-pprof-heap:
 .PHONY: run-cpu-profile
 run-cpu-profile:
 	./bin/prog -cpuprofile cpu.pprof
+
+.PHONY: view-cpu-profile
+view-cpu-profile:
+	go tool pprof ./bin/prog ./cpu.pprof
