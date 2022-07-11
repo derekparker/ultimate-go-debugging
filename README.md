@@ -44,7 +44,7 @@ The full install documentation is [here](https://github.com/go-delve/delve/tree/
 
 ### Day 1
 
-* Basics of using Debugging
+* Basics of using a debugger
 * Intro into CLI usage
 * Getting familiar with debugging mindset
 * How debuggers work
