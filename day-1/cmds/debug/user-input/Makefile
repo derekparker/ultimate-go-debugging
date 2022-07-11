@@ -17,3 +17,11 @@ install-ptyme:
 .PHONY: run-ptyme
 run-ptyme: install-ptyme
 	cd ptyme && cargo run
+
+.PHONY: debug-headless
+debug-headless:
+	dlv debug --headless --listen :9090 --api-version 2
+
+.PHONY: connect-to-headless-delve
+connect-to-headless-delve:
+	dlv connect :9090
