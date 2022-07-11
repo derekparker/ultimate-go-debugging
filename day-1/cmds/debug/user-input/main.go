@@ -23,7 +23,7 @@ func gatherSentiment() {
 		panic(err)
 	}
 
-	if !withinBounds(&i) {
+	if !withinBounds(i) {
 		panic("user input not within expected bounds")
 	}
 
@@ -39,7 +39,7 @@ func gatherSentiment() {
 	}
 }
 
-func withinBounds(n *int) bool {
-	*n -= 10
-	return *n <= 0
+func withinBounds(n int) bool {
+	n -= 10
+	return n <= 0
 }
