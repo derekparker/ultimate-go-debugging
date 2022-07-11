@@ -3,4 +3,12 @@ trie:
 
 .PHONY: trie
 test:
-	go test -v ./trie
+	cd trie && go test -v .
+
+.PHONY: debug
+debug:
+	cd ./trie && dlv debug
+
+.PHONY: dlv-test
+dlv-test:
+	cd ./trie && dlv test
