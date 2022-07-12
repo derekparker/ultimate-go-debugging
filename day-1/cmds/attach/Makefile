@@ -1,6 +1,6 @@
 .PHONY: build
 build:
-	go build -o bin/test-attach-program
+	go build -gcflags="all=-N -l" -o bin/test-attach-program
 
 .PHONY: run
 run:
