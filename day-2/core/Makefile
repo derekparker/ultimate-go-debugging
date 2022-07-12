@@ -16,7 +16,7 @@ set-core-pattern:
 
 .PHONY: dlv-core
 dlv-core:
-	dlv core ./bin/crash core.1125848
+	dlv core ./bin/crash core.1130843
 
 .PHONY: build-loop
 build-loop:
@@ -29,3 +29,7 @@ run-loop:
 .PHONY: gcore
 gcore:
 	gcore $(PID)
+
+.PHONY: dlv-exec
+dlv-exec:
+	dlv exec ./bin/loop
