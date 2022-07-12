@@ -1,0 +1,4057 @@
+(dlv) break main.main
+Breakpoint 1 set at 0x4b7fd2 for main.main() ./main.go:77
+(dlv) clear 1
+Breakpoint 1 cleared at 0x4b7fd2 for main.main() ./main.go:77
+(dlv) break main
+(dlv) break mainfunc main.main
+Breakpoint mainfunc set at 0x4b7fd2 for main.main() ./main.go:77
+(dlv) breakpoints
+Breakpoint runtime-fatal-throw (enabled) at 0x436340 for runtime.throw() /home/deparker/Code/goroot/src/runtime/panic.go:982 (0)
+Breakpoint unrecovered-panic (enabled) at 0x436700 for runtime.fatalpanic() /home/deparker/Code/goroot/src/runtime/panic.go:1065 (0)
+	print runtime.curg._panic.arg
+Breakpoint mainfunc (enabled) at 0x4b7fd2 for main.main() ./main.go:77 (0)
+(dlv) continue
+> [mainfunc] main.main() ./main.go:77 (hits goroutine(1):1 total:1) (PC: 0x4b7fd2)
+    72:				}
+    73:			}
+    74:		}
+    75:	}
+    76:	
+=>  77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+(dlv) breakpoints
+Breakpoint runtime-fatal-throw (enabled) at 0x436340 for runtime.throw() /home/deparker/Code/goroot/src/runtime/panic.go:982 (0)
+Breakpoint unrecovered-panic (enabled) at 0x436700 for runtime.fatalpanic() /home/deparker/Code/goroot/src/runtime/panic.go:1065 (0)
+	print runtime.curg._panic.arg
+Breakpoint mainfunc (enabled) at 0x4b7fd2 for main.main() ./main.go:77 (1)
+(dlv) break m33 main.go:33
+Breakpoint m33 set at 0x4b7681 for main.produceValues() ./main.go:33
+(dlv) continue
+> [m33] main.produceValues() ./main.go:33 (hits goroutine(19):1 total:1) (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) continue
+> [m33] main.produceValues() ./main.go:33 (hits goroutine(19):2 total:2) (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) continue
+> [m33] main.produceValues() ./main.go:33 (hits goroutine(19):3 total:3) (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) continue
+> [m33] main.produceValues() ./main.go:33 (hits goroutine(19):4 total:4) (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) clearall
+Breakpoint mainfunc cleared at 0x4b7fd2 for main.main() ./main.go:77
+Breakpoint m33 cleared at 0x4b7681 for main.produceValues() ./main.go:33
+(dlv) help break
+Sets a breakpoint.
+
+	break [name] [locspec]
+
+See $GOPATH/src/github.com/go-delve/delve/Documentation/cli/locspec.md for the syntax of locspec. If locspec is omitted a breakpoint will be set on the current line.
+
+See also: "help on", "help cond" and "help clear"
+(dlv) break /^main.*/
+Breakpoint 4 set at 0x4b7592 for main.produceValues() ./main.go:23
+Breakpoint 5 set at 0x4b7906 for main.produceValues.func1() ./main.go:25
+Breakpoint 6 set at 0x4b7972 for main.consumeValues() ./main.go:53
+Breakpoint 7 set at 0x4b7ea6 for main.consumeValues.func1() ./main.go:55
+Breakpoint 8 set at 0x4b7f0a for main.main.func1() ./main.go:95
+Breakpoint 9 set at 0x4b7fd2 for main.main() ./main.go:77
+Breakpoint 10 set at 0x4b8666 for main.main.func4() ./main.go:115
+Breakpoint 11 set at 0x4b86e6 for main.main.func3() ./main.go:112
+Breakpoint 12 set at 0x4b8766 for main.main.func2() ./main.go:95
+(dlv) clearall
+Breakpoint 4 cleared at 0x4b7592 for main.produceValues() ./main.go:23
+Breakpoint 5 cleared at 0x4b7906 for main.produceValues.func1() ./main.go:25
+Breakpoint 6 cleared at 0x4b7972 for main.consumeValues() ./main.go:53
+Breakpoint 7 cleared at 0x4b7ea6 for main.consumeValues.func1() ./main.go:55
+Breakpoint 8 cleared at 0x4b7f0a for main.main.func1() ./main.go:95
+Breakpoint 9 cleared at 0x4b7fd2 for main.main() ./main.go:77
+Breakpoint 10 cleared at 0x4b8666 for main.main.func4() ./main.go:115
+Breakpoint 11 cleared at 0x4b86e6 for main.main.func3() ./main.go:112
+Breakpoint 12 cleared at 0x4b8766 for main.main.func2() ./main.go:95
+(dlv) restart
+Process restarted with PID 1089471
+(dlv) break m33 main.go:33
+Breakpoint m33 set at 0x4b7681 for main.produceValues() ./main.go:33
+(dlv) help conf
+(dlv) help cond
+Set breakpoint condition.
+
+	condition <breakpoint name or id> <boolean expression>.
+	condition -hitcount <breakpoint name or id> <operator> <argument>.
+	condition -clear <breakpoint name or id>.
+
+Specifies that the breakpoint, tracepoint or watchpoint should break only if the boolean expression is true.
+
+See Documentation/cli/expr.md for a description of supported expressions.
+
+With the -hitcount option a condition on the breakpoint hit count can be set, the following operators are supported
+
+	condition -hitcount bp > n
+	condition -hitcount bp >= n
+	condition -hitcount bp < n
+	condition -hitcount bp <= n
+	condition -hitcount bp == n
+	condition -hitcount bp != n
+	condition -hitcount bp % n
+
+With the -clear option a condtion on the breakpoint can removed.
+	
+The '% n' form means we should stop at the breakpoint when the hitcount is a multiple of n.
+
+Examples:
+
+	cond 2 i == 10				breakpoint 2 will stop when variable i equals 10
+	cond name runtime.curg.goid == 5	breakpoint 'name' will stop only on goroutine 5
+	cond -clear 2				the condition on breakpoint 2 will be removed
+
+(dlv) cond -hitcount m33 == 5
+(dlv) breakpoints
+Breakpoint runtime-fatal-throw (enabled) at 0x436340 for runtime.throw() /home/deparker/Code/goroot/src/runtime/panic.go:982 (0)
+Breakpoint unrecovered-panic (enabled) at 0x436700 for runtime.fatalpanic() /home/deparker/Code/goroot/src/runtime/panic.go:1065 (0)
+	print runtime.curg._panic.arg
+Breakpoint m33 (enabled) at 0x4b7681 for main.produceValues() ./main.go:33 (0)
+	cond -hitcount == 5
+(dlv) continue
+> [m33] main.produceValues() ./main.go:33 (hits goroutine(35):5 total:5) (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) cond -clear m33
+(dlv) breakpoints
+Breakpoint runtime-fatal-throw (enabled) at 0x436340 for runtime.throw() /home/deparker/Code/goroot/src/runtime/panic.go:982 (0)
+Breakpoint unrecovered-panic (enabled) at 0x436700 for runtime.fatalpanic() /home/deparker/Code/goroot/src/runtime/panic.go:1065 (0)
+	print runtime.curg._panic.arg
+Breakpoint m33 (disabled) at 0x4b7681 for main.produceValues() ./main.go:33 (5)
+	cond -hitcount == 5
+(dlv) clearall
+Breakpoint m33 cleared at 0x4b7681 for main.produceValues() ./main.go:33
+(dlv) break m33 main.go:33
+Breakpoint m33 set at 0x4b7681 for main.produceValues() ./main.go:33
+(dlv) help on
+Executes a command when a breakpoint is hit.
+
+	on <breakpoint name or id> <command>
+	on <breakpoint name or id> -edit
+	
+
+Supported commands: print, stack, goroutine, trace and cond. 
+To convert a breakpoint into a tracepoint use:
+	
+	on <breakpoint name or id> trace
+
+The command 'on <bp> cond <cond-arguments>' is equivalent to 'cond <bp> <cond-arguments>'.
+
+The command 'on x -edit' can be used to edit the list of commands executed when the breakpoint is hit.
+(dlv) on m33 goroutine
+(dlv) continue
+> [m33] main.produceValues() ./main.go:33 (hits goroutine(35):1 total:1) (PC: 0x4b7681)
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) on m33 trace
+(dlv) continue
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+> goroutine(35): [m33] main.produceValues()
+	Goroutine 35:
+		Runtime: ./main.go:33 main.produceValues (0x4b7681)
+		User: ./main.go:33 main.produceValues (0x4b7681)
+		Go: ./main.go:112 main.main (0x4b853c)
+		Start: ./main.go:23 main.produceValues (0x4b7580)
+received SIGINT, stopping process (will not forward signal)
+> runtime.futex() /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 (PC: 0x466ec3)
+Warning: debugging optimized function
+   548:		MOVQ	ts+16(FP), R10
+   549:		MOVQ	addr2+24(FP), R8
+   550:		MOVL	val3+32(FP), R9
+   551:		MOVL	$SYS_futex, AX
+   552:		SYSCALL
+=> 553:		MOVL	AX, ret+40(FP)
+   554:		RET
+   555:	
+   556:	// int32 clone(int32 flags, void *stk, M *mp, G *gp, void (*fn)(void));
+   557:	TEXT runtime·clone(SB),NOSPLIT,$0
+   558:		MOVL	flags+0(FP), DI
+(dlv) clearall
+Tracepoint m33 cleared at 0x4b7681 for main.produceValues() ./main.go:33
+(dlv) restart
+Process restarted with PID 1091645
+(dlv) continue main.go:62
+(dlv) continue main.go:63
+Breakpoint 1 set at 0x4b7e40 for main.consumeValues() ./main.go:63
+received SIGINT, stopping process (will not forward signal)
+> runtime.futex() /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 (PC: 0x466ec3)
+Warning: debugging optimized function
+   548:		MOVQ	ts+16(FP), R10
+   549:		MOVQ	addr2+24(FP), R8
+   550:		MOVL	val3+32(FP), R9
+   551:		MOVL	$SYS_futex, AX
+   552:		SYSCALL
+=> 553:		MOVL	AX, ret+40(FP)
+   554:		RET
+   555:	
+   556:	// int32 clone(int32 flags, void *stk, M *mp, G *gp, void (*fn)(void));
+   557:	TEXT runtime·clone(SB),NOSPLIT,$0
+   558:		MOVL	flags+0(FP), DI
+(dlv) restart
+Process restarted with PID 1091835
+(dlv) continue main.go:61
+Breakpoint 1 set at 0x4b7a37 for main.consumeValues() ./main.go:61
+> main.consumeValues() ./main.go:61 (hits goroutine(10):1 total:1) (PC: 0x4b7a37)
+    56:	
+    57:		// Create buffer to store values in-memory.
+    58:		buf := make([]packet, 0)
+    59:		for {
+    60:			select {
+=>  61:			case <-ctx.Done():
+    62:				// If the context has been cancelled, return.
+    63:				return
+    64:			case pkt := <-ch:
+    65:				// Store data in our buffer.
+    66:				buf = append(buf, pkt)
+(dlv) help watch
+Set watchpoint.
+	
+	watch [-r|-w|-rw] <expr>
+	
+	-r	stops when the memory location is read
+	-w	stops when the memory location is written
+	-rw	stops when the memory location is read or written
+
+The memory location is specified with the same expression language used by 'print', for example:
+
+	watch v
+
+will watch the address of variable 'v'.
+
+Note that writes that do not change the value of the watched memory address might not be reported.
+
+See also: "help print".
+(dlv) list
+> main.consumeValues() ./main.go:61 (hits total:0) (PC: 0x4b7a37)
+    56:	
+    57:		// Create buffer to store values in-memory.
+    58:		buf := make([]packet, 0)
+    59:		for {
+    60:			select {
+=>  61:			case <-ctx.Done():
+    62:				// If the context has been cancelled, return.
+    63:				return
+    64:			case pkt := <-ch:
+    65:				// Store data in our buffer.
+    66:				buf = append(buf, pkt)
+(dlv) locals
+buf = []main.packet len: 0, cap: 0, []
+(dlv) restart
+Process restarted with PID 1092839
+(dlv) continue main.go:31
+Breakpoint 1 set at 0x4b7675 for main.produceValues() ./main.go:31
+> main.produceValues() ./main.go:31 (hits goroutine(19):1 total:1) (PC: 0x4b7675)
+    26:		// Create a bytes buffer of length 64.
+    27:		buf := make([]byte, 1<<6)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+=>  31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+    33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+(dlv) watch -rw id
+(dlv) n
+> main.produceValues() ./main.go:33 (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) watch -rw id
+(dlv) watch -w id
+Watchpoint id set at 0xc0000b1e30
+(dlv) continue
+> watchpoint on [id] main.produceValues() ./main.go:49 (hits goroutine(19):1 total:1) (PC: 0x4b7836)
+    44:			}
+    45:	
+    46:			id -= 16
+    47:	
+    48:			// Sleep 0.5 seconds.
+=>  49:			time.Sleep(10 * time.Millisecond)
+    50:		}
+    51:	}
+    52:	
+    53:	func consumeValues(ctx context.Context, wg *sync.WaitGroup, ch <-chan packet) {
+    54:		// Let WaitGroup know we're finished executing.
+(dlv) restart
+Discarded watchpoint id at 0xc0000b1e30: can not recreate watchpoints on restart
+Process restarted with PID 1097907
+(dlv) continue main.go:33
+Breakpoint 5 set at 0x4b7681 for main.produceValues() ./main.go:33
+> main.produceValues() ./main.go:33 (hits goroutine(35):1 total:1) (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) args
+ctx = context.Context(*context.cancelCtx) 0xc0000abf98
+wg = (*sync.WaitGroup)(0xc000016160)
+ch = chan<- main.packet 0/0
+(dlv) list -5
+Showing /home/deparker/Code/ultimate-go-debugging/day-2/session/main.go:28 (PC: 0x0)
+    23:	func produceValues(ctx context.Context, wg *sync.WaitGroup, ch chan<- packet) {
+    24:		// Let WaitGroup know we're finished executing.
+    25:		defer wg.Done()
+    26:		// Create a bytes buffer of length 64.
+    27:		buf := make([]byte, 1<<6)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+    33:			if _, err := rand.Read(buf); err != nil {
+(dlv) list
+> main.produceValues() ./main.go:33 (hits total:0) (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) n
+> main.produceValues() ./main.go:37 (PC: 0x4b76d8)
+    32:			// Read some random data into our buffer.
+    33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+=>  37:			p := packet{id: id, val: buf}
+    38:			select {
+    39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+    42:			case ch <- p:
+(dlv) n
+> main.produceValues() ./main.go:39 (PC: 0x4b7727)
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+=>  39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+    42:			case ch <- p:
+    43:				// Do nothing.
+    44:			}
+(dlv) locals
+buf = []uint8 len: 64, cap: 64, [...]
+id = 5577006791947779410
+p = main.packet {id: 5577006791947779410, val: []uint8 len: 64, cap: 64, [...]}
+(dlv) help display
+Print value of an expression every time the program stops.
+
+	display -a [%format] <expression>
+	display -d <number>
+
+The '-a' option adds an expression to the list of expression printed every time the program stops. The '-d' option removes the specified expression from the list.
+
+If display is called without arguments it will print the value of all expression in the list.
+(dlv) display
+(dlv) locals
+buf = []uint8 len: 64, cap: 64, [...]
+id = 5577006791947779410
+p = main.packet {id: 5577006791947779410, val: []uint8 len: 64, cap: 64, [...]}
+(dlv) display -a id
+0: id = 5577006791947779410
+(dlv) display
+0: id = 5577006791947779410
+(dlv) display -d 0
+(dlv) display
+(dlv) display -a id
+0: id = 5577006791947779410
+(dlv) next
+> main.produceValues() ./main.go:42 (PC: 0x4b7747)
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+    39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+=>  42:			case ch <- p:
+    43:				// Do nothing.
+    44:			}
+    45:	
+    46:			id -= 16
+    47:	
+0: id = 5577006791947779410
+(dlv) 
+> main.produceValues() ./main.go:38 (PC: 0x4b7797)
+    33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+=>  38:			select {
+    39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+    42:			case ch <- p:
+    43:				// Do nothing.
+0: id = 5577006791947779410
+(dlv) 
+> main.produceValues() ./main.go:39 (PC: 0x4b77a9)
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+=>  39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+    42:			case ch <- p:
+    43:				// Do nothing.
+    44:			}
+0: id = 5577006791947779410
+(dlv) 
+> main.produceValues() ./main.go:42 (PC: 0x4b77b9)
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+    39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+=>  42:			case ch <- p:
+    43:				// Do nothing.
+    44:			}
+    45:	
+    46:			id -= 16
+    47:	
+0: id = 5577006791947779410
+(dlv) 
+> main.produceValues() ./main.go:38 (PC: 0x4b77d9)
+    33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+=>  38:			select {
+    39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+    42:			case ch <- p:
+    43:				// Do nothing.
+0: id = 5577006791947779410
+(dlv) 
+> main.produceValues() ./main.go:42 (PC: 0x4b781c)
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+    39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+=>  42:			case ch <- p:
+    43:				// Do nothing.
+    44:			}
+    45:	
+    46:			id -= 16
+    47:	
+0: id = 5577006791947779410
+(dlv) 
+> main.produceValues() ./main.go:46 (PC: 0x4b7828)
+    41:				return
+    42:			case ch <- p:
+    43:				// Do nothing.
+    44:			}
+    45:	
+=>  46:			id -= 16
+    47:	
+    48:			// Sleep 0.5 seconds.
+    49:			time.Sleep(10 * time.Millisecond)
+    50:		}
+    51:	}
+0: id = 5577006791947779410
+(dlv) 
+> main.produceValues() ./main.go:49 (PC: 0x4b7836)
+    44:			}
+    45:	
+    46:			id -= 16
+    47:	
+    48:			// Sleep 0.5 seconds.
+=>  49:			time.Sleep(10 * time.Millisecond)
+    50:		}
+    51:	}
+    52:	
+    53:	func consumeValues(ctx context.Context, wg *sync.WaitGroup, ch <-chan packet) {
+    54:		// Let WaitGroup know we're finished executing.
+0: id = 5577006791947779394
+(dlv) help print
+Evaluate an expression.
+
+	[goroutine <n>] [frame <m>] print [%format] <expression>
+
+See Documentation/cli/expr.md for a description of supported expressions.
+
+The optional format argument is a format specifier, like the ones used by the fmt package. For example "print %x v" will print v as an hexadecimal number.
+(dlv) print id == 5
+false
+(dlv) print id == 5577006791947779394
+true
+(dlv) print id == id
+true
+(dlv) print len(id)
+(dlv) print &id
+(*int)(0xc0000abe30)
+(dlv) help examinemem
+Examine raw memory at the given address.
+
+Examine memory:
+
+	examinemem [-fmt <format>] [-count|-len <count>] [-size <size>] <address>
+	examinemem [-fmt <format>] [-count|-len <count>] [-size <size>] -x <expression>
+
+Format represents the data format and the value is one of this list (default hex): bin(binary), oct(octal), dec(decimal), hex(hexadecimal), addr(address).
+Length is the number of bytes (default 1) and must be less than or equal to 1000.
+Address is the memory location of the target to examine. Please note '-len' is deprecated by '-count and -size'.
+Expression can be an integer expression or pointer value of the memory location to examine.
+
+For example:
+
+    x -fmt hex -count 20 -size 1 0xc00008af38
+    x -fmt hex -count 20 -size 1 -x 0xc00008af38 + 8
+    x -fmt hex -count 20 -size 1 -x &myVar
+    x -fmt hex -count 20 -size 1 -x myPtrVar
+(dlv) x -fmt hex -count 20 0xc0000abe30
+0xc0000abe30:   0x42   0xfd   0xfc   0x07   0x21   0x82   0x65   0x4d   
+0xc0000abe38:   0x00   0x00   0x00   0x00   0x00   0x00   0x00   0x00   
+0xc0000abe40:   0x01   0x00   0x00   0x00   
+(dlv) print id
+5577006791947779394
+(dlv) x -x &id
+0xc0000abe30:   0x42   
+(dlv) x -size 8 -x &id
+0xc0000abe30:   0x4d65822107fcfd42   
+(dlv) x -size 8 -fmt hex -x &id
+0xc0000abe30:   0x4d65822107fcfd42   
+(dlv) x -size 8 -fmt oct -x &id
+0xc0000abe30:   0000465454042040777176502   
+(dlv) x -size 8 -fmt bin -x &id
+0xc0000abe30:   0100110101100101100000100010000100000111111111001111110101000010   
+(dlv) restart
+Process restarted with PID 1101570
+(dlv) continue main.go:33
+Breakpoint 1 set at 0x4b7681 for main.produceValues() ./main.go:33
+> main.produceValues() ./main.go:33 (hits goroutine(23):1 total:1) (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+0: id = 5577006791947779410
+(dlv) display -d 0
+(dlv) n
+> main.produceValues() ./main.go:37 (PC: 0x4b76d8)
+    32:			// Read some random data into our buffer.
+    33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+=>  37:			p := packet{id: id, val: buf}
+    38:			select {
+    39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+    42:			case ch <- p:
+(dlv) 
+> main.produceValues() ./main.go:39 (PC: 0x4b7727)
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+=>  39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+    42:			case ch <- p:
+    43:				// Do nothing.
+    44:			}
+(dlv) list
+> main.produceValues() ./main.go:39 (PC: 0x4b7727)
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+=>  39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+    42:			case ch <- p:
+    43:				// Do nothing.
+    44:			}
+(dlv) whatis p
+main.packet
+(dlv) print p
+main.packet {
+	id: 5577006791947779410,
+	val: []uint8 len: 64, cap: 64, [79,22,63,95,15,154,98,29,114,149,102,199,77,16,3,124,77,123,187,4,7,209,226,198,73,129,133,90,216,104,29,13,134,209,233,30,0,22,121,57,203,102,148,210,196,34,172,210,8,160,7,41,57,72,127,105,153,235,157,24,164,71,132,4],}
+(dlv) print p.id
+5577006791947779410
+(dlv) print p.val
+[]uint8 len: 64, cap: 64, [79,22,63,95,15,154,98,29,114,149,102,199,77,16,3,124,77,123,187,4,7,209,226,198,73,129,133,90,216,104,29,13,134,209,233,30,0,22,121,57,203,102,148,210,196,34,172,210,8,160,7,41,57,72,127,105,153,235,157,24,164,71,132,4]
+(dlv) print p.val[10]
+102
+(dlv) print p.val[10:20]
+[]uint8 len: 10, cap: 10, [102,199,77,16,3,124,77,123,187,4]
+(dlv) set p.id = 500
+(dlv) print p
+main.packet {
+	id: 500,
+	val: []uint8 len: 64, cap: 64, [79,22,63,95,15,154,98,29,114,149,102,199,77,16,3,124,77,123,187,4,7,209,226,198,73,129,133,90,216,104,29,13,134,209,233,30,0,22,121,57,203,102,148,210,196,34,172,210,8,160,7,41,57,72,127,105,153,235,157,24,164,71,132,4],}
+(dlv) print p.id
+500
+(dlv) set p.val[0] = 8
+(dlv) print p.val
+[]uint8 len: 64, cap: 64, [8,22,63,95,15,154,98,29,114,149,102,199,77,16,3,124,77,123,187,4,7,209,226,198,73,129,133,90,216,104,29,13,134,209,233,30,0,22,121,57,203,102,148,210,196,34,172,210,8,160,7,41,57,72,127,105,153,235,157,24,164,71,132,4]
+(dlv) print p.val[0]
+8
+(dlv) regs
+    Rip = 0x00000000004b7727
+    Rsp = 0x000000c00019ddf8
+    Rax = 0x0000000000000040
+    Rbx = 0x000000c0001c2040
+    Rcx = 0x0000000000000040
+    Rdx = 0x0000000000000040
+    Rsi = 0x0000000000000000
+    Rdi = 0x0000000000000000
+    Rbp = 0x000000c00019df80
+     R8 = 0x0000000000000001
+     R9 = 0x0000000000000000
+    R10 = 0x0000000000000000
+    R11 = 0x0000000000000000
+    R12 = 0x0000000000000000
+    R13 = 0x0000000000000008
+    R14 = 0x000000c000183520
+    R15 = 0x0000000000537700
+ Rflags = 0x0000000000000246	[PF ZF IF IOPL=0]
+     Es = 0x0000000000000000
+     Cs = 0x0000000000000033
+     Ss = 0x000000000000002b
+     Ds = 0x0000000000000000
+     Fs = 0x0000000000000000
+     Gs = 0x0000000000000000
+Fs_base = 0x000000c000100090
+Gs_base = 0x0000000000000000
+
+(dlv) regs -a
+    Rip = 0x00000000004b7727
+    Rsp = 0x000000c00019ddf8
+    Rax = 0x0000000000000040
+    Rbx = 0x000000c0001c2040
+    Rcx = 0x0000000000000040
+    Rdx = 0x0000000000000040
+    Rsi = 0x0000000000000000
+    Rdi = 0x0000000000000000
+    Rbp = 0x000000c00019df80
+     R8 = 0x0000000000000001
+     R9 = 0x0000000000000000
+    R10 = 0x0000000000000000
+    R11 = 0x0000000000000000
+    R12 = 0x0000000000000000
+    R13 = 0x0000000000000008
+    R14 = 0x000000c000183520
+    R15 = 0x0000000000537700
+   XMM0 = 0x00000000000000000000000000000000	v2_int={ 0000000000000000 0000000000000000 }	v4_int={ 00000000 00000000 00000000 00000000 }	v8_int={ 0000 0000 0000 0000 0000 0000 0000 0000 }	v16_int={ 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 }	v2_float={ 0 0 }	v4_float={ 0 0 0 0 }
+   XMM1 = 0x00000000000000000000000000000000	v2_int={ 0000000000000000 0000000000000000 }	v4_int={ 00000000 00000000 00000000 00000000 }	v8_int={ 0000 0000 0000 0000 0000 0000 0000 0000 }	v16_int={ 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 }	v2_float={ 0 0 }	v4_float={ 0 0 0 0 }
+   XMM2 = 0x00000000000000000000000000000000	v2_int={ 0000000000000000 0000000000000000 }	v4_int={ 00000000 00000000 00000000 00000000 }	v8_int={ 0000 0000 0000 0000 0000 0000 0000 0000 }	v16_int={ 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 }	v2_float={ 0 0 }	v4_float={ 0 0 0 0 }
+   XMM3 = 0x00000000004b8735000000c000082fd0	v2_int={ 000000c000082fd0 00000000004b8735 }	v4_int={ 00082fd0 000000c0 004b8735 00000000 }	v8_int={ 2fd0 0008 00c0 0000 8735 004b 0000 0000 }	v16_int={ d0 2f 08 00 c0 00 00 00 35 87 4b 00 00 00 00 00 }	v2_float={ 4.074234569454e-312 2.4455326e-317 }	v4_float={ 7.51836e-40 2.69e-43 6.936165e-39 0 }
+   XMM4 = 0x000000c0001bc00000000000004b5dac	v2_int={ 00000000004b5dac 000000c0001bc000 }	v4_int={ 004b5dac 00000000 001bc000 000000c0 }	v8_int={ 5dac 004b 0000 0000 c000 001b 00c0 0000 }	v16_int={ ac 5d 4b 00 00 00 00 00 00 c0 1b 00 c0 00 00 00 }	v2_float={ 2.440279e-317 4.07424090385e-312 }	v4_float={ 6.921265e-39 0 2.548435e-39 2.69e-43 }
+   XMM5 = 0x00000000004b8735000000c000082fd0	v2_int={ 000000c000082fd0 00000000004b8735 }	v4_int={ 00082fd0 000000c0 004b8735 00000000 }	v8_int={ 2fd0 0008 00c0 0000 8735 004b 0000 0000 }	v16_int={ d0 2f 08 00 c0 00 00 00 35 87 4b 00 00 00 00 00 }	v2_float={ 4.074234569454e-312 2.4455326e-317 }	v4_float={ 7.51836e-40 2.69e-43 6.936165e-39 0 }
+   XMM6 = 0x000000c0001ba04000000000004e0c10	v2_int={ 00000000004e0c10 000000c0001ba040 }	v4_int={ 004e0c10 00000000 001ba040 000000c0 }	v8_int={ 0c10 004e 0000 0000 a040 001b 00c0 0000 }	v16_int={ 10 0c 4e 00 00 00 00 00 40 a0 1b 00 c0 00 00 00 }	v2_float={ 2.5270944e-317 4.07424086369e-312 }	v4_float={ 7.167496e-39 0 2.537045e-39 2.69e-43 }
+   XMM7 = 0x000000c0001961e0000000c0001b6010	v2_int={ 000000c0001b6010 000000c0001961e0 }	v4_int={ 001b6010 000000c0 001961e0 000000c0 }	v8_int={ 6010 001b 00c0 0000 61e0 0019 00c0 0000 }	v16_int={ 10 60 1b 00 c0 00 00 00 e0 61 19 00 c0 00 00 00 }	v2_float={ 4.074240782507e-312 4.07424013722e-312 }	v4_float={ 2.514019e-39 2.69e-43 2.330998e-39 2.69e-43 }
+   XMM8 = 0x000000c0001b6010000000c0001961e0	v2_int={ 000000c0001961e0 000000c0001b6010 }	v4_int={ 001961e0 000000c0 001b6010 000000c0 }	v8_int={ 61e0 0019 00c0 0000 6010 001b 00c0 0000 }	v16_int={ e0 61 19 00 c0 00 00 00 10 60 1b 00 c0 00 00 00 }	v2_float={ 4.07424013722e-312 4.074240782507e-312 }	v4_float={ 2.330998e-39 2.69e-43 2.514019e-39 2.69e-43 }
+   XMM9 = 0x000000c0001ba04000000000004e0c10	v2_int={ 00000000004e0c10 000000c0001ba040 }	v4_int={ 004e0c10 00000000 001ba040 000000c0 }	v8_int={ 0c10 004e 0000 0000 a040 001b 00c0 0000 }	v16_int={ 10 0c 4e 00 00 00 00 00 40 a0 1b 00 c0 00 00 00 }	v2_float={ 2.5270944e-317 4.07424086369e-312 }	v4_float={ 7.167496e-39 0 2.537045e-39 2.69e-43 }
+  XMM10 = 0x00000000004650010000000000000000	v2_int={ 0000000000000000 0000000000465001 }	v4_int={ 00000000 00000000 00465001 00000000 }	v8_int={ 0000 0000 0000 0000 5001 0046 0000 0000 }	v16_int={ 00 00 00 00 00 00 00 00 01 50 46 00 00 00 00 00 }	v2_float={ 0 2.276655e-317 }	v4_float={ 0 0 6.457185e-39 0 }
+  XMM11 = 0x00000000000000000000000000000000	v2_int={ 0000000000000000 0000000000000000 }	v4_int={ 00000000 00000000 00000000 00000000 }	v8_int={ 0000 0000 0000 0000 0000 0000 0000 0000 }	v16_int={ 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 }	v2_float={ 0 0 }	v4_float={ 0 0 0 0 }
+  XMM12 = 0x00000000000000000000000000000000	v2_int={ 0000000000000000 0000000000000000 }	v4_int={ 00000000 00000000 00000000 00000000 }	v8_int={ 0000 0000 0000 0000 0000 0000 0000 0000 }	v16_int={ 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 }	v2_float={ 0 0 }	v4_float={ 0 0 0 0 }
+  XMM13 = 0x6c61636f6c2e2f72656b72617065642f	v2_int={ 656b72617065642f 6c61636f6c2e2f72 }	v4_int={ 7065642f 656b7261 6c2e2f72 6c61636f }	v8_int={ 642f 7065 7261 656b 2f72 6c2e 636f 6c61 }	v16_int={ 2f 64 65 70 61 72 6b 65 72 2f 2e 6c 6f 63 61 6c }	v2_float={ 3.5590912818451917e+180 1.170757717138007e+214 }	v4_float={ 2.8397273e+29 6.9491628e+22 8.423086e+26 1.0899115e+27 }
+  XMM14 = 0x736e6961724274654a2f65726168732f	v2_int={ 4a2f65726168732f 736e696172427465 }	v4_int={ 6168732f 4a2f6572 72427465 736e6961 }	v8_int={ 732f 6168 6572 4a2f 7465 7242 6961 736e }	v16_int={ 2f 73 68 61 72 65 2f 4a 65 74 42 72 61 69 6e 73 }	v2_float={ 2.294285479774902e+49 1.0631788654131109e+248 }	v4_float={ 2.6799653e+20 2.8736925e+06 3.8515715e+30 1.8888916e+31 }
+  XMM15 = 0x00000000000000000000000000000000	v2_int={ 0000000000000000 0000000000000000 }	v4_int={ 00000000 00000000 00000000 00000000 }	v8_int={ 0000 0000 0000 0000 0000 0000 0000 0000 }	v16_int={ 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 }	v2_float={ 0 0 }	v4_float={ 0 0 0 0 }
+  ST(0) = 0x00000000000000000000	0
+  ST(1) = 0x00000000000000000000	0
+  ST(2) = 0x00000000000000000000	0
+  ST(3) = 0x00000000000000000000	0
+  ST(4) = 0x00000000000000000000	0
+  ST(5) = 0x00000000000000000000	0
+  ST(6) = 0x00000000000000000000	0
+  ST(7) = 0x00000000000000000000	0
+ Rflags = 0x0000000000000246	[PF ZF IF IOPL=0]
+     Es = 0x0000000000000000
+     Cs = 0x0000000000000033
+     Ss = 0x000000000000002b
+     Ds = 0x0000000000000000
+     Fs = 0x0000000000000000
+     Gs = 0x0000000000000000
+Fs_base = 0x000000c000100090
+Gs_base = 0x0000000000000000
+  MXCSR = 0x00001fa0	[RZ/RN=0 PM UM OM ZM DM IM PE]
+     CW = 0x037f
+     SW = 0x0000
+
+(dlv) regs
+    Rip = 0x00000000004b7727
+    Rsp = 0x000000c00019ddf8
+    Rax = 0x0000000000000040
+    Rbx = 0x000000c0001c2040
+    Rcx = 0x0000000000000040
+    Rdx = 0x0000000000000040
+    Rsi = 0x0000000000000000
+    Rdi = 0x0000000000000000
+    Rbp = 0x000000c00019df80
+     R8 = 0x0000000000000001
+     R9 = 0x0000000000000000
+    R10 = 0x0000000000000000
+    R11 = 0x0000000000000000
+    R12 = 0x0000000000000000
+    R13 = 0x0000000000000008
+    R14 = 0x000000c000183520
+    R15 = 0x0000000000537700
+ Rflags = 0x0000000000000246	[PF ZF IF IOPL=0]
+     Es = 0x0000000000000000
+     Cs = 0x0000000000000033
+     Ss = 0x000000000000002b
+     Ds = 0x0000000000000000
+     Fs = 0x0000000000000000
+     Gs = 0x0000000000000000
+Fs_base = 0x000000c000100090
+Gs_base = 0x0000000000000000
+
+(dlv) step-instruction
+> main.produceValues() ./main.go:39 (PC: 0x4b772f)
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+=>  39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+    42:			case ch <- p:
+    43:				// Do nothing.
+    44:			}
+(dlv) regs
+    Rip = 0x00000000004b772f
+    Rsp = 0x000000c00019ddf8
+    Rax = 0x0000000000000040
+    Rbx = 0x000000c0001c2040
+    Rcx = 0x00000000004e0c10
+    Rdx = 0x0000000000000040
+    Rsi = 0x0000000000000000
+    Rdi = 0x0000000000000000
+    Rbp = 0x000000c00019df80
+     R8 = 0x0000000000000001
+     R9 = 0x0000000000000000
+    R10 = 0x0000000000000000
+    R11 = 0x0000000000000000
+    R12 = 0x0000000000000000
+    R13 = 0x0000000000000008
+    R14 = 0x000000c000183520
+    R15 = 0x0000000000537700
+ Rflags = 0x0000000000000246	[PF ZF IF IOPL=0]
+     Es = 0x0000000000000000
+     Cs = 0x0000000000000033
+     Ss = 0x000000000000002b
+     Ds = 0x0000000000000000
+     Fs = 0x0000000000000000
+     Gs = 0x0000000000000000
+Fs_base = 0x000000c000100090
+Gs_base = 0x0000000000000000
+
+(dlv) goroutines
+  Goroutine 1 - User: /home/deparker/Code/goroot/src/runtime/sema.go:56 sync.runtime_Semacquire (0x4618a5) [semacquire]
+  Goroutine 2 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [force gc (idle)]
+  Goroutine 17 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC sweep wait]
+  Goroutine 18 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC scavenge wait]
+  Goroutine 19 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [finalizer wait]
+  Goroutine 20 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [select]
+  Goroutine 21 - User: /home/deparker/Code/goroot/src/runtime/sigqueue.go:151 os/signal.signal_recv (0x461baf) (thread 1101628)
+  Goroutine 22 - User: ./main.go:97 main.main.func1 (0x4b7f29) [chan receive]
+* Goroutine 23 - User: ./main.go:39 main.produceValues (0x4b772f) (thread 1101627)
+  Goroutine 24 - User: ./main.go:60 main.consumeValues (0x4b7af6) [select]
+[10 goroutines]
+(dlv) help goroutines
+List program goroutines.
+
+	goroutines [-u|-r|-g|-s] [-t [depth]] [-l] [-with loc expr] [-without loc expr] [-group argument]
+
+Print out info for every goroutine. The flag controls what information is shown along with each goroutine:
+
+	-u	displays location of topmost stackframe in user code (default)
+	-r	displays location of topmost stackframe (including frames inside private runtime functions)
+	-g	displays location of go instruction that created the goroutine
+	-s	displays location of the start function
+	-t	displays goroutine's stacktrace (an optional depth value can be specified, default: 10)
+	-l	displays goroutine's labels
+
+If no flag is specified the default is -u, i.e. the first frame within the first 30 frames that is not executing a runtime private function.
+
+FILTERING
+
+If -with or -without are specified only goroutines that match the given condition are returned.
+
+To only display goroutines where the specified location contains (or does not contain, for -without and -wo) expr as a substring, use:
+
+	goroutines -with (userloc|curloc|goloc|startloc) expr
+	goroutines -w (userloc|curloc|goloc|startloc) expr
+	goroutines -without (userloc|curloc|goloc|startloc) expr
+	goroutines -wo (userloc|curloc|goloc|startloc) expr
+	
+To only display goroutines that have (or do not have) the specified label key and value, use:
+	
+
+	goroutines -with label key=value
+	goroutines -without label key=value
+	
+To only display goroutines that have (or do not have) the specified label key, use:
+
+	goroutines -with label key
+	goroutines -without label key
+	
+To only display goroutines that are running (or are not running) on a OS thread, use:
+
+
+	goroutines -with running
+	goroutines -without running
+	
+To only display user (or runtime) goroutines, use:
+
+	goroutines -with user
+	goroutines -without user
+
+GROUPING
+
+	goroutines -group (userloc|curloc|goloc|startloc|running|user)
+
+Groups goroutines by the given location, running status or user classification, up to 5 goroutines per group will be displayed as well as the total number of goroutines in the group.
+
+	goroutines -group label key
+
+Groups goroutines by the value of the label with the specified key.
+
+(dlv) goroutines
+  Goroutine 1 - User: /home/deparker/Code/goroot/src/runtime/sema.go:56 sync.runtime_Semacquire (0x4618a5) [semacquire]
+  Goroutine 2 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [force gc (idle)]
+  Goroutine 17 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC sweep wait]
+  Goroutine 18 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC scavenge wait]
+  Goroutine 19 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [finalizer wait]
+  Goroutine 20 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [select]
+  Goroutine 21 - User: /home/deparker/Code/goroot/src/runtime/sigqueue.go:151 os/signal.signal_recv (0x461baf) (thread 1101628)
+  Goroutine 22 - User: ./main.go:97 main.main.func1 (0x4b7f29) [chan receive]
+* Goroutine 23 - User: ./main.go:39 main.produceValues (0x4b772f) (thread 1101627)
+  Goroutine 24 - User: ./main.go:60 main.consumeValues (0x4b7af6) [select]
+[10 goroutines]
+(dlv) goroutines -r
+  Goroutine 1 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [semacquire]
+  Goroutine 2 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [force gc (idle)]
+  Goroutine 17 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC sweep wait]
+  Goroutine 18 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC scavenge wait]
+  Goroutine 19 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [finalizer wait]
+  Goroutine 20 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [select]
+  Goroutine 21 - Runtime: /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 runtime.futex (0x466ec3) (thread 1101628)
+  Goroutine 22 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [chan receive]
+* Goroutine 23 - Runtime: ./main.go:39 main.produceValues (0x4b772f) (thread 1101627)
+  Goroutine 24 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [select]
+[10 goroutines]
+(dlv) goroutines -with running
+  Goroutine 21 - User: /home/deparker/Code/goroot/src/runtime/sigqueue.go:151 os/signal.signal_recv (0x461baf) (thread 1101628)
+* Goroutine 23 - User: ./main.go:39 main.produceValues (0x4b772f) (thread 1101627)
+[2 goroutines]
+(dlv) goroutines -without running
+  Goroutine 1 - User: /home/deparker/Code/goroot/src/runtime/sema.go:56 sync.runtime_Semacquire (0x4618a5) [semacquire]
+  Goroutine 2 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [force gc (idle)]
+  Goroutine 17 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC sweep wait]
+  Goroutine 18 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC scavenge wait]
+  Goroutine 19 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [finalizer wait]
+  Goroutine 20 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [select]
+  Goroutine 22 - User: ./main.go:97 main.main.func1 (0x4b7f29) [chan receive]
+  Goroutine 24 - User: ./main.go:60 main.consumeValues (0x4b7af6) [select]
+[8 goroutines]
+(dlv) goroutines
+  Goroutine 1 - User: /home/deparker/Code/goroot/src/runtime/sema.go:56 sync.runtime_Semacquire (0x4618a5) [semacquire]
+  Goroutine 2 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [force gc (idle)]
+  Goroutine 17 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC sweep wait]
+  Goroutine 18 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC scavenge wait]
+  Goroutine 19 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [finalizer wait]
+  Goroutine 20 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [select]
+  Goroutine 21 - User: /home/deparker/Code/goroot/src/runtime/sigqueue.go:151 os/signal.signal_recv (0x461baf) (thread 1101628)
+  Goroutine 22 - User: ./main.go:97 main.main.func1 (0x4b7f29) [chan receive]
+* Goroutine 23 - User: ./main.go:39 main.produceValues (0x4b772f) (thread 1101627)
+  Goroutine 24 - User: ./main.go:60 main.consumeValues (0x4b7af6) [select]
+[10 goroutines]
+(dlv) stack
+0  0x00000000004b772f in main.produceValues
+   at ./main.go:39
+1  0x00000000004b8735 in main.main.func3
+   at ./main.go:112
+2  0x0000000000465001 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) goroutine 22 stack
+0  0x0000000000438e52 in runtime.gopark
+   at /home/deparker/Code/goroot/src/runtime/proc.go:362
+1  0x0000000000405fcd in runtime.chanrecv
+   at /home/deparker/Code/goroot/src/runtime/chan.go:577
+2  0x0000000000405c98 in runtime.chanrecv1
+   at /home/deparker/Code/goroot/src/runtime/chan.go:440
+3  0x00000000004b7f29 in main.main.func1
+   at ./main.go:97
+4  0x00000000004b87a7 in main.main.func2
+   at ./main.go:103
+5  0x0000000000465001 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) goroutine 22 list
+Goroutine 22 frame 0 at /home/deparker/Code/goroot/src/runtime/proc.go:362 (PC: 0x438e52)
+   357:		mp.waittraceev = traceEv
+   358:		mp.waittraceskip = traceskip
+   359:		releasem(mp)
+   360:		// can't do anything that might move the G between Ms here.
+   361:		mcall(park_m)
+=> 362:	}
+   363:	
+   364:	// Puts the current goroutine into a waiting state and unlocks the lock.
+   365:	// The goroutine can be made runnable again by calling goready(gp).
+   366:	func goparkunlock(lock *mutex, reason waitReason, traceEv byte, traceskip int) {
+   367:		gopark(parkunlock_c, unsafe.Pointer(lock), reason, traceEv, traceskip)
+(dlv) goroutine 22 frame 3 list
+Goroutine 22 frame 3 at /home/deparker/Code/ultimate-go-debugging/day-2/session/main.go:97 (PC: 0x4b7f29)
+    92:		// Ensure we are notified on receipt of SIGTERM.
+    93:		signal.Notify(sigch, syscall.SIGTERM)
+    94:	
+    95:		go func(sch <-chan os.Signal, cncl func()) {
+    96:			// Wait until we get a signal.
+=>  97:			<-sch
+    98:	
+    99:			fmt.Println("Got interrupt signal, exiting...")
+   100:	
+   101:			// Call the context cancellation function.
+   102:			cncl()
+(dlv) goroutines
+  Goroutine 1 - User: /home/deparker/Code/goroot/src/runtime/sema.go:56 sync.runtime_Semacquire (0x4618a5) [semacquire]
+  Goroutine 2 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [force gc (idle)]
+  Goroutine 17 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC sweep wait]
+  Goroutine 18 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC scavenge wait]
+  Goroutine 19 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [finalizer wait]
+  Goroutine 20 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [select]
+  Goroutine 21 - User: /home/deparker/Code/goroot/src/runtime/sigqueue.go:151 os/signal.signal_recv (0x461baf) (thread 1101628)
+  Goroutine 22 - User: ./main.go:97 main.main.func1 (0x4b7f29) [chan receive]
+* Goroutine 23 - User: ./main.go:39 main.produceValues (0x4b772f) (thread 1101627)
+  Goroutine 24 - User: ./main.go:60 main.consumeValues (0x4b7af6) [select]
+[10 goroutines]
+(dlv) goroutine 22
+Switched from 23 to 22 (thread 1101627)
+(dlv) list
+> runtime.gopark() /home/deparker/Code/goroot/src/runtime/proc.go:362 (PC: 0x438e52)
+Warning: debugging optimized function
+   357:		mp.waittraceev = traceEv
+   358:		mp.waittraceskip = traceskip
+   359:		releasem(mp)
+   360:		// can't do anything that might move the G between Ms here.
+   361:		mcall(park_m)
+=> 362:	}
+   363:	
+   364:	// Puts the current goroutine into a waiting state and unlocks the lock.
+   365:	// The goroutine can be made runnable again by calling goready(gp).
+   366:	func goparkunlock(lock *mutex, reason waitReason, traceEv byte, traceskip int) {
+   367:		gopark(parkunlock_c, unsafe.Pointer(lock), reason, traceEv, traceskip)
+(dlv) goroutines
+  Goroutine 1 - User: /home/deparker/Code/goroot/src/runtime/sema.go:56 sync.runtime_Semacquire (0x4618a5) [semacquire]
+  Goroutine 2 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [force gc (idle)]
+  Goroutine 17 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC sweep wait]
+  Goroutine 18 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC scavenge wait]
+  Goroutine 19 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [finalizer wait]
+  Goroutine 20 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [select]
+  Goroutine 21 - User: /home/deparker/Code/goroot/src/runtime/sigqueue.go:151 os/signal.signal_recv (0x461baf) (thread 1101628)
+* Goroutine 22 - User: ./main.go:97 main.main.func1 (0x4b7f29) [chan receive]
+  Goroutine 23 - User: ./main.go:39 main.produceValues (0x4b772f) (thread 1101627)
+  Goroutine 24 - User: ./main.go:60 main.consumeValues (0x4b7af6) [select]
+[10 goroutines]
+(dlv) threads
+  Thread 1101570 at 0x466ec3 /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 runtime.futex
+  Thread 1101625 at 0x4668dd /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:149 runtime.usleep
+  Thread 1101626 at 0x466ec3 /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 runtime.futex
+* Thread 1101627 at 0x4b772f ./main.go:39 main.produceValues
+  Thread 1101628 at 0x466ec3 /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 runtime.futex
+  Thread 1101629 at 0x466ec3 /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 runtime.futex
+  Thread 1101630 at 0x466ec3 /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 runtime.futex
+(dlv) thread 1101628
+Switched from 1101627 to 1101628
+(dlv) restart
+Process restarted with PID 1108068
+(dlv) break m33 main.go:33
+Breakpoint m33 set at 0x4b7681 for main.produceValues() ./main.go:33
+(dlv) continue
+> [m33] main.produceValues() ./main.go:33 (hits goroutine(35):1 total:1) (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) stack
+0  0x00000000004b7681 in main.produceValues
+   at ./main.go:33
+1  0x00000000004b8735 in main.main.func3
+   at ./main.go:112
+2  0x0000000000465001 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) restart
+Process restarted with PID 1108575
+(dlv) continue main.main
+Breakpoint 2 set at 0x4b7fd2 for main.main() ./main.go:77
+> main.main() ./main.go:77 (hits goroutine(1):1 total:1) (PC: 0x4b7fd2)
+    72:				}
+    73:			}
+    74:		}
+    75:	}
+    76:	
+=>  77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+(dlv) n
+> main.main() ./main.go:79 (PC: 0x4b7fe9)
+    74:		}
+    75:	}
+    76:	
+    77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+=>  79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+(dlv) 
+> main.main() ./main.go:81 (PC: 0x4b800b)
+    76:	
+    77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+=>  81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+(dlv) 
+> main.main() ./main.go:83 (PC: 0x4b808f)
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+=>  83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+    87:		}
+    88:		fmt.Printf("got data: %s\n", data)
+(dlv) step
+> io/ioutil.ReadAll() /home/deparker/Code/goroot/src/io/ioutil/ioutil.go:26 (PC: 0x4b558f)
+    21:	// A successful call returns err == nil, not err == EOF. Because ReadAll is
+    22:	// defined to read from src until EOF, it does not treat an EOF from Read
+    23:	// as an error to be reported.
+    24:	//
+    25:	// As of Go 1.16, this function simply calls io.ReadAll.
+=>  26:	func ReadAll(r io.Reader) ([]byte, error) {
+    27:		return io.ReadAll(r)
+    28:	}
+    29:	
+    30:	// ReadFile reads the file named by filename and returns the contents.
+    31:	// A successful call returns err == nil, not err == EOF. Because ReadFile
+(dlv) n
+> io/ioutil.ReadAll() /home/deparker/Code/goroot/src/io/ioutil/ioutil.go:27 (PC: 0x4b55cb)
+    22:	// defined to read from src until EOF, it does not treat an EOF from Read
+    23:	// as an error to be reported.
+    24:	//
+    25:	// As of Go 1.16, this function simply calls io.ReadAll.
+    26:	func ReadAll(r io.Reader) ([]byte, error) {
+=>  27:		return io.ReadAll(r)
+    28:	}
+    29:	
+    30:	// ReadFile reads the file named by filename and returns the contents.
+    31:	// A successful call returns err == nil, not err == EOF. Because ReadFile
+    32:	// reads the whole file, it does not treat an EOF from Read as an error
+(dlv) step
+> io.ReadAll() /home/deparker/Code/goroot/src/io/io.go:638 (PC: 0x46d60f)
+   633:	
+   634:	// ReadAll reads from r until an error or EOF and returns the data it read.
+   635:	// A successful call returns err == nil, not err == EOF. Because ReadAll is
+   636:	// defined to read from src until EOF, it does not treat an EOF from Read
+   637:	// as an error to be reported.
+=> 638:	func ReadAll(r Reader) ([]byte, error) {
+   639:		b := make([]byte, 0, 512)
+   640:		for {
+   641:			if len(b) == cap(b) {
+   642:				// Add more capacity (let append pick how much).
+   643:				b = append(b, 0)[:len(b)]
+(dlv) stack
+0  0x000000000046d60f in io.ReadAll
+   at /home/deparker/Code/goroot/src/io/io.go:638
+1  0x00000000004b55f5 in io/ioutil.ReadAll
+   at /home/deparker/Code/goroot/src/io/ioutil/ioutil.go:27
+2  0x00000000004b80c5 in main.main
+   at ./main.go:83
+3  0x0000000000438a38 in runtime.main
+   at /home/deparker/Code/goroot/src/runtime/proc.go:250
+4  0x0000000000465001 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) up
+> io.ReadAll() /home/deparker/Code/goroot/src/io/io.go:638 (PC: 0x46d60f)
+Frame 1: /home/deparker/Code/goroot/src/io/ioutil/ioutil.go:27 (PC: 4b55f5)
+    22:	// defined to read from src until EOF, it does not treat an EOF from Read
+    23:	// as an error to be reported.
+    24:	//
+    25:	// As of Go 1.16, this function simply calls io.ReadAll.
+    26:	func ReadAll(r io.Reader) ([]byte, error) {
+=>  27:		return io.ReadAll(r)
+    28:	}
+    29:	
+    30:	// ReadFile reads the file named by filename and returns the contents.
+    31:	// A successful call returns err == nil, not err == EOF. Because ReadFile
+    32:	// reads the whole file, it does not treat an EOF from Read as an error
+(dlv) stack
+0  0x000000000046d60f in io.ReadAll
+   at /home/deparker/Code/goroot/src/io/io.go:638
+1  0x00000000004b55f5 in io/ioutil.ReadAll
+   at /home/deparker/Code/goroot/src/io/ioutil/ioutil.go:27
+2  0x00000000004b80c5 in main.main
+   at ./main.go:83
+3  0x0000000000438a38 in runtime.main
+   at /home/deparker/Code/goroot/src/runtime/proc.go:250
+4  0x0000000000465001 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) list
+Goroutine 1 frame 1 at /home/deparker/Code/goroot/src/io/ioutil/ioutil.go:27 (PC: 0x4b55f5)
+    22:	// defined to read from src until EOF, it does not treat an EOF from Read
+    23:	// as an error to be reported.
+    24:	//
+    25:	// As of Go 1.16, this function simply calls io.ReadAll.
+    26:	func ReadAll(r io.Reader) ([]byte, error) {
+=>  27:		return io.ReadAll(r)
+    28:	}
+    29:	
+    30:	// ReadFile reads the file named by filename and returns the contents.
+    31:	// A successful call returns err == nil, not err == EOF. Because ReadFile
+    32:	// reads the whole file, it does not treat an EOF from Read as an error
+(dlv) down
+> io.ReadAll() /home/deparker/Code/goroot/src/io/io.go:638 (PC: 0x46d60f)
+Frame 0: /home/deparker/Code/goroot/src/io/io.go:638 (PC: 46d60f)
+   633:	
+   634:	// ReadAll reads from r until an error or EOF and returns the data it read.
+   635:	// A successful call returns err == nil, not err == EOF. Because ReadAll is
+   636:	// defined to read from src until EOF, it does not treat an EOF from Read
+   637:	// as an error to be reported.
+=> 638:	func ReadAll(r Reader) ([]byte, error) {
+   639:		b := make([]byte, 0, 512)
+   640:		for {
+   641:			if len(b) == cap(b) {
+   642:				// Add more capacity (let append pick how much).
+   643:				b = append(b, 0)[:len(b)]
+(dlv) bt
+0  0x000000000046d60f in io.ReadAll
+   at /home/deparker/Code/goroot/src/io/io.go:638
+1  0x00000000004b55f5 in io/ioutil.ReadAll
+   at /home/deparker/Code/goroot/src/io/ioutil/ioutil.go:27
+2  0x00000000004b80c5 in main.main
+   at ./main.go:83
+3  0x0000000000438a38 in runtime.main
+   at /home/deparker/Code/goroot/src/runtime/proc.go:250
+4  0x0000000000465001 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) frame 2 list
+Goroutine 1 frame 2 at /home/deparker/Code/ultimate-go-debugging/day-2/session/main.go:83 (PC: 0x4b80c5)
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+=>  83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+    87:		}
+    88:		fmt.Printf("got data: %s\n", data)
+(dlv) frame 2 locals
+wg = sync.WaitGroup {noCopy: sync.noCopy {}, state1: 0, state2: 0}
+ctx = context.Context(*context.cancelCtx) 0xc000093e70
+cancel = context.WithCancel.func1
+(dlv) frame 1 args
+r = io.Reader(*os.File) 0xc000093d98
+~r0 = []uint8 len: 0, cap: 0, nil
+~r1 = error nil
+(dlv) help stack
+Print stack trace.
+
+	[goroutine <n>] [frame <m>] stack [<depth>] [-full] [-offsets] [-defer] [-a <n>] [-adepth <depth>] [-mode <mode>]
+
+	-full		every stackframe is decorated with the value of its local variables and arguments.
+	-offsets	prints frame offset of each frame.
+	-defer		prints deferred function call stack for each frame.
+	-a <n>		prints stacktrace of n ancestors of the selected goroutine (target process must have tracebackancestors enabled)
+	-adepth <depth>	configures depth of ancestor stacktrace
+	-mode <mode>	specifies the stacktrace mode, possible values are:
+			normal	- attempts to automatically switch between cgo frames and go frames
+			simple	- disables automatic switch between cgo and go
+			fromg	- starts from the registers stored in the runtime.g struct
+
+(dlv) restart
+Process restarted with PID 1109601
+(dlv) continue
+> [m33] main.produceValues() ./main.go:33 (hits goroutine(35):1 total:1) (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) stack -defer
+0  0x00000000004b7681 in main.produceValues
+   at ./main.go:33
+       defer 1: 0x000000000046d140 in sync.(*WaitGroup).Done
+                at /home/deparker/Code/goroot/src/sync/waitgroup.go:104
+                deferred by main.produceValues at ./main.go:25
+
+1  0x00000000004b8735 in main.main.func3
+   at ./main.go:112
+
+2  0x0000000000465001 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+
+(dlv) help
+The following commands are available:
+
+Running the program:
+    call ------------------------ Resumes process, injecting a function call (EXPERIMENTAL!!!)
+    continue (alias: c) --------- Run until breakpoint or program termination.
+    next (alias: n) ------------- Step over to next source line.
+    rebuild --------------------- Rebuild the target executable and restarts it. It does not work if the executable was not built by delve.
+    restart (alias: r) ---------- Restart process.
+    step (alias: s) ------------- Single step through program.
+    step-instruction (alias: si)  Single step a single cpu instruction.
+    stepout (alias: so) --------- Step out of the current function.
+
+Manipulating breakpoints:
+    break (alias: b) ------- Sets a breakpoint.
+    breakpoints (alias: bp)  Print out info for active breakpoints.
+    clear ------------------ Deletes breakpoint.
+    clearall --------------- Deletes multiple breakpoints.
+    condition (alias: cond)  Set breakpoint condition.
+    on --------------------- Executes a command when a breakpoint is hit.
+    toggle ----------------- Toggles on or off a breakpoint.
+    trace (alias: t) ------- Set tracepoint.
+    watch ------------------ Set watchpoint.
+
+Viewing program variables and memory:
+    args ----------------- Print function arguments.
+    display -------------- Print value of an expression every time the program stops.
+    examinemem (alias: x)  Examine raw memory at the given address.
+    locals --------------- Print local variables.
+    print (alias: p) ----- Evaluate an expression.
+    regs ----------------- Print contents of CPU registers.
+    set ------------------ Changes the value of a variable.
+    vars ----------------- Print package variables.
+    whatis --------------- Prints type of an expression.
+
+Listing and switching between threads and goroutines:
+    goroutine (alias: gr) -- Shows or changes current goroutine
+    goroutines (alias: grs)  List program goroutines.
+    thread (alias: tr) ----- Switch to the specified thread.
+    threads ---------------- Print out info for every traced thread.
+
+Viewing the call stack and selecting frames:
+    deferred --------- Executes command in the context of a deferred call.
+    down ------------- Move the current frame down.
+    frame ------------ Set the current frame, or execute command on a different frame.
+    stack (alias: bt)  Print stack trace.
+    up --------------- Move the current frame up.
+
+Other commands:
+    config --------------------- Changes configuration parameters.
+    disassemble (alias: disass)  Disassembler.
+    dump ----------------------- Creates a core dump from the current process state
+    edit (alias: ed) ----------- Open where you are in $DELVE_EDITOR or $EDITOR
+    exit (alias: quit | q) ----- Exit the debugger.
+    funcs ---------------------- Print list of functions.
+    help (alias: h) ------------ Prints the help message.
+    libraries ------------------ List loaded dynamic libraries
+    list (alias: ls | l) ------- Show source code.
+    source --------------------- Executes a file containing a list of delve commands
+    sources -------------------- Print list of source files.
+    transcript ----------------- Appends command output to a file.
+    types ---------------------- Print list of types
+
+Type help followed by a command for full documentation.
+(dlv) libraries
+(dlv) types
+**os.dirInfo
+**os/signal.handler
+**reflect.rtype
+**runtime._defer
+**runtime._panic
+**runtime._type
+**runtime.bmap
+**runtime.funcval
+**runtime.g
+**runtime.hchan
+**runtime.itab
+**runtime.m
+**runtime.mcache
+**runtime.moduledata
+**runtime.mspan
+**runtime.notInHeap
+**runtime.p
+**runtime.spanSetBlock
+**runtime.special
+**runtime.stackWorkBuf
+**runtime.sudog
+**runtime.timer
+**sync.Pool
+**sync.entry
+**sync.poolChainElt
+**uint8
+**unicode.RangeTable
+*[1048576]runtime.inlinedCall
+*[1125899906842623]uint8
+*[131072]uint16
+*[15]internal/cpu.option
+*[16]uint8
+*[171]uint8
+*[179999]*runtime.bucket
+*[1]int
+*[1]interface {}
+*[1]os.Signal
+*[1]string
+*[256]runtime.guintptr
+*[268435456]uintptr
+*[281474976710655]uint32
+*[2]float32
+*[2]float64
+*[2]interface {}
+*[2]runtime.Frame
+*[2]uint8
+*[2]uintptr
+*[32]uintptr
+*[4194304]*runtime.heapArena
+*[46912496118442]runtime.elfSym
+*[4]uint8
+*[562949953421311]uint16
+*[65536]runtime.scase
+*[70368744177663]runtime.elfDyn
+*[8192]runtime.pallocData
+*[8]runtime.pcvalueCacheEnt
+*[8]uint8
+*[96]uint8
+*[]*runtime._defer
+*[]*runtime.bmap
+*[]*runtime.moduledata
+*[]*runtime.sudog
+*[]runtime.Frame
+*[]runtime.ancestorInfo
+*[]syscall.Iovec
+*[]uint8
+*[]unsafe.Pointer
+*bool
+*bucket<*uint8,[]uint8>
+*bucket<chan<- os.Signal,*os/signal.handler>
+*bucket<context.canceler,struct {}>
+*bucket<int32,unsafe.Pointer>
+*bucket<interface {},*sync.entry>
+*bucket<runtime._typePair,struct {}>
+*bucket<runtime.typeOff,*runtime._type>
+*bucket<string,*unicode.RangeTable>
+*bucket<string,int>
+*bucket<string,uint64>
+*bucket<uint32,[]*runtime._type>
+*bucket<unsafe.Pointer,int32>
+*chan<- os.Signal
+*context.cancelCtx
+*context.canceler
+*context.emptyCtx
+*context.timerCtx
+*context.valueCtx
+*error
+*errors.errorString
+*float32
+*float64
+*fmt.buffer
+*fmt.fmt
+*fmt.fmtFlags
+*fmt.pp
+*func()
+*hash<*uint8,[]uint8>
+*hash<chan<- os.Signal,*os/signal.handler>
+*hash<context.canceler,struct {}>
+*hash<int32,unsafe.Pointer>
+*hash<interface {},*sync.entry>
+*hash<runtime._typePair,struct {}>
+*hash<runtime.typeOff,*runtime._type>
+*hash<string,*unicode.RangeTable>
+*hash<string,int>
+*hash<string,uint64>
+*hash<uint32,[]*runtime._type>
+*hash<unsafe.Pointer,int32>
+*hchan<bool>
+*hchan<int>
+*hchan<main.packet>
+*hchan<os.Signal>
+*hchan<struct {}>
+*hchan<time.Time>
+*hchan<uint32>
+*int
+*int32
+*int64
+*int8
+*interface {}
+*internal/abi.IntArgRegBitmap
+*internal/abi.RegArgs
+*internal/cpu.option
+*internal/fmtsort.SortedMap
+*internal/poll.DeadlineExceededError
+*internal/poll.FD
+*internal/poll.errNetClosing
+*internal/poll.fdMutex
+*internal/poll.pollDesc
+*internal/reflectlite.Kind
+*internal/reflectlite.arrayType
+*internal/reflectlite.chanType
+*internal/reflectlite.mapType
+*internal/reflectlite.nameOff
+*internal/reflectlite.ptrType
+*internal/reflectlite.rtype
+*internal/reflectlite.sliceType
+*internal/reflectlite.uncommonType
+*internal/unsafeheader.Slice
+*internal/unsafeheader.String
+*io.discard
+*io/fs.PathError
+*main.packet
+*map.bucket[chan<- os.Signal]*os/signal.handler
+*map.bucket[context.canceler]struct {}
+*map.bucket[interface {}]*sync.entry
+*map.bucket[runtime._typePair]struct {}
+*map.bucket[uint32][]*runtime._type
+*map.hdr[chan<- os.Signal]*os/signal.handler
+*map.hdr[context.canceler]struct {}
+*map.hdr[interface {}]*sync.entry
+*map[runtime.typeOff]*runtime._type
+*math/rand.Rand
+*math/rand.lockedSource
+*math/rand.rngSource
+*os.File
+*os.Signal
+*os.dirInfo
+*os.file
+*os/signal.handler
+*os/signal.stopping
+*reflect.ChanDir
+*reflect.Kind
+*reflect.MapIter
+*reflect.Method
+*reflect.Value
+*reflect.ValueError
+*reflect.abiSeq
+*reflect.abiStep
+*reflect.arrayType
+*reflect.bitVector
+*reflect.chanType
+*reflect.emptyInterface
+*reflect.funcType
+*reflect.hiter
+*reflect.imethod
+*reflect.interfaceType
+*reflect.makeFuncCtxt
+*reflect.mapType
+*reflect.method
+*reflect.methodValue
+*reflect.nameOff
+*reflect.nonEmptyInterface
+*reflect.ptrType
+*reflect.rtype
+*reflect.sliceType
+*reflect.structField
+*reflect.structType
+*reflect.uncommonType
+*runtime.Frame
+*runtime.Frames
+*runtime.Func
+*runtime.TypeAssertionError
+*runtime._defer
+*runtime._func
+*runtime._panic
+*runtime._type
+*runtime.activeSweep
+*runtime.addrRange
+*runtime.addrRanges
+*runtime.adjustinfo
+*runtime.ancestorInfo
+*runtime.arenaHint
+*runtime.arenaIdx
+*runtime.arraytype
+*runtime.bitvector
+*runtime.blockRecord
+*runtime.bmap
+*runtime.boundsError
+*runtime.bucket
+*runtime.cgoCallers
+*runtime.cgoSymbolizerArg
+*runtime.chantype
+*runtime.checkmarksMap
+*runtime.chunkIdx
+*runtime.consistentHeapStats
+*runtime.cpuProfile
+*runtime.dbgVar
+*runtime.debugCallWrapArgs
+*runtime.eface
+*runtime.elfEhdr
+*runtime.elfPhdr
+*runtime.elfVerdaux
+*runtime.elfVerdef
+*runtime.errorAddressString
+*runtime.errorString
+*runtime.finblock
+*runtime.findfuncbucket
+*runtime.fixalloc
+*runtime.fpstate1
+*runtime.funcinl
+*runtime.functab
+*runtime.functype
+*runtime.funcval
+*runtime.g
+*runtime.gList
+*runtime.gQueue
+*runtime.gcBgMarkWorkerNode
+*runtime.gcBits
+*runtime.gcBitsArena
+*runtime.gcControllerState
+*runtime.gcWork
+*runtime.gclink
+*runtime.gobuf
+*runtime.gsignalStack
+*runtime.guintptr
+*runtime.hchan
+*runtime.headTailIndex
+*runtime.heapArena
+*runtime.heapStatsDelta
+*runtime.hiter
+*runtime.hmap
+*runtime.iface
+*runtime.imethod
+*runtime.initTask
+*runtime.inlinedCall
+*runtime.interfacetype
+*runtime.itab
+*runtime.itabTableType
+*runtime.itimerspec
+*runtime.lfnode
+*runtime.lfstack
+*runtime.linearAlloc
+*runtime.lockRank
+*runtime.m
+*runtime.mOS
+*runtime.mSpanList
+*runtime.mSpanStateBox
+*runtime.mapextra
+*runtime.maptype
+*runtime.markBits
+*runtime.mcache
+*runtime.mcentral
+*runtime.memRecord
+*runtime.memRecordCycle
+*runtime.method
+*runtime.mheap
+*runtime.mlink
+*runtime.moduledata
+*runtime.modulehash
+*runtime.mspan
+*runtime.muintptr
+*runtime.mutex
+*runtime.notInHeap
+*runtime.note
+*runtime.p
+*runtime.pageAlloc
+*runtime.pageBits
+*runtime.pageCache
+*runtime.pallocBits
+*runtime.pallocData
+*runtime.pallocSum
+*runtime.pcHeader
+*runtime.pcvalueCache
+*runtime.persistentAlloc
+*runtime.piController
+*runtime.plainError
+*runtime.pollCache
+*runtime.pollDesc
+*runtime.profAtomic
+*runtime.profBuf
+*runtime.ptabEntry
+*runtime.ptrtype
+*runtime.puintptr
+*runtime.randomEnum
+*runtime.randomOrder
+*runtime.reflectMethodValue
+*runtime.rwmutex
+*runtime.scase
+*runtime.semaRoot
+*runtime.sigactiont
+*runtime.sigcontext
+*runtime.sigctxt
+*runtime.siginfo
+*runtime.sigset
+*runtime.slicetype
+*runtime.spanSet
+*runtime.spanSetBlock
+*runtime.spanSetBlockAlloc
+*runtime.special
+*runtime.specialReachable
+*runtime.specialfinalizer
+*runtime.specialprofile
+*runtime.specialsIter
+*runtime.stack
+*runtime.stackObject
+*runtime.stackObjectBuf
+*runtime.stackObjectRecord
+*runtime.stackScanState
+*runtime.stackWorkBuf
+*runtime.stackmap
+*runtime.stackt
+*runtime.stkframe
+*runtime.stringStruct
+*runtime.structfield
+*runtime.structtype
+*runtime.sudog
+*runtime.sweepClass
+*runtime.sweepLocked
+*runtime.sweepLocker
+*runtime.sysMemStat
+*runtime.sysmontick
+*runtime.textsect
+*runtime.timeHistogram
+*runtime.timer
+*runtime.timespec
+*runtime.tmpBuf
+*runtime.traceAlloc
+*runtime.traceAllocBlock
+*runtime.traceAllocBlockPtr
+*runtime.traceBuf
+*runtime.traceBufPtr
+*runtime.traceStack
+*runtime.traceStackTable
+*runtime.uncommontype
+*runtime.vdsoInfo
+*runtime.vdsoSymbolKey
+*runtime.vdsoVersionKey
+*runtime.waitReason
+*runtime.waitq
+*runtime.wbBuf
+*runtime.workbuf
+*runtime/internal/atomic.Float64
+*runtime/internal/atomic.Int32
+*runtime/internal/atomic.Int64
+*runtime/internal/atomic.Uint32
+*runtime/internal/atomic.Uint64
+*runtime/internal/atomic.Uint8
+*runtime/internal/atomic.Uintptr
+*strconv.decimal
+*strconv.decimalSlice
+*strconv.floatInfo
+*strconv.leftCheat
+*string
+*struct { F uintptr; context..autotmp_3 *sync.Mutex }
+*struct { F uintptr; context.c *context.cancelCtx }
+*struct { F uintptr; context.parent context.Context; context.child context.canceler }
+*struct { F uintptr; fmt..autotmp_11 *fmt.pp; fmt..autotmp_12 interface {}; fmt..autotmp_13 int32 }
+*struct { F uintptr; fmt..autotmp_14 *fmt.pp; fmt..autotmp_15 interface {}; fmt..autotmp_16 int32 }
+*struct { F uintptr; fmt..autotmp_17 *fmt.pp; fmt..autotmp_18 interface {}; fmt..autotmp_19 int32 }
+*struct { F uintptr; fmt..autotmp_20 *fmt.pp; fmt..autotmp_21 interface {}; fmt..autotmp_22 int32 }
+*struct { F uintptr; internal/poll..autotmp_10 *internal/poll.FD }
+*struct { F uintptr; internal/poll..autotmp_8 *internal/poll.FD }
+*struct { F uintptr; internal/testlog..autotmp_1 *sync.Mutex }
+*struct { F uintptr; main..autotmp_10 context.Context; main..autotmp_11 *sync.WaitGroup; main..autotmp_12 chan<- main.packet }
+*struct { F uintptr; main..autotmp_13 context.Context; main..autotmp_14 *sync.WaitGroup; main..autotmp_15 <-chan main.packet }
+*struct { F uintptr; main..autotmp_5 *sync.WaitGroup }
+*struct { F uintptr; main..autotmp_7 *sync.WaitGroup }
+*struct { F uintptr; main..autotmp_7 func(<-chan os.Signal, func()); main..autotmp_8 <-chan os.Signal; main..autotmp_9 func() }
+*struct { F uintptr; os/signal..autotmp_5 *sync.Mutex }
+*struct { F uintptr; os/signal..autotmp_6 *sync.Mutex }
+*struct { F uintptr; os/signal.h *os/signal.handler }
+*struct { F uintptr; reflect.x *reflect.rtype }
+*struct { F uintptr; sync..autotmp_2 *sync.Mutex }
+*struct { F uintptr; sync..autotmp_3 *uint32 }
+*struct { F uintptr; sync..autotmp_8 *sync.Mutex }
+*struct { F uintptr; syscall..autotmp_7 *sync.RWMutex }
+*struct { F uintptr; time..autotmp_22 uintptr }
+*struct { F uintptr; time..autotmp_8 uintptr }
+*struct { reflect.ityp *reflect.rtype; reflect.typ *reflect.rtype; reflect.hash uint32; reflect._ [4]uint8; reflect.fun [100000]unsafe.Pointer }
+*struct { runtime.base runtime.offAddr; runtime.bound runtime.offAddr }
+*struct { runtime.gList; runtime.n int32 }
+*struct {}
+*sudog<bool>
+*sudog<int>
+*sudog<main.packet>
+*sudog<os.Signal>
+*sudog<struct {}>
+*sudog<time.Time>
+*sudog<uint32>
+*sync.Map
+*sync.Mutex
+*sync.Once
+*sync.Pool
+*sync.RWMutex
+*sync.WaitGroup
+*sync.eface
+*sync.entry
+*sync.noCopy
+*sync.poolChain
+*sync.poolChainElt
+*sync.poolDequeue
+*sync.poolLocal
+*sync.poolLocalInternal
+*sync/atomic.Value
+*sync/atomic.ifaceWords
+*syscall.Errno
+*syscall.Iovec
+*syscall.Signal
+*time.Location
+*time.Time
+*time.Timer
+*time.dataIO
+*time.fileSizeError
+*time.zone
+*time.zoneTrans
+*uint16
+*uint32
+*uint64
+*uint8
+*uintptr
+*unicode.Range16
+*unicode.Range32
+*unicode.RangeTable
+*unsafe.Pointer
+<-chan main.packet
+<-chan os.Signal
+<-chan struct {}
+<-chan time.Time
+<unspecified>
+[0]main.packet
+[0]uint32
+[0]uintptr
+[100000]unsafe.Pointer
+[1000]uintptr
+[100]uint8
+[100]uintptr
+[101]runtime.finalizer
+[1024]uint8
+[1048576]runtime.inlinedCall
+[104]uint8
+[10]runtime.heldLockInfo
+[10]string
+[10]uint8
+[1125899906842623]uint8
+[128]*runtime.mspan
+[128]*runtime.sudog
+[128]runtime.epollevent
+[128]uint8
+[128]uintptr
+[129]*runtime.g
+[129]uint8
+[131072]uint16
+[133]string
+[136]*runtime.mspan
+[136]struct { runtime.mcentral runtime.mcentral; runtime.pad [24]uint8 }
+[13]int32
+[14]uint8
+[15]internal/cpu.option
+[15]uint64
+[16]runtime.xmmreg1
+[16]uint8
+[16]unicode/utf8.acceptRange
+[171]uint8
+[179999]*runtime.bucket
+[1]*[4194304]*runtime.heapArena
+[1]int
+[1]interface {}
+[1]os.Signal
+[1]runtime.stackObjectRecord
+[1]string
+[1]uint32
+[1]uint64
+[1]uint8
+[1]uintptr
+[2097152]uint8
+[20]uint64
+[20]uint8
+[249]uint8
+[24]uint32
+[24]uint8
+[251]struct { runtime.root runtime.semaRoot; runtime.pad [40]uint8 }
+[252]uintptr
+[253]uintptr
+[256]runtime.guintptr
+[256]uint64
+[256]uint8
+[268435456]uintptr
+[27]string
+[281474976710655]uint32
+[2]**runtime.stackWorkBuf
+[2][8]runtime.pcvalueCacheEnt
+[2]float32
+[2]float64
+[2]interface {}
+[2]runtime.Frame
+[2]runtime.evacDst
+[2]runtime.spanSet
+[2]string
+[2]uint64
+[2]uint8
+[2]uintptr
+[32]*runtime._defer
+[32]string
+[32]uint8
+[32]uintptr
+[33]float64
+[35]runtime.mSpanList
+[3]int64
+[3]runtime.heapStatsDelta
+[3]runtime.memRecordCycle
+[3]string
+[3]uint16
+[3]uint32
+[3]uint64
+[3]uint8
+[4096]uint8
+[40]uint8
+[4194304]*runtime.heapArena
+[46912496118442]runtime.elfSym
+[4]runtime.stackfreelist
+[4]string
+[4]struct { runtime.item runtime.stackpoolItem; runtime._ [40]uint8 }
+[4]uint16
+[4]uint32
+[4]uint64
+[4]uint8
+[4]uintptr
+[512]*runtime.itab
+[512]*runtime.mspan
+[512]uint8
+[512]uintptr
+[562949953421311]uint16
+[5][]runtime.pallocSum
+[5]int64
+[5]string
+[5]uint
+[5]uint8
+[607]int64
+[63]runtime.stackObject
+[64488]uint8
+[64]uint8
+[64]uintptr
+[65520]runtime.gcBits
+[65528]uint8
+[65536]runtime.scase
+[65]int64
+[65]runtime.sigTabT
+[65]uint32
+[65]uint8
+[65]uintptr
+[68]struct { runtime.size uint32; runtime.nmalloc uint64; runtime.nfree uint64 }
+[68]uint16
+[68]uint32
+[68]uint8
+[68]uintptr
+[696][2]uint64
+[6]int
+[6]string
+[6]uint8
+[6]uintptr
+[70368744177663]runtime.elfDyn
+[70]uint8
+[720]uint64
+[800]uint8
+[8192]*[8192]runtime.pallocData
+[8192]*runtime.mspan
+[8192]runtime.pallocData
+[8192]runtime.traceStackPtr
+[8192]uint8
+[8]runtime.fpxreg1
+[8]runtime.pcvalueCacheEnt
+[8]string
+[8]uint64
+[8]uint8
+[96]uint8
+[9]string
+[9]uint8
+[9]uintptr
+[9]unsafe.Pointer
+[]*reflect.rtype
+[]*runtime._defer
+[]*runtime._type
+[]*runtime.bmap
+[]*runtime.g
+[]*runtime.itab
+[]*runtime.moduledata
+[]*runtime.mspan
+[]*runtime.p
+[]*runtime.sudog
+[]*runtime.timer
+[]*sync.Pool
+[]int
+[]int32
+[]interface {}
+[]internal/cpu.option
+[]key<*uint8>
+[]key<chan<- os.Signal>
+[]key<context.canceler>
+[]key<int32>
+[]key<interface {}>
+[]key<runtime._typePair>
+[]key<runtime.typeOff>
+[]key<string>
+[]key<uint32>
+[]key<unsafe.Pointer>
+[]main.packet
+[]map[runtime.typeOff]*runtime._type
+[]os.Signal
+[]os/signal.stopping
+[]reflect.Value
+[]reflect.abiStep
+[]reflect.imethod
+[]reflect.method
+[]reflect.structField
+[]runtime.Frame
+[]runtime.addrRange
+[]runtime.ancestorInfo
+[]runtime.arenaIdx
+[]runtime.dbgVar
+[]runtime.functab
+[]runtime.imethod
+[]runtime.method
+[]runtime.modulehash
+[]runtime.pallocSum
+[]runtime.ptabEntry
+[]runtime.scase
+[]runtime.stackObjectRecord
+[]runtime.structfield
+[]runtime.textsect
+[]runtime.vdsoSymbolKey
+[]strconv.leftCheat
+[]string
+[]sync.eface
+[]sync.poolLocal
+[]syscall.Iovec
+[]time.zone
+[]time.zoneTrans
+[]uint16
+[]uint32
+[]uint64
+[]uint8
+[]uintptr
+[]unicode.Range16
+[]unicode.Range32
+[]unsafe.Pointer
+[]val<*os/signal.handler>
+[]val<*runtime._type>
+[]val<*sync.entry>
+[]val<*unicode.RangeTable>
+[]val<[]*runtime._type>
+[]val<[]uint8>
+[]val<int32>
+[]val<int>
+[]val<struct {}>
+[]val<uint64>
+[]val<unsafe.Pointer>
+bool
+bucket<*uint8,[]uint8>
+bucket<chan<- os.Signal,*os/signal.handler>
+bucket<context.canceler,struct {}>
+bucket<int32,unsafe.Pointer>
+bucket<interface {},*sync.entry>
+bucket<runtime._typePair,struct {}>
+bucket<runtime.typeOff,*runtime._type>
+bucket<string,*unicode.RangeTable>
+bucket<string,int>
+bucket<string,uint64>
+bucket<uint32,[]*runtime._type>
+bucket<unsafe.Pointer,int32>
+bytes.readOp
+chan bool
+chan int
+chan main.packet
+chan os.Signal
+chan struct {}
+chan uint32
+chan<- main.packet
+chan<- os.Signal
+complex128
+complex64
+context.CancelFunc
+context.Context
+context.cancelCtx
+context.canceler
+context.emptyCtx
+context.stringer
+context.timerCtx
+context.valueCtx
+error
+errors.errorString
+float32
+float64
+fmt.Formatter
+fmt.GoStringer
+fmt.Stringer
+fmt.buffer
+fmt.fmt
+fmt.fmtFlags
+fmt.pp
+func()
+func() bool
+func() interface {}
+func(*int64) bool
+func(*os.file) error
+func(*runtime.g)
+func(*runtime.g) bool
+func(*runtime.g, unsafe.Pointer) bool
+func(*runtime.itab)
+func(*runtime.p)
+func(*runtime.siginfo, *runtime.sigctxt, *runtime.g) bool
+func(*runtime.stkframe, unsafe.Pointer) bool
+func(<-chan os.Signal, func())
+func(int)
+func(int) error
+func(int, []uint8) (int, error)
+func(int, int, int) runtime.addrRange
+func(int, runtime.addrRange) (int, int)
+func(int, runtime.addrRange) runtime.addrRange
+func(interface {}, uintptr)
+func(runtime.addrRange) (runtime.chunkIdx, bool)
+func(runtime.offAddr, uintptr)
+func(string) (string, error)
+func(string, string) ([]uint8, error)
+func(uint32, runtime.vdsoSymbolKey) bool
+func(uint64, uint64) uint64
+func(uint8, uint8) bool
+func(uint8, uint8, uint8)
+func(uintptr) int
+func(uintptr) uint8
+func(uintptr, unsafe.Pointer, int32) int32
+func(unsafe.Pointer, uintptr) uintptr
+func(unsafe.Pointer, unsafe.Pointer)
+func(unsafe.Pointer, unsafe.Pointer) bool
+func(unsafe.Pointer, unsafe.Pointer) int32
+hash<*uint8,[]uint8>
+hash<chan<- os.Signal,*os/signal.handler>
+hash<context.canceler,struct {}>
+hash<int32,unsafe.Pointer>
+hash<interface {},*sync.entry>
+hash<runtime._typePair,struct {}>
+hash<runtime.typeOff,*runtime._type>
+hash<string,*unicode.RangeTable>
+hash<string,int>
+hash<string,uint64>
+hash<uint32,[]*runtime._type>
+hash<unsafe.Pointer,int32>
+hchan<bool>
+hchan<int>
+hchan<main.packet>
+hchan<os.Signal>
+hchan<struct {}>
+hchan<time.Time>
+hchan<uint32>
+int
+int16
+int32
+int64
+int8
+interface { M() }
+interface {}
+internal/abi.IntArgRegBitmap
+internal/abi.RegArgs
+internal/cpu.CacheLinePad
+internal/cpu.option
+internal/fmtsort.SortedMap
+internal/goarch.ArchFamilyType
+internal/poll.DeadlineExceededError
+internal/poll.FD
+internal/poll.errNetClosing
+internal/poll.fdMutex
+internal/poll.pollDesc
+internal/reflectlite.Kind
+internal/reflectlite.Type
+internal/reflectlite.arrayType
+internal/reflectlite.chanDir
+internal/reflectlite.chanType
+internal/reflectlite.emptyInterface
+internal/reflectlite.flag
+internal/reflectlite.mapType
+internal/reflectlite.name
+internal/reflectlite.nameOff
+internal/reflectlite.ptrType
+internal/reflectlite.rtype
+internal/reflectlite.sliceType
+internal/reflectlite.tflag
+internal/reflectlite.typeOff
+internal/reflectlite.uncommonType
+internal/syscall/unix.GetRandomFlag
+internal/unsafeheader.Slice
+internal/unsafeheader.String
+io.Reader
+io.Writer
+io.discard
+io/fs.FileMode
+io/fs.PathError
+main.packet
+map[*uint8][]uint8
+map[chan<- os.Signal]*os/signal.handler
+map[context.canceler]struct {}
+map[int32]unsafe.Pointer
+map[interface {}]*sync.entry
+map[runtime._typePair]struct {}
+map[runtime.typeOff]*runtime._type
+map[string]*unicode.RangeTable
+map[string]int
+map[string]uint64
+map[uint32][]*runtime._type
+map[unsafe.Pointer]int32
+math/rand.Rand
+math/rand.Source
+math/rand.Source64
+math/rand.lockedSource
+math/rand.rngSource
+noalg.[2]struct { context.c unsafe.Pointer; context.elem unsafe.Pointer }
+noalg.[2]struct { main.c unsafe.Pointer; main.elem unsafe.Pointer }
+noalg.[2]struct { runtime.c unsafe.Pointer; runtime.elem unsafe.Pointer }
+noalg.[8]*os/signal.handler
+noalg.[8]*sync.entry
+noalg.[8][]*runtime._type
+noalg.[8]chan<- os.Signal
+noalg.[8]context.canceler
+noalg.[8]interface {}
+noalg.[8]runtime._typePair
+noalg.[8]struct {}
+noalg.[8]uint32
+noalg.map.bucket[chan<- os.Signal]*os/signal.handler
+noalg.map.bucket[context.canceler]struct {}
+noalg.map.bucket[interface {}]*sync.entry
+noalg.map.bucket[runtime._typePair]struct {}
+noalg.map.bucket[uint32][]*runtime._type
+noalg.map.hdr[chan<- os.Signal]*os/signal.handler
+noalg.map.hdr[context.canceler]struct {}
+noalg.map.hdr[interface {}]*sync.entry
+noalg.map.hdr[runtime._typePair]struct {}
+noalg.map.hdr[uint32][]*runtime._type
+noalg.map.iter[chan<- os.Signal]*os/signal.handler
+noalg.map.iter[context.canceler]struct {}
+noalg.map.iter[interface {}]*sync.entry
+noalg.struct { F uintptr; R *runtime.itabTableType }
+noalg.struct { F uintptr; context..autotmp_3 *sync.Mutex }
+noalg.struct { F uintptr; context.c *context.cancelCtx }
+noalg.struct { F uintptr; context.parent context.Context; context.child context.canceler }
+noalg.struct { F uintptr; fmt..autotmp_11 *fmt.pp; fmt..autotmp_12 interface {}; fmt..autotmp_13 int32 }
+noalg.struct { F uintptr; fmt..autotmp_14 *fmt.pp; fmt..autotmp_15 interface {}; fmt..autotmp_16 int32 }
+noalg.struct { F uintptr; fmt..autotmp_17 *fmt.pp; fmt..autotmp_18 interface {}; fmt..autotmp_19 int32 }
+noalg.struct { F uintptr; fmt..autotmp_20 *fmt.pp; fmt..autotmp_21 interface {}; fmt..autotmp_22 int32 }
+noalg.struct { F uintptr; internal/poll..autotmp_10 *internal/poll.FD }
+noalg.struct { F uintptr; internal/poll..autotmp_8 *internal/poll.FD }
+noalg.struct { F uintptr; internal/testlog..autotmp_1 *sync.Mutex }
+noalg.struct { F uintptr; main..autotmp_10 context.Context; main..autotmp_11 *sync.WaitGroup; main..autotmp_12 chan<- main.packet }
+noalg.struct { F uintptr; main..autotmp_13 context.Context; main..autotmp_14 *sync.WaitGroup; main..autotmp_15 <-chan main.packet }
+noalg.struct { F uintptr; main..autotmp_5 *sync.WaitGroup }
+noalg.struct { F uintptr; main..autotmp_7 *sync.WaitGroup }
+noalg.struct { F uintptr; main..autotmp_7 func(<-chan os.Signal, func()); main..autotmp_8 <-chan os.Signal; main..autotmp_9 func() }
+noalg.struct { F uintptr; os/signal..autotmp_5 *sync.Mutex }
+noalg.struct { F uintptr; os/signal..autotmp_6 *sync.Mutex }
+noalg.struct { F uintptr; os/signal.h *os/signal.handler }
+noalg.struct { F uintptr; reflect.x *reflect.rtype }
+noalg.struct { F uintptr; runtime._g_ *runtime.g }
+noalg.struct { F uintptr; runtime.addr *uint32; runtime.ret int32 }
+noalg.struct { F uintptr; runtime.addr unsafe.Pointer; runtime.n uintptr }
+noalg.struct { F uintptr; runtime.addr unsafe.Pointer; runtime.n uintptr; runtime.prot int32; runtime.flags int32; runtime.fd int32; runtime.off uint32; runtime.ret *uintptr }
+noalg.struct { F uintptr; runtime.addrRangeToSummaryRange func(int, runtime.addrRange) (int, int); runtime.summaryRangeToSumAddrRange func(int, int, int) runtime.addrRange }
+noalg.struct { F uintptr; runtime.argp unsafe.Pointer; runtime.isLive func(uint8, uint8) bool }
+noalg.struct { F uintptr; runtime.c **runtime.mcache }
+noalg.struct { F uintptr; runtime.c *runtime.hchan }
+noalg.struct { F uintptr; runtime.c *runtime.mcache }
+noalg.struct { F uintptr; runtime.e *runtime.eface }
+noalg.struct { F uintptr; runtime.e *runtime.eface; runtime.f *runtime.eface; runtime.nret uintptr; runtime.fint *runtime._type; runtime.ot *runtime.ptrtype }
+noalg.struct { F uintptr; runtime.firstFree *struct { runtime.base runtime.offAddr; runtime.bound runtime.offAddr } }
+noalg.struct { F uintptr; runtime.fn *runtime.funcval; runtime.gp *runtime.g; runtime.pc uintptr }
+noalg.struct { F uintptr; runtime.frame *runtime.stkframe; runtime.bad uintptr }
+noalg.struct { F uintptr; runtime.freem **runtime.m }
+noalg.struct { F uintptr; runtime.gp *runtime.g }
+noalg.struct { F uintptr; runtime.gp *runtime.g; runtime.callerpc uintptr; runtime.dispatch uintptr; runtime.lockedm *bool; runtime.lockedExt *uint32 }
+noalg.struct { F uintptr; runtime.gp *runtime.g; runtime.gcw *runtime.gcWork; runtime.workDone *int64 }
+noalg.struct { F uintptr; runtime.gp *runtime.g; runtime.pc uintptr; runtime.sp uintptr }
+noalg.struct { F uintptr; runtime.gp *runtime.g; runtime.pp *runtime.p }
+noalg.struct { F uintptr; runtime.gp *runtime.g; runtime.scanWork int64 }
+noalg.struct { F uintptr; runtime.gp *runtime.g; runtime.traceskip int }
+noalg.struct { F uintptr; runtime.grunning *int }
+noalg.struct { F uintptr; runtime.h *runtime.mheap; runtime.npages uintptr; runtime.spanclass runtime.spanClass; runtime.s **runtime.mspan }
+noalg.struct { F uintptr; runtime.h *runtime.mheap; runtime.s *runtime.mspan }
+noalg.struct { F uintptr; runtime.i *int }
+noalg.struct { F uintptr; runtime.info *runtime.vdsoInfo; runtime.version int32 }
+noalg.struct { F uintptr; runtime.liveInfo unsafe.Pointer; runtime.liveIdx int32; runtime.startOffset uint8 }
+noalg.struct { F uintptr; runtime.me *runtime.g; runtime.curgp *runtime.g; runtime.level int32 }
+noalg.struct { F uintptr; runtime.msgs *runtime._panic; runtime.gp *runtime.g; runtime.pc uintptr; runtime.sp uintptr; runtime.docrash *bool }
+noalg.struct { F uintptr; runtime.needUnlock *bool }
+noalg.struct { F uintptr; runtime.now *int64 }
+noalg.struct { F uintptr; runtime.ok *bool }
+noalg.struct { F uintptr; runtime.ok *bool; runtime.oldp *runtime.p; runtime._g_ *runtime.g }
+noalg.struct { F uintptr; runtime.oldval uint32; runtime.newval uint32 }
+noalg.struct { F uintptr; runtime.p *runtime.pageAlloc }
+noalg.struct { F uintptr; runtime.p *runtime.pageAlloc; runtime.addrs *runtime.addrRange; runtime.nbytes uintptr; runtime.released *uintptr }
+noalg.struct { F uintptr; runtime.p *runtime.pageAlloc; runtime.minPages uintptr }
+noalg.struct { F uintptr; runtime.p unsafe.Pointer; runtime.b *runtime.bucket }
+noalg.struct { F uintptr; runtime.pc *uintptr; runtime.ret *string }
+noalg.struct { F uintptr; runtime.pc uintptr; runtime.sp uintptr; runtime.gp *runtime.g }
+noalg.struct { F uintptr; runtime.pc uintptr; runtime.sp uintptr; runtime.gp *runtime.g; runtime.skip int; runtime.pcbuf []uintptr; runtime.n *int }
+noalg.struct { F uintptr; runtime.pc uintptr; runtime.sp unsafe.Pointer; runtime.gp *runtime.g; runtime.prevDefer *runtime._defer }
+noalg.struct { F uintptr; runtime.pp *runtime.p }
+noalg.struct { F uintptr; runtime.preemptible bool }
+noalg.struct { F uintptr; runtime.prevDefer *runtime._defer; runtime.gp *runtime.g }
+noalg.struct { F uintptr; runtime.restart *bool }
+noalg.struct { F uintptr; runtime.rw *runtime.rwmutex }
+noalg.struct { F uintptr; runtime.s **runtime.mspan }
+noalg.struct { F uintptr; runtime.s string }
+noalg.struct { F uintptr; runtime.scases []runtime.scase; runtime.lockorder []uint16 }
+noalg.struct { F uintptr; runtime.sig *uint32; runtime.new *runtime.sigactiont; runtime.old *runtime.sigactiont; runtime.ret *int32 }
+noalg.struct { F uintptr; runtime.size uintptr; runtime.align uintptr; runtime.sysStat *runtime.sysMemStat; runtime.p **runtime.notInHeap }
+noalg.struct { F uintptr; runtime.sp uintptr; runtime._g_ *runtime.g }
+noalg.struct { F uintptr; runtime.sp1 uintptr; runtime.sp2 uintptr; runtime.sp3 uintptr; runtime._g_ *runtime.g }
+noalg.struct { F uintptr; runtime.src uintptr; runtime.dst *uintptr }
+noalg.struct { F uintptr; runtime.stacksize int32; runtime.newg *runtime.g }
+noalg.struct { F uintptr; runtime.start *bool }
+noalg.struct { F uintptr; runtime.startTime int64 }
+noalg.struct { F uintptr; runtime.state *runtime.stackScanState; runtime.gcw *runtime.gcWork }
+noalg.struct { F uintptr; runtime.typ *runtime._type; runtime.src unsafe.Pointer; runtime.off uintptr; runtime.size uintptr }
+noalg.struct { F uintptr; sync..autotmp_2 *sync.Mutex }
+noalg.struct { F uintptr; sync..autotmp_3 *uint32 }
+noalg.struct { F uintptr; sync..autotmp_8 *sync.Mutex }
+noalg.struct { F uintptr; syscall..autotmp_7 *sync.RWMutex }
+noalg.struct { F uintptr; time..autotmp_22 uintptr }
+noalg.struct { F uintptr; time..autotmp_8 uintptr }
+noalg.struct { context.c unsafe.Pointer; context.elem unsafe.Pointer }
+noalg.struct { context.started bool; context.heap bool; context.openDefer bool; context.sp uintptr; context.pc uintptr; context.fn uintptr; context._panic uintptr; context.link uintptr; context.fd uintptr; context.varp uintptr; context.framepc uintptr }
+noalg.struct { fmt.started bool; fmt.heap bool; fmt.openDefer bool; fmt.sp uintptr; fmt.pc uintptr; fmt.fn uintptr; fmt._panic uintptr; fmt.link uintptr; fmt.fd uintptr; fmt.varp uintptr; fmt.framepc uintptr }
+noalg.struct { internal/poll.started bool; internal/poll.heap bool; internal/poll.openDefer bool; internal/poll.sp uintptr; internal/poll.pc uintptr; internal/poll.fn uintptr; internal/poll._panic uintptr; internal/poll.link uintptr; internal/poll.fd uintptr; internal/poll.varp uintptr; internal/poll.framepc uintptr }
+noalg.struct { internal/testlog.started bool; internal/testlog.heap bool; internal/testlog.openDefer bool; internal/testlog.sp uintptr; internal/testlog.pc uintptr; internal/testlog.fn uintptr; internal/testlog._panic uintptr; internal/testlog.link uintptr; internal/testlog.fd uintptr; internal/testlog.varp uintptr; internal/testlog.framepc uintptr }
+noalg.struct { main.c unsafe.Pointer; main.elem unsafe.Pointer }
+noalg.struct { main.started bool; main.heap bool; main.openDefer bool; main.sp uintptr; main.pc uintptr; main.fn uintptr; main._panic uintptr; main.link uintptr; main.fd uintptr; main.varp uintptr; main.framepc uintptr }
+noalg.struct { os/signal.started bool; os/signal.heap bool; os/signal.openDefer bool; os/signal.sp uintptr; os/signal.pc uintptr; os/signal.fn uintptr; os/signal._panic uintptr; os/signal.link uintptr; os/signal.fd uintptr; os/signal.varp uintptr; os/signal.framepc uintptr }
+noalg.struct { runtime.c unsafe.Pointer; runtime.elem unsafe.Pointer }
+noalg.struct { sync.started bool; sync.heap bool; sync.openDefer bool; sync.sp uintptr; sync.pc uintptr; sync.fn uintptr; sync._panic uintptr; sync.link uintptr; sync.fd uintptr; sync.varp uintptr; sync.framepc uintptr }
+noalg.struct { syscall.started bool; syscall.heap bool; syscall.openDefer bool; syscall.sp uintptr; syscall.pc uintptr; syscall.fn uintptr; syscall._panic uintptr; syscall.link uintptr; syscall.fd uintptr; syscall.varp uintptr; syscall.framepc uintptr }
+noalg.struct { time.started bool; time.heap bool; time.openDefer bool; time.sp uintptr; time.pc uintptr; time.fn uintptr; time._panic uintptr; time.link uintptr; time.fd uintptr; time.varp uintptr; time.framepc uintptr }
+os.File
+os.Signal
+os.dirInfo
+os.file
+os.newFileKind
+os.readdirMode
+os/signal.handler
+os/signal.stopping
+reflect.ChanDir
+reflect.Kind
+reflect.MapIter
+reflect.Method
+reflect.SelectDir
+reflect.StructField
+reflect.StructTag
+reflect.Type
+reflect.Value
+reflect.ValueError
+reflect.abiDesc
+reflect.abiSeq
+reflect.abiStep
+reflect.abiStepKind
+reflect.arrayType
+reflect.bitVector
+reflect.chanType
+reflect.emptyInterface
+reflect.flag
+reflect.funcType
+reflect.hiter
+reflect.imethod
+reflect.interfaceType
+reflect.layoutKey
+reflect.layoutType
+reflect.makeFuncCtxt
+reflect.mapType
+reflect.method
+reflect.methodValue
+reflect.name
+reflect.nameOff
+reflect.nonEmptyInterface
+reflect.ptrType
+reflect.rtype
+reflect.sliceType
+reflect.structField
+reflect.structType
+reflect.textOff
+reflect.tflag
+reflect.typeOff
+reflect.uncommonType
+runtime.Frame
+runtime.Frames
+runtime.Func
+runtime.TypeAssertionError
+runtime._defer
+runtime._func
+runtime._panic
+runtime._type
+runtime._typePair
+runtime.activeSweep
+runtime.addrRange
+runtime.addrRanges
+runtime.adjustinfo
+runtime.ancestorInfo
+runtime.arenaHint
+runtime.arenaIdx
+runtime.arraytype
+runtime.bitvector
+runtime.blockRecord
+runtime.bmap
+runtime.boundsError
+runtime.boundsErrorCode
+runtime.bucket
+runtime.bucketType
+runtime.cgoCallers
+runtime.cgoSymbolizerArg
+runtime.cgoTracebackArg
+runtime.cgothreadstart
+runtime.chantype
+runtime.checkmarksMap
+runtime.chunkIdx
+runtime.consistentHeapStats
+runtime.cpuProfile
+runtime.dbgVar
+runtime.debugCallWrapArgs
+runtime.dlogPerM
+runtime.eface
+runtime.elfDyn
+runtime.elfEhdr
+runtime.elfPhdr
+runtime.elfSym
+runtime.elfVerdaux
+runtime.elfVerdef
+runtime.epollevent
+runtime.errorAddressString
+runtime.errorString
+runtime.evacDst
+runtime.finalizer
+runtime.finblock
+runtime.findfuncbucket
+runtime.fixalloc
+runtime.forcegcstate
+runtime.fpstate1
+runtime.fpxreg1
+runtime.funcFlag
+runtime.funcID
+runtime.funcInfo
+runtime.funcinl
+runtime.functab
+runtime.functype
+runtime.funcval
+runtime.g
+runtime.gList
+runtime.gQueue
+runtime.gcBgMarkWorkerNode
+runtime.gcBits
+runtime.gcBitsArena
+runtime.gcControllerState
+runtime.gcDrainFlags
+runtime.gcMarkWorkerMode
+runtime.gcMode
+runtime.gcTrigger
+runtime.gcTriggerKind
+runtime.gcWork
+runtime.gclink
+runtime.gclinkptr
+runtime.gobuf
+runtime.gsignalStack
+runtime.guintptr
+runtime.hchan
+runtime.headTailIndex
+runtime.heapArena
+runtime.heapBits
+runtime.heapStatsDelta
+runtime.heldLockInfo
+runtime.hex
+runtime.hiter
+runtime.hmap
+runtime.iface
+runtime.imethod
+runtime.initTask
+runtime.inlinedCall
+runtime.interfacetype
+runtime.itab
+runtime.itabTableType
+runtime.itimerspec
+runtime.lfnode
+runtime.lfstack
+runtime.libcall
+runtime.linearAlloc
+runtime.lockRank
+runtime.lockRankStruct
+runtime.m
+runtime.mOS
+runtime.mSpanList
+runtime.mSpanState
+runtime.mSpanStateBox
+runtime.mapextra
+runtime.maptype
+runtime.markBits
+runtime.mcache
+runtime.mcentral
+runtime.memRecord
+runtime.memRecordCycle
+runtime.method
+runtime.metricKind
+runtime.mheap
+runtime.mlink
+runtime.moduledata
+runtime.modulehash
+runtime.mspan
+runtime.mstats
+runtime.muintptr
+runtime.mutex
+runtime.name
+runtime.nameOff
+runtime.notInHeap
+runtime.notInHeapSlice
+runtime.note
+runtime.offAddr
+runtime.p
+runtime.pMask
+runtime.pageAlloc
+runtime.pageBits
+runtime.pageCache
+runtime.pallocBits
+runtime.pallocData
+runtime.pallocSum
+runtime.pcHeader
+runtime.pcvalueCache
+runtime.pcvalueCacheEnt
+runtime.perThreadSyscallArgs
+runtime.persistentAlloc
+runtime.piController
+runtime.plainError
+runtime.pollCache
+runtime.pollDesc
+runtime.pollInfo
+runtime.profAtomic
+runtime.profBuf
+runtime.profBufReadMode
+runtime.profIndex
+runtime.ptabEntry
+runtime.ptrtype
+runtime.puintptr
+runtime.randomEnum
+runtime.randomOrder
+runtime.reflectMethodValue
+runtime.rwmutex
+runtime.scase
+runtime.schedt
+runtime.selectDir
+runtime.semaProfileFlags
+runtime.semaRoot
+runtime.sigTabT
+runtime.sigactiont
+runtime.sigcontext
+runtime.sigctxt
+runtime.sigevent
+runtime.sigeventFields
+runtime.siginfo
+runtime.siginfoFields
+runtime.sigset
+runtime.slice
+runtime.slicetype
+runtime.spanAllocType
+runtime.spanClass
+runtime.spanSet
+runtime.spanSetBlock
+runtime.spanSetBlockAlloc
+runtime.special
+runtime.specialReachable
+runtime.specialfinalizer
+runtime.specialprofile
+runtime.specialsIter
+runtime.stack
+runtime.stackObject
+runtime.stackObjectBuf
+runtime.stackObjectBufHdr
+runtime.stackObjectRecord
+runtime.stackScanState
+runtime.stackWorkBuf
+runtime.stackWorkBufHdr
+runtime.stackfreelist
+runtime.stackmap
+runtime.stackpoolItem
+runtime.stackt
+runtime.statDep
+runtime.stkframe
+runtime.stringStruct
+runtime.stringStructDWARF
+runtime.stringer
+runtime.structfield
+runtime.structtype
+runtime.sudog
+runtime.suspendGState
+runtime.sweepClass
+runtime.sweepLocked
+runtime.sweepLocker
+runtime.sweepdata
+runtime.sysMemStat
+runtime.sysmontick
+runtime.textOff
+runtime.textsect
+runtime.tflag
+runtime.timeHistogram
+runtime.timer
+runtime.timespec
+runtime.tmpBuf
+runtime.traceAlloc
+runtime.traceAllocBlock
+runtime.traceAllocBlockPtr
+runtime.traceBuf
+runtime.traceBufHeader
+runtime.traceBufPtr
+runtime.traceStack
+runtime.traceStackPtr
+runtime.traceStackTable
+runtime.tracestat
+runtime.typeOff
+runtime.uncommontype
+runtime.vdsoInfo
+runtime.vdsoSymbolKey
+runtime.vdsoVersionKey
+runtime.waitReason
+runtime.waitq
+runtime.wbBuf
+runtime.workbuf
+runtime.workbufhdr
+runtime.xmmreg1
+runtime/internal/atomic.Float64
+runtime/internal/atomic.Int32
+runtime/internal/atomic.Int64
+runtime/internal/atomic.Uint32
+runtime/internal/atomic.Uint64
+runtime/internal/atomic.Uint8
+runtime/internal/atomic.Uintptr
+runtime/internal/atomic.noCopy
+sort.Interface
+strconv.decimal
+strconv.decimalSlice
+strconv.floatInfo
+strconv.leftCheat
+string
+struct { internal/cpu._ internal/cpu.CacheLinePad; HasAES bool; HasADX bool; HasAVX bool; HasAVX2 bool; HasBMI1 bool; HasBMI2 bool; HasERMS bool; HasFMA bool; HasOSXSAVE bool; HasPCLMULQDQ bool; HasPOPCNT bool; HasRDTSCP bool; HasSSE3 bool; HasSSSE3 bool; HasSSE41 bool; HasSSE42 bool; internal/cpu._ internal/cpu.CacheLinePad }
+struct { internal/testlog.mu sync.Mutex; internal/testlog.val bool }
+struct { reflect.b bool; reflect.x interface {} }
+struct { reflect.ityp *reflect.rtype; reflect.typ *reflect.rtype; reflect.hash uint32; reflect._ [4]uint8; reflect.fun [100000]unsafe.Pointer }
+struct { runtime.base runtime.offAddr; runtime.bound runtime.offAddr }
+struct { runtime.base uintptr; runtime.end uintptr }
+struct { runtime.cgocheck int32; runtime.clobberfree int32; runtime.efence int32; runtime.gccheckmark int32; runtime.gcpacertrace int32; runtime.gcshrinkstackoff int32; runtime.gcstoptheworld int32; runtime.gctrace int32; runtime.invalidptr int32; runtime.madvdontneed int32; runtime.scavtrace int32; runtime.scheddetail int32; runtime.schedtrace int32; runtime.tracebackancestors int32; runtime.asyncpreemptoff int32; runtime.harddecommit int32; runtime.malloc bool; runtime.allocfreetrace int32; runtime.inittrace int32; runtime.sbrk int32 }
+struct { runtime.cycle uint32; runtime.flushed bool }
+struct { runtime.enabled bool; runtime.pad [3]uint8; runtime.needed bool; runtime.cgo bool; runtime.alignme uint64 }
+struct { runtime.full runtime.lfstack; runtime.empty runtime.lfstack; runtime.pad0 internal/cpu.CacheLinePad; runtime.wbufSpans struct { runtime.lock runtime.mutex; runtime.free runtime.mSpanList; runtime.busy runtime.mSpanList }; runtime._ uint32; runtime.bytesMarked uint64; runtime.markrootNext uint32; runtime.markrootJobs uint32; runtime.nproc uint32; runtime.tstart int64; runtime.nwait uint32; runtime.nDataRoots int; runtime.nBSSRoots int; runtime.nSpanRoots int; runtime.nStackRoots int; runtime.baseData uint32; runtime.baseBSS uint32; runtime.baseSpans uint32; runtime.baseStacks uint32; runtime.baseEnd uint32; runtime.stackRoots []*runtime.g; runtime.startSema uint32; runtime.markDoneSema uint32; runtime.bgMarkReady runtime.note; runtime.bgMarkDone uint32; runtime.mode runtime.gcMode; runtime.userForced bool; runtime.totaltime int64; runtime.initialHeapLive uint64; runtime.assistQueue struct { runtime.lock runtime.mutex; runtime.q runtime.gQueue }; runtime.sweepWaiters struct { runtime.lock runtime.mutex; runtime.list runtime.gList }; runtime.cycles uint32; runtime.stwprocs int32; runtime.maxprocs int32; runtime.tSweepTerm int64; runtime.tMark int64; runtime.tMarkTerm int64; runtime.tEnd int64; runtime.pauseNS int64; runtime.pauseStart int64; runtime.heap0 uint64; runtime.heap1 uint64; runtime.heap2 uint64; runtime.heapGoal uint64 }
+struct { runtime.gList; runtime.n int32 }
+struct { runtime.item runtime.stackpoolItem; runtime._ [40]uint8 }
+struct { runtime.len int; runtime.buf [128]*runtime.mspan }
+struct { runtime.lock runtime.mutex; runtime.free *runtime.gcBitsArena; runtime.next *runtime.gcBitsArena; runtime.current *runtime.gcBitsArena; runtime.previous *runtime.gcBitsArena }
+struct { runtime.lock runtime.mutex; runtime.free [35]runtime.mSpanList }
+struct { runtime.lock runtime.mutex; runtime.free runtime.mSpanList; runtime.busy runtime.mSpanList }
+struct { runtime.lock runtime.mutex; runtime.g *runtime.g; runtime.parked bool; runtime.timer *runtime.timer; runtime.sysmonWake uint32; runtime.printControllerReset bool }
+struct { runtime.lock runtime.mutex; runtime.inUse runtime.addrRanges; runtime.gen uint32; runtime.reservationBytes uintptr; runtime.released uintptr; runtime.scavLWM runtime.offAddr; runtime.freeHWM runtime.offAddr }
+struct { runtime.lock runtime.mutex; runtime.list runtime.gList }
+struct { runtime.lock runtime.mutex; runtime.lockOwner *runtime.g; runtime.enabled bool; runtime.shutdown bool; runtime.headerWritten bool; runtime.footerWritten bool; runtime.shutdownSema uint32; runtime.seqStart uint64; runtime.ticksStart int64; runtime.ticksEnd int64; runtime.timeStart int64; runtime.timeEnd int64; runtime.seqGC uint64; runtime.reading runtime.traceBufPtr; runtime.empty runtime.traceBufPtr; runtime.fullHead runtime.traceBufPtr; runtime.fullTail runtime.traceBufPtr; runtime.reader runtime.guintptr; runtime.stackTab runtime.traceStackTable; runtime.stringsLock runtime.mutex; runtime.strings map[string]uint64; runtime.stringSeq uint64; runtime.markWorkerLabels [4]uint64; runtime.bufLock runtime.mutex; runtime.buf runtime.traceBufPtr }
+struct { runtime.lock runtime.mutex; runtime.newm runtime.muintptr; runtime.waiting bool; runtime.wake runtime.note; runtime.haveTemplateThread uint32 }
+struct { runtime.lock runtime.mutex; runtime.next int32; runtime.m map[int32]unsafe.Pointer; runtime.minv map[unsafe.Pointer]int32 }
+struct { runtime.lock runtime.mutex; runtime.q runtime.gQueue }
+struct { runtime.lock runtime.mutex; runtime.stack runtime.gList; runtime.noStack runtime.gList; runtime.n int32 }
+struct { runtime.mcentral runtime.mcentral; runtime.pad [24]uint8 }
+struct { runtime.mutex; runtime.persistentAlloc }
+struct { runtime.note runtime.note; runtime.mask [3]uint32; runtime.wanted [3]uint32; runtime.ignored [3]uint32; runtime.recv [3]uint32; runtime.state uint32; runtime.delivering uint32; runtime.inuse bool }
+struct { runtime.root runtime.semaRoot; runtime.pad [40]uint8 }
+struct { runtime.signalLock uint32; runtime.hz int32 }
+struct { runtime.size uint32; runtime.nmalloc uint64; runtime.nfree uint64 }
+struct { runtime.user bool; runtime.runnable runtime.gQueue; runtime.n int32 }
+struct { sync.Mutex; os/signal.m map[chan<- os.Signal]*os/signal.handler; os/signal.ref [65]int64; os/signal.stopping []os/signal.stopping }
+struct {}
+sudog<bool>
+sudog<int>
+sudog<main.packet>
+sudog<os.Signal>
+sudog<struct {}>
+sudog<time.Time>
+sudog<uint32>
+sync.Map
+sync.Mutex
+sync.Once
+sync.Pool
+sync.RWMutex
+sync.WaitGroup
+sync.dequeueNil
+sync.eface
+sync.entry
+sync.noCopy
+sync.notifyList
+sync.poolChain
+sync.poolChainElt
+sync.poolDequeue
+sync.poolLocal
+sync.poolLocalInternal
+sync.readOnly
+sync/atomic.Value
+sync/atomic.ifaceWords
+syscall.Errno
+syscall.Iovec
+syscall.Signal
+time.Duration
+time.Location
+time.Month
+time.Time
+time.Timer
+time.Weekday
+time.dataIO
+time.fileSizeError
+time.rule
+time.ruleKind
+time.runtimeTimer
+time.zone
+time.zoneTrans
+uint
+uint16
+uint32
+uint64
+uint8
+uintptr
+unicode.Range16
+unicode.Range32
+unicode.RangeTable
+unicode/utf8.acceptRange
+unsafe.Pointer
+waitq<bool>
+waitq<int>
+waitq<main.packet>
+waitq<os.Signal>
+waitq<struct {}>
+waitq<time.Time>
+waitq<uint32>
+(dlv) help
+The following commands are available:
+
+Running the program:
+    call ------------------------ Resumes process, injecting a function call (EXPERIMENTAL!!!)
+    continue (alias: c) --------- Run until breakpoint or program termination.
+    next (alias: n) ------------- Step over to next source line.
+    rebuild --------------------- Rebuild the target executable and restarts it. It does not work if the executable was not built by delve.
+    restart (alias: r) ---------- Restart process.
+    step (alias: s) ------------- Single step through program.
+    step-instruction (alias: si)  Single step a single cpu instruction.
+    stepout (alias: so) --------- Step out of the current function.
+
+Manipulating breakpoints:
+    break (alias: b) ------- Sets a breakpoint.
+    breakpoints (alias: bp)  Print out info for active breakpoints.
+    clear ------------------ Deletes breakpoint.
+    clearall --------------- Deletes multiple breakpoints.
+    condition (alias: cond)  Set breakpoint condition.
+    on --------------------- Executes a command when a breakpoint is hit.
+    toggle ----------------- Toggles on or off a breakpoint.
+    trace (alias: t) ------- Set tracepoint.
+    watch ------------------ Set watchpoint.
+
+Viewing program variables and memory:
+    args ----------------- Print function arguments.
+    display -------------- Print value of an expression every time the program stops.
+    examinemem (alias: x)  Examine raw memory at the given address.
+    locals --------------- Print local variables.
+    print (alias: p) ----- Evaluate an expression.
+    regs ----------------- Print contents of CPU registers.
+    set ------------------ Changes the value of a variable.
+    vars ----------------- Print package variables.
+    whatis --------------- Prints type of an expression.
+
+Listing and switching between threads and goroutines:
+    goroutine (alias: gr) -- Shows or changes current goroutine
+    goroutines (alias: grs)  List program goroutines.
+    thread (alias: tr) ----- Switch to the specified thread.
+    threads ---------------- Print out info for every traced thread.
+
+Viewing the call stack and selecting frames:
+    deferred --------- Executes command in the context of a deferred call.
+    down ------------- Move the current frame down.
+    frame ------------ Set the current frame, or execute command on a different frame.
+    stack (alias: bt)  Print stack trace.
+    up --------------- Move the current frame up.
+
+Other commands:
+    config --------------------- Changes configuration parameters.
+    disassemble (alias: disass)  Disassembler.
+    dump ----------------------- Creates a core dump from the current process state
+    edit (alias: ed) ----------- Open where you are in $DELVE_EDITOR or $EDITOR
+    exit (alias: quit | q) ----- Exit the debugger.
+    funcs ---------------------- Print list of functions.
+    help (alias: h) ------------ Prints the help message.
+    libraries ------------------ List loaded dynamic libraries
+    list (alias: ls | l) ------- Show source code.
+    source --------------------- Executes a file containing a list of delve commands
+    sources -------------------- Print list of source files.
+    transcript ----------------- Appends command output to a file.
+    types ---------------------- Print list of types
+
+Type help followed by a command for full documentation.
+(dlv) exit
