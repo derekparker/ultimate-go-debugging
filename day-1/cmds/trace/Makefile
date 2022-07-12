@@ -15,4 +15,4 @@ trace-with-stack:
 
 .PHONY: trace-with-ebpf
 trace-with-ebpf:
-	sudo env "PATH=$$PATH" dlv trace callme --ebpf
+	sudo env "PATH=$$PATH" dlv --build-flags="-buildvcs=false" trace callme --ebpf
