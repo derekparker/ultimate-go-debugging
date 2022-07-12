@@ -1,6 +1,6 @@
 .PHONY: build-crash
 build-crash:
-	go build -o bin/crash crash.go
+	go build -gcflags="all=-N -l" -o bin/crash crash.go
 
 .PHONY: run-crash
 run-crash:
@@ -16,4 +16,12 @@ set-core-pattern:
 
 .PHONY: dlv-core
 dlv-core:
-	dlv core ./bin/crash core.1122582
+	dlv core ./bin/crash core.1125848
+
+.PHONY: build-loop
+build-loop:
+	go build -o bin/loop loop.go
+
+.PHONY: run-loop
+run-loop:
+	GOTRACEBACK=crash ./bin/loop
