@@ -8,3 +8,7 @@ strace:
 .PHONY: trace
 trace:
 	dlv trace ^main.*
+
+.PHONY: trace-with-stack
+trace-with-stack:
+	dlv trace ^main.callme --stack 10
