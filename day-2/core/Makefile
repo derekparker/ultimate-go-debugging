@@ -25,3 +25,7 @@ build-loop:
 .PHONY: run-loop
 run-loop:
 	GOTRACEBACK=crash ./bin/loop
+
+.PHONY: gcore
+gcore:
+	gcore $(PID)
