@@ -9,3 +9,7 @@ run-crash:
 .PHONY: run-crash-gotraceback
 run-crash-gotraceback:
 	GOTRACEBACK=crash ./bin/crash
+
+.PHONY: set-core-pattern
+set-core-pattern:
+	echo core | sudo tee /proc/sys/kernel/core_pattern
