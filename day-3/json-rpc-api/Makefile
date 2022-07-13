@@ -15,7 +15,7 @@ kill-dlv-server:
 	pkill dlv
 
 .PHONY: run-with-args
-run:
+run-with-args:
 	./bin/myclient localhost:9090 main.setupHandlers.func1 | jq .
 
 .PHONY: curl-app
