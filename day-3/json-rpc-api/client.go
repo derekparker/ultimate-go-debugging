@@ -5,15 +5,17 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/go-delve/delve/service/api"
 	"github.com/go-delve/delve/service/rpc2"
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		bail("Not enough arguments passed in, please provide address to connect to.")
+	if len(os.Args) < 3 {
+		bail("Not enough arguments passed in, please provide address to connect to and function to trace")
 	}
 
 	serverAddr := os.Args[1]
+	funcToTrace := os.Args[2]
 
 	// Create a new connection to the Delve debug server.
 	// rpc2.NewClient will log.Fatal if connection fails so there
@@ -29,12 +31,33 @@ func main() {
 		bail(err)
 	}
 
-	// Continue the program.
-	client.Continue()
+	bp := &api.Breakpoint{
+		FunctionName: funcToTrace,
+		Tracepoint:   true,
+		LoadLocals: &api.LoadConfig{
+			FollowPointers:     false,
+			MaxVariableRecurse: 5,
+			MaxStringLen:       100,
+			MaxArrayValues:     50,
+			MaxStructFields:    50,
+		},
+	}
+	tracepoint, err := client.CreateBreakpoint(bp)
+	if err != nil {
+		bail(err)
+	}
+	defer client.ClearBreakpoint(tracepoint.ID)
 
-	// Write program status to stdout.
+	// Continue the program.
+	stateChan := client.Continue()
+
+	// Create JSON encoder to write to stdout.
 	enc := json.NewEncoder(os.Stdout)
-	enc.Encode(state)
+
+	for state = range stateChan {
+		// Write state to stdout.
+		enc.Encode(state)
+	}
 }
 
 func bail(s interface{}) {
