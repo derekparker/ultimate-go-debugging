@@ -25,5 +25,6 @@ func main() {
 
 	t := time.Now()
 
+	fmt.Printf("%#v\n", buf)
 	fmt.Println(pid, t)
 }
