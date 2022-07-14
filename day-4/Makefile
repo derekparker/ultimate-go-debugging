@@ -132,3 +132,15 @@ devinstall-linux:
 .PHONY: create-cluster
 create-cluster:
 	kind create cluster --name=$(KIND_CLUSTER)
+
+.PHONY: deploy-service
+deploy-service:
+	kubectl create -f ./deploy/service-basic.yaml
+
+.PHONY: copy-delve-to-pod
+copy-delve-to-pod:
+	kubectl cp $$(which dlv) $(POD):/dlv
+
+.PHONY: exec-into-pod
+exec-into-pod:
+	kubectl exec -i -t $(POD) /bin/bash

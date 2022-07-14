@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: training-basic
+spec:
+  selector:
+    app: DelveTrainingBasic
+  ports:
+    - protocol: TCP
+      port: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basic-deployment
+  labels:
+    app: basic
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: basic
+  template:
+    metadata:
+      labels:
+        app: basic
+    spec:
+      containers:
+        - name: basic
+          image: derekparker/basic-service:latest
+          ports:
+            - containerPort: 80
