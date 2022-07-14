@@ -93,3 +93,13 @@ build-debug-image:
 .PHONY: run-scratch-image
 run-scratch-image:
 	docker run -it --detach -p 8081:8081 --name=buggy-scratch --rm $(SCRATCH_IMG)
+
+# Copy dlv binary into basic container.
+.PHONY: copy-dlv-to-scratch-container
+copy-dlv-to-scratch-container:
+	docker cp $$(which dlv) $$(docker ps -aqf "ancestor=buggy-scratch"):/dlv
+
+# Exec dlv within basic container.
+.PHONY: exec-dlv-scratch-container
+exec-dlv-scratch-container:
+	docker exec -it $$(docker ps -aqf "ancestor=buggy-scratch") /dlv attach 1
