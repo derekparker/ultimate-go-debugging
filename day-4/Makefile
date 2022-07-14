@@ -103,3 +103,8 @@ copy-dlv-to-scratch-container:
 .PHONY: exec-dlv-scratch-container
 exec-dlv-scratch-container:
 	docker exec -it $$(docker ps -aqf "ancestor=buggy-scratch") /dlv attach 1
+
+# Debug scratch image.
+.PHONY: debug-scratch-image
+debug-scratch-image:
+	docker run -it --rm --pid="container:buggy-scratch" buggy-debug /bin/bash
