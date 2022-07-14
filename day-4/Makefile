@@ -107,4 +107,4 @@ exec-dlv-scratch-container:
 # Debug scratch image.
 .PHONY: debug-scratch-image
 debug-scratch-image:
-	docker run -it --rm --pid="container:buggy-scratch" buggy-debug /bin/bash
+	docker run -it --rm --cap-add=SYS_PTRACE --pid="container:buggy-scratch" buggy-debug /bin/bash
