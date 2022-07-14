@@ -68,4 +68,4 @@ reset-ptrace-yama:
 # Run basic image with ptrace SYS_CAP.
 .PHONY: run-basic-image-with-ptrace
 run-basic-image-with-ptrace:
-	docker run -it --detach --rm -p 8080:8080 --cap-add=SYS_PTRACE $(BASIC_IMG)
+	docker run -it --detach --rm -p 8081:8081 --cap-add=SYS_PTRACE $(BASIC_IMG)
