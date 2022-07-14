@@ -80,3 +80,7 @@ exec-dlv-basic-container-with-src:
 	docker cp $$(pwd) $$(docker ps -aqf "ancestor=$(BASIC_IMG)"):/src
 	docker cp $(GOROOT) $$(docker ps -aqf "ancestor=$(BASIC_IMG)"):/goroot
 	docker exec -it $$(docker ps -aqf "ancestor=$(BASIC_IMG)") /dlv --init=/src/hack/delve-container-initfile attach 1
+
+.PHONY: build-scratch-image
+build-scratch-image:
+	docker build --pull --rm -f build/Dockerfile-scratch -t $(SCRATCH_IMG):latest .
