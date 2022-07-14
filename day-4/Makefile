@@ -46,3 +46,8 @@ run-basic-image:
 .PHONY: curl-app
 curl-app:
 	curl localhost:8081/foo/bar
+
+# Copy dlv binary into basic container.
+.PHONY: copy-dlv-to-container
+copy-dlv-to-container:
+	docker cp $$(which dlv) $$(docker ps -aqf "ancestor=$(BASIC_IMG)"):/dlv
