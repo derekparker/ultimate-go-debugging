@@ -1,6 +1,6 @@
 .PHONY: build
 build:
-	go build -gcflags="all=-N -l" -o bin/prog
+	go build -gcflags="all=-N -l" -o bin/prog ./main.go
 
 .PHONY: copy-dlv
 copy-dlv:
