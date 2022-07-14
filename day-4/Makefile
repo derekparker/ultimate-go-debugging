@@ -92,4 +92,4 @@ build-debug-image:
 # Run scratch image.
 .PHONY: run-scratch-image
 run-scratch-image:
-	docker run -it --detach -p 8080:8080 --name=buggy-scratch --rm $(SCRATCH_IMG)
+	docker run -it --detach -p 8081:8081 --name=buggy-scratch --rm $(SCRATCH_IMG)
