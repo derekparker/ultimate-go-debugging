@@ -161,3 +161,15 @@ port-forward:
 .PHONY: connect-to-remote-dlv
 connect-to-remote-dlv:
 	dlv connect localhost:9090
+
+.PHONY: kube-debug
+kube-debug:
+	kubectl debug -it $(POD) --image=derekparker/dlv-service --share-processes --copy-to=debug-pod -- /bin/sh
+
+.PHONY: cleanup-debug-pod
+cleanup-debug-pod:
+	kubectl delete pod debug-pod
+
+.PHONY: delete-cluster
+delete-cluster:
+	kind delete cluster --name=$(KIND_CLUSTER)
