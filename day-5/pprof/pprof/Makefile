@@ -29,3 +29,19 @@ go-tool-pprof-heap:
 .PHONY: go-tool-pprof-cpu
 go-tool-pprof-cpu:
 	go tool pprof cpu.pprof
+
+.PHONY: run-perf-stat
+run-perf-stat:
+	perf stat ./bin/prog
+
+.PHONY: run-perf-record
+run-perf-record:
+	perf record ./bin/prog
+
+.PHONY: run-perf-report
+run-perf-report:
+	perf report
+
+.PHONY: run-perf-annotate
+run-perf-annotate:
+	perf annotate
