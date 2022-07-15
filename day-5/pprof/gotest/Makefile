@@ -3,4 +3,4 @@ trie:
 
 .PHONY: run-benchmarks
 run-benchmarks:
-	go test -v -bench .* ./trie
+	GO111MODULE=off go test -v -bench=".*" ./trie
