@@ -4,3 +4,7 @@ trie:
 .PHONY: run-benchmarks
 run-benchmarks:
 	GO111MODULE=off go test -v -bench=".*" ./trie
+
+.PHONY: run-benchmarks-with-profiling
+run-benchmarks-with-profiling:
+	go test -v -cpuprofile cpu.prof -memprofile mem.prof -bench "." ./trie
