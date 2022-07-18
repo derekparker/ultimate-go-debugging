@@ -1,0 +1,115 @@
+(dlv) continue
+> [unrecovered-panic] runtime.fatalpanic() /home/deparker/Code/goroot/src/runtime/panic.go:1065 (hits goroutine(1):1 total:1) (PC: 0x435080)
+Warning: debugging optimized function
+	runtime.curg._panic.arg: interface {}(string) "runtime error: index out of range [1] with length 1"
+  1060:	// fatalpanic implements an unrecoverable panic. It is like fatalthrow, except
+  1061:	// that if msgs != nil, fatalpanic also prints panic messages and decrements
+  1062:	// runningPanicDefers once main is blocked from exiting.
+  1063:	//
+  1064:	//go:nosplit
+=>1065:	func fatalpanic(msgs *_panic) {
+  1066:		pc := getcallerpc()
+  1067:		sp := getcallersp()
+  1068:		gp := getg()
+  1069:		var docrash bool
+  1070:		// Switch to the system stack to avoid any stack growth, which
+(dlv) stack
+0  0x0000000000435080 in runtime.fatalpanic
+   at /home/deparker/Code/goroot/src/runtime/panic.go:1065
+1  0x00000000004348da in runtime.gopanic
+   at /home/deparker/Code/goroot/src/runtime/panic.go:941
+2  0x0000000000432aff in runtime.goPanicIndex
+   at /home/deparker/Code/goroot/src/runtime/panic.go:89
+3  0x000000000049861a in main.main
+   at ./last-character.go:11
+4  0x00000000004373b8 in runtime.main
+   at /home/deparker/Code/goroot/src/runtime/proc.go:250
+5  0x0000000000461501 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) restart
+Process restarted with PID 3046299
+(dlv) break ./last-character.go:11
+Breakpoint 1 set at 0x498545 for main.main() ./last-character.go:11
+(dlv) continue
+> main.main() ./last-character.go:11 (hits goroutine(1):1 total:1) (PC: 0x498545)
+     6:	)
+     7:	
+     8:	func main() {
+     9:		fmt.Println("Hello Gophers! Pass me a word and I will print the last character!")
+    10:	
+=>  11:		arg := os.Args[1]
+    12:	
+    13:		fmt.Printf("The last character in that word is: %c\n", arg[len(arg)])
+    14:	}
+(dlv) print os.Args
+[]string len: 1, cap: 1, [
+	"/home/deparker/Code/ultimate-go-debugging/day-1/cmds/debug/basic...+12 more",
+]
+(dlv) clearall
+Breakpoint 1 cleared at 0x498545 for main.main() ./last-character.go:11
+(dlv) rebuild
+(dlv) continue
+(dlv) restart "debugging is so fun"
+Process restarted with PID 3048974
+(dlv) continue
+> [unrecovered-panic] runtime.fatalpanic() /home/deparker/Code/goroot/src/runtime/panic.go:1065 (hits goroutine(1):1 total:1) (PC: 0x435080)
+Warning: debugging optimized function
+	runtime.curg._panic.arg: interface {}(string) "runtime error: index out of range [19] with length 19"
+  1060:	// fatalpanic implements an unrecoverable panic. It is like fatalthrow, except
+  1061:	// that if msgs != nil, fatalpanic also prints panic messages and decrements
+  1062:	// runningPanicDefers once main is blocked from exiting.
+  1063:	//
+  1064:	//go:nosplit
+=>1065:	func fatalpanic(msgs *_panic) {
+  1066:		pc := getcallerpc()
+  1067:		sp := getcallersp()
+  1068:		gp := getg()
+  1069:		var docrash bool
+  1070:		// Switch to the system stack to avoid any stack growth, which
+(dlv) stack
+0  0x0000000000435080 in runtime.fatalpanic
+   at /home/deparker/Code/goroot/src/runtime/panic.go:1065
+1  0x00000000004348da in runtime.gopanic
+   at /home/deparker/Code/goroot/src/runtime/panic.go:941
+2  0x0000000000432aff in runtime.goPanicIndex
+   at /home/deparker/Code/goroot/src/runtime/panic.go:89
+3  0x0000000000498893 in main.main
+   at ./last-character.go:18
+4  0x00000000004373b8 in runtime.main
+   at /home/deparker/Code/goroot/src/runtime/proc.go:250
+5  0x0000000000461561 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) break ./last-character.go:18
+Breakpoint 1 set at 0x4987ef for main.main() ./last-character.go:18
+(dlv) restart
+Process restarted with PID 3049388
+(dlv) continue
+> main.main() ./last-character.go:18 (hits goroutine(1):1 total:1) (PC: 0x4987ef)
+    13:			os.Exit(1)
+    14:		}
+    15:	
+    16:		arg := os.Args[1]
+    17:	
+=>  18:		fmt.Printf("The last character in that word is: %c\n", arg[len(arg)])
+    19:	}
+(dlv) print arg
+"debugging is so fun"
+(dlv) print len(arg)
+19
+(dlv) clearall
+Breakpoint 1 cleared at 0x4987ef for main.main() ./last-character.go:18
+(dlv) rebuild
+(dlv) list
+> _rt0_amd64_linux() /home/deparker/Code/goroot/src/runtime/rt0_linux_amd64.s:8 (PC: 0x462c20)
+Warning: debugging optimized function
+     3:	// license that can be found in the LICENSE file.
+     4:	
+     5:	#include "textflag.h"
+     6:	
+     7:	TEXT _rt0_amd64_linux(SB),NOSPLIT,$-8
+=>   8:		JMP	_rt0_amd64(SB)
+     9:	
+    10:	TEXT _rt0_amd64_linux_lib(SB),NOSPLIT,$0
+    11:		JMP	_rt0_amd64_lib(SB)
+(dlv) continue
+(dlv) exit
