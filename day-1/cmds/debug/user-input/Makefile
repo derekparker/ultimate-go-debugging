@@ -5,3 +5,7 @@ run:
 .PHONY: debug
 debug:
 	dlv debug
+
+.PHONY: debug-with-tty
+debug-with-tty:
+	dlv debug --tty=$(TTY)
