@@ -15,5 +15,5 @@ func main() {
 
 	arg := os.Args[1]
 
-	fmt.Printf("The last character in that word is: %c\n", arg[len(arg)])
+	fmt.Printf("The last character in that word is: %c\n", arg[len(arg)-1])
 }
