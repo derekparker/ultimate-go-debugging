@@ -9,3 +9,7 @@ install-delve:
 .PHONY: debug
 debug:
 	dlv debug
+
+.PHONY: debug-with-args
+debug-with-args:
+	dlv debug -- "debugging is so fun"
