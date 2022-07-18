@@ -6,6 +6,12 @@ This course will teach you various techniques that can be used to debug a Go pro
 
 ## Getting Started
 
+Clone this repository:
+
+```
+git clone -b ultimate-debug-open-enrollment-2 https://github.com/derekparker/ultimate-go-debugging.git
+```
+
 First, you should have the latest version of Go. You can get the latest version from https://go.dev/dl/.
 Once you download the tarball follow the instructions on https://go.dev/doc/install to install Go on your system.
 To verify a correct Go install run the following command:
