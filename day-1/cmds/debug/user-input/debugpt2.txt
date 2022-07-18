@@ -1,0 +1,123 @@
+(dlv) stack
+0  0x0000000000435140 in runtime.fatalpanic
+   at /home/deparker/Code/goroot/src/runtime/panic.go:1065
+1  0x000000000043499a in runtime.gopanic
+   at /home/deparker/Code/goroot/src/runtime/panic.go:941
+2  0x00000000004ae2c5 in main.gatherSentiment
+   at ./main.go:38
+3  0x00000000004addbc in main.main
+   at ./main.go:9
+4  0x0000000000437478 in runtime.main
+   at /home/deparker/Code/goroot/src/runtime/proc.go:250
+5  0x0000000000461a81 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) break main.go:38
+Breakpoint 1 set at 0x4ae208 for main.gatherSentiment() ./main.go:38
+(dlv) restart
+Process restarted with PID 3077311
+(dlv) continue
+> main.gatherSentiment() ./main.go:38 (hits goroutine(1):1 total:1) (PC: 0x4ae208)
+    33:		case i > 2 && i < 7:
+    34:			fmt.Println("Guess it's going alright... :-|")
+    35:		case i > 6 && i < 11:
+    36:			fmt.Println("Guess it's going GREAT!!! :-D")
+    37:		default:
+=>  38:			panic(fmt.Sprintf("Invalid response received: %d\n", i))
+    39:		}
+    40:	}
+    41:	
+    42:	func withinBounds(n *int) bool {
+    43:		*n -= 10
+(dlv) list -10
+Showing /home/deparker/Code/ultimate-go-debugging/day-1/cmds/debug/user-input/main.go:28 (PC: 0x0)
+    23:			panic(err)
+    24:		}
+    25:	
+    26:		if !withinBounds(&i) {
+    27:			panic("user input not within expected bounds")
+    28:		}
+    29:	
+    30:		switch {
+    31:		case i > 0 && i < 3:
+    32:			fmt.Println("Guess it's going terribly... :(")
+    33:		case i > 2 && i < 7:
+(dlv) print i
+-1
+(dlv) list -15
+Showing /home/deparker/Code/ultimate-go-debugging/day-1/cmds/debug/user-input/main.go:23 (PC: 0x4ae2df)
+    18:		fmt.Println("How would you rate the class from 1-10:")
+    19:	
+    20:		var i int
+    21:		_, err := fmt.Scanln(&i)
+    22:		if err != nil {
+    23:			panic(err)
+    24:		}
+    25:	
+    26:		if !withinBounds(&i) {
+    27:			panic("user input not within expected bounds")
+    28:		}
+(dlv) break main.go:26
+Breakpoint 2 set at 0x4adff7 for main.gatherSentiment() ./main.go:26
+(dlv) restart
+Process restarted with PID 3078004
+(dlv) continue
+> main.gatherSentiment() ./main.go:26 (hits goroutine(1):1 total:1) (PC: 0x4adff7)
+    21:		_, err := fmt.Scanln(&i)
+    22:		if err != nil {
+    23:			panic(err)
+    24:		}
+    25:	
+=>  26:		if !withinBounds(&i) {
+    27:			panic("user input not within expected bounds")
+    28:		}
+    29:	
+    30:		switch {
+    31:		case i > 0 && i < 3:
+(dlv) print i
+9
+(dlv) help watch
+Set watchpoint.
+	
+	watch [-r|-w|-rw] <expr>
+	
+	-r	stops when the memory location is read
+	-w	stops when the memory location is written
+	-rw	stops when the memory location is read or written
+
+The memory location is specified with the same expression language used by 'print', for example:
+
+	watch v
+
+will watch the address of variable 'v'.
+
+Note that writes that do not change the value of the watched memory address might not be reported.
+
+See also: "help print".
+(dlv) watch -w i
+Watchpoint i set at 0xc000016138
+(dlv) continue
+> watchpoint on [i] main.withinBounds() ./main.go:44 (hits goroutine(1):1 total:1) (PC: 0x4ae370)
+    39:		}
+    40:	}
+    41:	
+    42:	func withinBounds(n *int) bool {
+    43:		*n -= 10
+=>  44:		return *n <= 0
+    45:	}
+(dlv) breakpoints
+Breakpoint runtime-fatal-throw (enabled) at 0x434d80 for runtime.throw() /home/deparker/Code/goroot/src/runtime/panic.go:982 (0)
+Breakpoint unrecovered-panic (enabled) at 0x435140 for runtime.fatalpanic() /home/deparker/Code/goroot/src/runtime/panic.go:1065 (0)
+	print runtime.curg._panic.arg
+Breakpoint 1 (enabled) at 0x4ae208 for main.gatherSentiment() ./main.go:38 (0)
+Breakpoint 2 (enabled) at 0x4adff7 for main.gatherSentiment() ./main.go:26 (1)
+Watchpoint i (enabled) at 0xc000016138 (1)
+(dlv) list
+> watchpoint on [i] main.withinBounds() ./main.go:44 (hits goroutine(1):1 total:1) (PC: 0x4ae370)
+    39:		}
+    40:	}
+    41:	
+    42:	func withinBounds(n *int) bool {
+    43:		*n -= 10
+=>  44:		return *n <= 0
+    45:	}
+(dlv) exit
