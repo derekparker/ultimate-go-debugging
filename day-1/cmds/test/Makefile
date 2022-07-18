@@ -4,4 +4,4 @@ clone-trie:
 
 .PHONY: test
 test:
-	go test -v ./trie
+	GO111MODULE=off go test -v ./trie
