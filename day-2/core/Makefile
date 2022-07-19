@@ -9,3 +9,7 @@ run-crash:
 .PHONY: run-crash-gotraceback
 run-crash-gotraceback:
 	GOTRACEBACK=crash ./bin/crash
+
+.PHONY: dlv-core
+dlv-core:
+	dlv core ./bin/crash core.$(PID)
