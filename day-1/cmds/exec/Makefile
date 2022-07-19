@@ -13,7 +13,7 @@ build-showing-inlining:
 search-dwarf-info: bin/execme
 	objdump --dwarf=info bin/execme | grep -C 2 Rectangle
 
-bin/execmenooptimizations:
+bin/execmenooptimizationsexecme:
 	go build -o bin/execmenooptimizations -gcflags="all=-N -l"
 
 .PHONY: dlv-exec-no-optimizations
