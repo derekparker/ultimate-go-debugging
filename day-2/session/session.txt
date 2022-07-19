@@ -1,0 +1,2854 @@
+(dlv) continue main.main
+Breakpoint 1 set at 0x4b7fd2 for main.main() ./main.go:77
+> main.main() ./main.go:77 (hits goroutine(1):1 total:1) (PC: 0x4b7fd2)
+    72:				}
+    73:			}
+    74:		}
+    75:	}
+    76:	
+=>  77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+(dlv) breakpoints
+Breakpoint runtime-fatal-throw (enabled) at 0x436340 for runtime.throw() /home/deparker/Code/goroot/src/runtime/panic.go:982 (0)
+Breakpoint unrecovered-panic (enabled) at 0x436700 for runtime.fatalpanic() /home/deparker/Code/goroot/src/runtime/panic.go:1065 (0)
+	print runtime.curg._panic.arg
+(dlv) list
+> main.main() ./main.go:77 (hits total:0) (PC: 0x4b7fd2)
+    72:				}
+    73:			}
+    74:		}
+    75:	}
+    76:	
+=>  77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+(dlv) next
+> main.main() ./main.go:79 (PC: 0x4b7fe9)
+    74:		}
+    75:	}
+    76:	
+    77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+=>  79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+(dlv) next
+> main.main() ./main.go:81 (PC: 0x4b800b)
+    76:	
+    77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+=>  81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+(dlv) next
+> main.main() ./main.go:83 (PC: 0x4b808f)
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+=>  83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+    87:		}
+    88:		fmt.Printf("got data: %s\n", data)
+(dlv) step
+> io/ioutil.ReadAll() /home/deparker/Code/goroot/src/io/ioutil/ioutil.go:26 (PC: 0x4b558f)
+    21:	// A successful call returns err == nil, not err == EOF. Because ReadAll is
+    22:	// defined to read from src until EOF, it does not treat an EOF from Read
+    23:	// as an error to be reported.
+    24:	//
+    25:	// As of Go 1.16, this function simply calls io.ReadAll.
+=>  26:	func ReadAll(r io.Reader) ([]byte, error) {
+    27:		return io.ReadAll(r)
+    28:	}
+    29:	
+    30:	// ReadFile reads the file named by filename and returns the contents.
+    31:	// A successful call returns err == nil, not err == EOF. Because ReadFile
+(dlv) step
+> io/ioutil.ReadAll() /home/deparker/Code/goroot/src/io/ioutil/ioutil.go:27 (PC: 0x4b55cb)
+    22:	// defined to read from src until EOF, it does not treat an EOF from Read
+    23:	// as an error to be reported.
+    24:	//
+    25:	// As of Go 1.16, this function simply calls io.ReadAll.
+    26:	func ReadAll(r io.Reader) ([]byte, error) {
+=>  27:		return io.ReadAll(r)
+    28:	}
+    29:	
+    30:	// ReadFile reads the file named by filename and returns the contents.
+    31:	// A successful call returns err == nil, not err == EOF. Because ReadFile
+    32:	// reads the whole file, it does not treat an EOF from Read as an error
+(dlv) step
+> io.ReadAll() /home/deparker/Code/goroot/src/io/io.go:638 (PC: 0x46d60f)
+   633:	
+   634:	// ReadAll reads from r until an error or EOF and returns the data it read.
+   635:	// A successful call returns err == nil, not err == EOF. Because ReadAll is
+   636:	// defined to read from src until EOF, it does not treat an EOF from Read
+   637:	// as an error to be reported.
+=> 638:	func ReadAll(r Reader) ([]byte, error) {
+   639:		b := make([]byte, 0, 512)
+   640:		for {
+   641:			if len(b) == cap(b) {
+   642:				// Add more capacity (let append pick how much).
+   643:				b = append(b, 0)[:len(b)]
+(dlv) next
+> io.ReadAll() /home/deparker/Code/goroot/src/io/io.go:639 (PC: 0x46d651)
+   634:	// ReadAll reads from r until an error or EOF and returns the data it read.
+   635:	// A successful call returns err == nil, not err == EOF. Because ReadAll is
+   636:	// defined to read from src until EOF, it does not treat an EOF from Read
+   637:	// as an error to be reported.
+   638:	func ReadAll(r Reader) ([]byte, error) {
+=> 639:		b := make([]byte, 0, 512)
+   640:		for {
+   641:			if len(b) == cap(b) {
+   642:				// Add more capacity (let append pick how much).
+   643:				b = append(b, 0)[:len(b)]
+   644:			}
+(dlv) 
+> io.ReadAll() /home/deparker/Code/goroot/src/io/io.go:640 (PC: 0x46d685)
+   635:	// A successful call returns err == nil, not err == EOF. Because ReadAll is
+   636:	// defined to read from src until EOF, it does not treat an EOF from Read
+   637:	// as an error to be reported.
+   638:	func ReadAll(r Reader) ([]byte, error) {
+   639:		b := make([]byte, 0, 512)
+=> 640:		for {
+   641:			if len(b) == cap(b) {
+   642:				// Add more capacity (let append pick how much).
+   643:				b = append(b, 0)[:len(b)]
+   644:			}
+   645:			n, err := r.Read(b[len(b):cap(b)])
+(dlv) 
+> io.ReadAll() /home/deparker/Code/goroot/src/io/io.go:641 (PC: 0x46d687)
+   636:	// defined to read from src until EOF, it does not treat an EOF from Read
+   637:	// as an error to be reported.
+   638:	func ReadAll(r Reader) ([]byte, error) {
+   639:		b := make([]byte, 0, 512)
+   640:		for {
+=> 641:			if len(b) == cap(b) {
+   642:				// Add more capacity (let append pick how much).
+   643:				b = append(b, 0)[:len(b)]
+   644:			}
+   645:			n, err := r.Read(b[len(b):cap(b)])
+   646:			b = b[:len(b)+n]
+(dlv) 
+> io.ReadAll() /home/deparker/Code/goroot/src/io/io.go:645 (PC: 0x46d75b)
+   640:		for {
+   641:			if len(b) == cap(b) {
+   642:				// Add more capacity (let append pick how much).
+   643:				b = append(b, 0)[:len(b)]
+   644:			}
+=> 645:			n, err := r.Read(b[len(b):cap(b)])
+   646:			b = b[:len(b)+n]
+   647:			if err != nil {
+   648:				if err == EOF {
+   649:					err = nil
+   650:				}
+(dlv) stepout
+> io/ioutil.ReadAll() /home/deparker/Code/goroot/src/io/ioutil/ioutil.go:27 (PC: 0x4b55f5)
+Values returned:
+	~r0: []uint8 len: 10, cap: 512, [102,111,111,98,97,114,98,97,122,10]
+	~r1: error nil
+
+    22:	// defined to read from src until EOF, it does not treat an EOF from Read
+    23:	// as an error to be reported.
+    24:	//
+    25:	// As of Go 1.16, this function simply calls io.ReadAll.
+    26:	func ReadAll(r io.Reader) ([]byte, error) {
+=>  27:		return io.ReadAll(r)
+    28:	}
+    29:	
+    30:	// ReadFile reads the file named by filename and returns the contents.
+    31:	// A successful call returns err == nil, not err == EOF. Because ReadFile
+    32:	// reads the whole file, it does not treat an EOF from Read as an error
+(dlv) stepout
+> main.main() ./main.go:83 (PC: 0x4b80c5)
+Values returned:
+	~r0: []uint8 len: 10, cap: 512, [102,111,111,98,97,114,98,97,122,10]
+	~r1: error nil
+
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+=>  83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+    87:		}
+    88:		fmt.Printf("got data: %s\n", data)
+(dlv) next
+> main.main() ./main.go:84 (PC: 0x4b813d)
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+=>  84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+    87:		}
+    88:		fmt.Printf("got data: %s\n", data)
+    89:	
+(dlv) 
+> main.main() ./main.go:88 (PC: 0x4b8233)
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+    87:		}
+=>  88:		fmt.Printf("got data: %s\n", data)
+    89:	
+    90:		// Create a channel to be notified when we get a signal.
+    91:		sigch := make(chan os.Signal, 1)
+    92:		// Ensure we are notified on receipt of SIGTERM.
+    93:		signal.Notify(sigch, syscall.SIGTERM)
+(dlv) disassemble
+TEXT main.main(SB) /home/deparker/Code/ultimate-go-debugging/day-2/session/main.go
+	main.go:77	0x4b7fc0	4c8da42498feffff		lea r12, ptr [rsp+0xfffffe98]
+	main.go:77	0x4b7fc8	4d3b6610			cmp r12, qword ptr [r14+0x10]
+	main.go:77	0x4b7fcc	0f8677060000			jbe 0x4b8649
+	main.go:77	0x4b7fd2	4881ece8010000			sub rsp, 0x1e8
+	main.go:77	0x4b7fd9	4889ac24e0010000		mov qword ptr [rsp+0x1e0], rbp
+	main.go:77	0x4b7fe1	488dac24e0010000		lea rbp, ptr [rsp+0x1e0]
+	main.go:79	0x4b7fe9	488d05f01d0100			lea rax, ptr [rip+0x11df0]
+	main.go:79	0x4b7ff0	e8cb55f5ff			call $runtime.newobject
+	main.go:79	0x4b7ff5	48898424c0000000		mov qword ptr [rsp+0xc0], rax
+	main.go:79	0x4b7ffd	48c70000000000			mov qword ptr [rax], 0x0
+	main.go:79	0x4b8004	c7400800000000			mov dword ptr [rax+0x8], 0x0
+	main.go:81	0x4b800b	e8502afdff			call $context.Background
+	main.go:81	0x4b8010	4889842438010000		mov qword ptr [rsp+0x138], rax
+	main.go:81	0x4b8018	48899c2440010000		mov qword ptr [rsp+0x140], rbx
+	main.go:81	0x4b8020	440f11bc2428010000		movups xmmword ptr [rsp+0x128], xmm15
+	main.go:81	0x4b8029	48c784249800000000000000	mov qword ptr [rsp+0x98], 0x0
+	main.go:81	0x4b8035	488b842438010000		mov rax, qword ptr [rsp+0x138]
+	main.go:81	0x4b803d	488b9c2440010000		mov rbx, qword ptr [rsp+0x140]
+	main.go:81	0x4b8045	e8562afdff			call $context.WithCancel
+	main.go:81	0x4b804a	4889842428010000		mov qword ptr [rsp+0x128], rax
+	main.go:81	0x4b8052	48899c2430010000		mov qword ptr [rsp+0x130], rbx
+	main.go:81	0x4b805a	48898c2498000000		mov qword ptr [rsp+0x98], rcx
+	main.go:81	0x4b8062	488b8c2428010000		mov rcx, qword ptr [rsp+0x128]
+	main.go:81	0x4b806a	488b942430010000		mov rdx, qword ptr [rsp+0x130]
+	main.go:81	0x4b8072	48898c24d8000000		mov qword ptr [rsp+0xd8], rcx
+	main.go:81	0x4b807a	48899424e0000000		mov qword ptr [rsp+0xe0], rdx
+	main.go:81	0x4b8082	488b8c2498000000		mov rcx, qword ptr [rsp+0x98]
+	main.go:81	0x4b808a	48894c2438			mov qword ptr [rsp+0x38], rcx
+	main.go:83	0x4b808f	48c78424c801000000000000	mov qword ptr [rsp+0x1c8], 0x0
+	main.go:83	0x4b809b	440f11bc24d0010000		movups xmmword ptr [rsp+0x1d0], xmm15
+	main.go:83	0x4b80a4	440f11bc2418010000		movups xmmword ptr [rsp+0x118], xmm15
+	main.go:83	0x4b80ad	488b1d94590a00			mov rbx, qword ptr [os.Stdin]
+	main.go:83	0x4b80b4	488d05a5890200			lea rax, ptr [rip+0x289a5]
+	main.go:83	0x4b80bb	0f1f440000			nop dword ptr [rax+rax*1], eax
+	main.go:83	0x4b80c0	e8bbd4ffff			call $io/ioutil.ReadAll
+	main.go:83	0x4b80c5	48898424c8010000		mov qword ptr [rsp+0x1c8], rax
+	main.go:83	0x4b80cd	48899c24d0010000		mov qword ptr [rsp+0x1d0], rbx
+	main.go:83	0x4b80d5	48898c24d8010000		mov qword ptr [rsp+0x1d8], rcx
+	main.go:83	0x4b80dd	4889bc2418010000		mov qword ptr [rsp+0x118], rdi
+	main.go:83	0x4b80e5	4889b42420010000		mov qword ptr [rsp+0x120], rsi
+	main.go:83	0x4b80ed	488b8c24c8010000		mov rcx, qword ptr [rsp+0x1c8]
+	main.go:83	0x4b80f5	488b9424d0010000		mov rdx, qword ptr [rsp+0x1d0]
+	main.go:83	0x4b80fd	488b9c24d8010000		mov rbx, qword ptr [rsp+0x1d8]
+	main.go:83	0x4b8105	48898c2468010000		mov qword ptr [rsp+0x168], rcx
+	main.go:83	0x4b810d	4889942470010000		mov qword ptr [rsp+0x170], rdx
+	main.go:83	0x4b8115	48899c2478010000		mov qword ptr [rsp+0x178], rbx
+	main.go:83	0x4b811d	488b8c2418010000		mov rcx, qword ptr [rsp+0x118]
+	main.go:83	0x4b8125	488b942420010000		mov rdx, qword ptr [rsp+0x120]
+	main.go:83	0x4b812d	48898c24c8000000		mov qword ptr [rsp+0xc8], rcx
+	main.go:83	0x4b8135	48899424d0000000		mov qword ptr [rsp+0xd0], rdx
+	main.go:84	0x4b813d	4883bc24c800000000		cmp qword ptr [rsp+0xc8], 0x0
+	main.go:84	0x4b8146	7505				jnz 0x4b814d
+	main.go:84	0x4b8148	e9e4000000			jmp 0x4b8231
+	main.go:85	0x4b814d	440f11bc2408010000		movups xmmword ptr [rsp+0x108], xmm15
+	main.go:85	0x4b8156	488d942408010000		lea rdx, ptr [rsp+0x108]
+	main.go:85	0x4b815e	4889942490000000		mov qword ptr [rsp+0x90], rdx
+	main.go:85	0x4b8166	488b9424c8000000		mov rdx, qword ptr [rsp+0xc8]
+	main.go:85	0x4b816e	488bb424d0000000		mov rsi, qword ptr [rsp+0xd0]
+	main.go:85	0x4b8176	48899424e8000000		mov qword ptr [rsp+0xe8], rdx
+	main.go:85	0x4b817e	4889b424f0000000		mov qword ptr [rsp+0xf0], rsi
+	main.go:85	0x4b8186	4889942488000000		mov qword ptr [rsp+0x88], rdx
+	main.go:85	0x4b818e	4883bc248800000000		cmp qword ptr [rsp+0x88], 0x0
+	main.go:85	0x4b8197	7502				jnz 0x4b819b
+	main.go:85	0x4b8199	eb0e				jmp 0x4b81a9
+	main.go:85	0x4b819b	488b5208			mov rdx, qword ptr [rdx+0x8]
+	main.go:85	0x4b819f	4889942488000000		mov qword ptr [rsp+0x88], rdx
+	main.go:85	0x4b81a7	eb02				jmp 0x4b81ab
+	main.go:85	0x4b81a9	eb00				jmp 0x4b81ab
+	main.go:85	0x4b81ab	488b942490000000		mov rdx, qword ptr [rsp+0x90]
+	main.go:85	0x4b81b3	8402				test byte ptr [rdx], al
+	main.go:85	0x4b81b5	488bb424f0000000		mov rsi, qword ptr [rsp+0xf0]
+	main.go:85	0x4b81bd	4c8b842488000000		mov r8, qword ptr [rsp+0x88]
+	main.go:85	0x4b81c5	4c8902				mov qword ptr [rdx], r8
+	main.go:85	0x4b81c8	488d7a08			lea rdi, ptr [rdx+0x8]
+	main.go:85	0x4b81cc	833d9d4d0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:85	0x4b81d3	7402				jz 0x4b81d7
+	main.go:85	0x4b81d5	eb09				jmp 0x4b81e0
+	main.go:85	0x4b81d7	48897208			mov qword ptr [rdx+0x8], rsi
+	main.go:85	0x4b81db	eb0a				jmp 0x4b81e7
+	main.go:85	0x4b81dd	0f1f00				nop dword ptr [rax], eax
+	main.go:85	0x4b81e0	e8bbcffaff			call $runtime.gcWriteBarrierSI
+	main.go:85	0x4b81e5	eb00				jmp 0x4b81e7
+	main.go:85	0x4b81e7	488b842490000000		mov rax, qword ptr [rsp+0x90]
+	main.go:85	0x4b81ef	8400				test byte ptr [rax], al
+	main.go:85	0x4b81f1	eb00				jmp 0x4b81f3
+	main.go:85	0x4b81f3	48898424b0010000		mov qword ptr [rsp+0x1b0], rax
+	main.go:85	0x4b81fb	48c78424b801000001000000	mov qword ptr [rsp+0x1b8], 0x1
+	main.go:85	0x4b8207	48c78424c001000001000000	mov qword ptr [rsp+0x1c0], 0x1
+	main.go:85	0x4b8213	bb01000000			mov ebx, 0x1
+	main.go:85	0x4b8218	4889d9				mov rcx, rbx
+	main.go:85	0x4b821b	0f1f440000			nop dword ptr [rax+rax*1], eax
+	main.go:85	0x4b8220	e8bb64ffff			call $fmt.Println
+	main.go:86	0x4b8225	b801000000			mov eax, 0x1
+	main.go:86	0x4b822a	e8f119ffff			call $os.Exit
+	main.go:86	0x4b822f	eb02				jmp 0x4b8233
+	main.go:84	0x4b8231	eb00				jmp 0x4b8233
+=>	main.go:88	0x4b8233	440f11bc2408010000		movups xmmword ptr [rsp+0x108], xmm15
+	main.go:88	0x4b823c	488d942408010000		lea rdx, ptr [rsp+0x108]
+	main.go:88	0x4b8244	4889942480000000		mov qword ptr [rsp+0x80], rdx
+	main.go:88	0x4b824c	488b842468010000		mov rax, qword ptr [rsp+0x168]
+	main.go:88	0x4b8254	488b9c2470010000		mov rbx, qword ptr [rsp+0x170]
+	main.go:88	0x4b825c	488b8c2478010000		mov rcx, qword ptr [rsp+0x178]
+	main.go:88	0x4b8264	e8b72af5ff			call $runtime.convTslice
+	main.go:88	0x4b8269	4889442478			mov qword ptr [rsp+0x78], rax
+	main.go:88	0x4b826e	488b942480000000		mov rdx, qword ptr [rsp+0x80]
+	main.go:88	0x4b8276	8402				test byte ptr [rdx], al
+	main.go:88	0x4b8278	488d35a17c0000			lea rsi, ptr [rip+0x7ca1]
+	main.go:88	0x4b827f	488932				mov qword ptr [rdx], rsi
+	main.go:88	0x4b8282	488d7a08			lea rdi, ptr [rdx+0x8]
+	main.go:88	0x4b8286	833de34c0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:88	0x4b828d	7402				jz 0x4b8291
+	main.go:88	0x4b828f	eb06				jmp 0x4b8297
+	main.go:88	0x4b8291	48894208			mov qword ptr [rdx+0x8], rax
+	main.go:88	0x4b8295	eb07				jmp 0x4b829e
+	main.go:88	0x4b8297	e8a4cdfaff			call $runtime.gcWriteBarrier
+	main.go:88	0x4b829c	eb00				jmp 0x4b829e
+	main.go:88	0x4b829e	488b8c2480000000		mov rcx, qword ptr [rsp+0x80]
+	main.go:88	0x4b82a6	8401				test byte ptr [rcx], al
+	main.go:88	0x4b82a8	eb00				jmp 0x4b82aa
+	main.go:88	0x4b82aa	48898c2498010000		mov qword ptr [rsp+0x198], rcx
+	main.go:88	0x4b82b2	48c78424a001000001000000	mov qword ptr [rsp+0x1a0], 0x1
+	main.go:88	0x4b82be	48c78424a801000001000000	mov qword ptr [rsp+0x1a8], 0x1
+	main.go:88	0x4b82ca	488d05b7c00100			lea rax, ptr [rip+0x1c0b7]
+	main.go:88	0x4b82d1	bb0d000000			mov ebx, 0xd
+	main.go:88	0x4b82d6	bf01000000			mov edi, 0x1
+	main.go:88	0x4b82db	4889fe				mov rsi, rdi
+	main.go:88	0x4b82de	6690				data16 nop
+	main.go:88	0x4b82e0	e85b61ffff			call $fmt.Printf
+	main.go:91	0x4b82e5	488d05b47f0000			lea rax, ptr [rip+0x7fb4]
+	main.go:91	0x4b82ec	bb01000000			mov ebx, 0x1
+	main.go:91	0x4b82f1	e80acdf4ff			call $runtime.makechan
+	main.go:91	0x4b82f6	4889442428			mov qword ptr [rsp+0x28], rax
+	main.go:93	0x4b82fb	440f11bc24f8000000		movups xmmword ptr [rsp+0xf8], xmm15
+	main.go:93	0x4b8304	488d9c24f8000000		lea rbx, ptr [rsp+0xf8]
+	main.go:93	0x4b830c	48895c2470			mov qword ptr [rsp+0x70], rbx
+	main.go:93	0x4b8311	8403				test byte ptr [rbx], al
+	main.go:93	0x4b8313	488d159e880200			lea rdx, ptr [rip+0x2889e]
+	main.go:93	0x4b831a	48899424f8000000		mov qword ptr [rsp+0xf8], rdx
+	main.go:93	0x4b8322	488d1597810200			lea rdx, ptr [rip+0x28197]
+	main.go:93	0x4b8329	4889942400010000		mov qword ptr [rsp+0x100], rdx
+	main.go:93	0x4b8331	8403				test byte ptr [rbx], al
+	main.go:93	0x4b8333	eb00				jmp 0x4b8335
+	main.go:93	0x4b8335	48899c2480010000		mov qword ptr [rsp+0x180], rbx
+	main.go:93	0x4b833d	48c784248801000001000000	mov qword ptr [rsp+0x188], 0x1
+	main.go:93	0x4b8349	48c784249001000001000000	mov qword ptr [rsp+0x190], 0x1
+	main.go:93	0x4b8355	488b442428			mov rax, qword ptr [rsp+0x28]
+	main.go:93	0x4b835a	b901000000			mov ecx, 0x1
+	main.go:93	0x4b835f	4889cf				mov rdi, rcx
+	main.go:93	0x4b8362	e819e7ffff			call $os/signal.Notify
+	main.go:95	0x4b8367	488d154a310200			lea rdx, ptr [rip+0x2314a]
+	main.go:95	0x4b836e	4889542450			mov qword ptr [rsp+0x50], rdx
+	main.go:103	0x4b8373	488b542428			mov rdx, qword ptr [rsp+0x28]
+	main.go:103	0x4b8378	4889542448			mov qword ptr [rsp+0x48], rdx
+	main.go:103	0x4b837d	488b542438			mov rdx, qword ptr [rsp+0x38]
+	main.go:103	0x4b8382	4889542440			mov qword ptr [rsp+0x40], rdx
+	main.go:95	0x4b8387	488d0592280100			lea rax, ptr [rip+0x12892]
+	main.go:95	0x4b838e	e82d52f5ff			call $runtime.newobject
+	main.go:95	0x4b8393	4889442468			mov qword ptr [rsp+0x68], rax
+	main.go:95	0x4b8398	488d15c1030000			lea rdx, ptr [main.main.func2]
+	main.go:95	0x4b839f	488910				mov qword ptr [rax], rdx
+	main.go:95	0x4b83a2	488b542468			mov rdx, qword ptr [rsp+0x68]
+	main.go:95	0x4b83a7	8402				test byte ptr [rdx], al
+	main.go:95	0x4b83a9	488b742450			mov rsi, qword ptr [rsp+0x50]
+	main.go:95	0x4b83ae	488d7a08			lea rdi, ptr [rdx+0x8]
+	main.go:95	0x4b83b2	833db74b0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:95	0x4b83b9	7402				jz 0x4b83bd
+	main.go:95	0x4b83bb	eb06				jmp 0x4b83c3
+	main.go:95	0x4b83bd	48897208			mov qword ptr [rdx+0x8], rsi
+	main.go:95	0x4b83c1	eb07				jmp 0x4b83ca
+	main.go:95	0x4b83c3	e8d8cdfaff			call $runtime.gcWriteBarrierSI
+	main.go:95	0x4b83c8	eb00				jmp 0x4b83ca
+	main.go:95	0x4b83ca	488b4c2468			mov rcx, qword ptr [rsp+0x68]
+	main.go:95	0x4b83cf	8401				test byte ptr [rcx], al
+	main.go:95	0x4b83d1	488b542448			mov rdx, qword ptr [rsp+0x48]
+	main.go:95	0x4b83d6	488d7910			lea rdi, ptr [rcx+0x10]
+	main.go:95	0x4b83da	833d8f4b0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:95	0x4b83e1	7402				jz 0x4b83e5
+	main.go:95	0x4b83e3	eb06				jmp 0x4b83eb
+	main.go:95	0x4b83e5	48895110			mov qword ptr [rcx+0x10], rdx
+	main.go:95	0x4b83e9	eb07				jmp 0x4b83f2
+	main.go:95	0x4b83eb	e870cdfaff			call $runtime.gcWriteBarrierDX
+	main.go:95	0x4b83f0	eb00				jmp 0x4b83f2
+	main.go:95	0x4b83f2	488b4c2468			mov rcx, qword ptr [rsp+0x68]
+	main.go:95	0x4b83f7	8401				test byte ptr [rcx], al
+	main.go:95	0x4b83f9	488b542440			mov rdx, qword ptr [rsp+0x40]
+	main.go:95	0x4b83fe	488d7918			lea rdi, ptr [rcx+0x18]
+	main.go:95	0x4b8402	833d674b0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:95	0x4b8409	7402				jz 0x4b840d
+	main.go:95	0x4b840b	eb06				jmp 0x4b8413
+	main.go:95	0x4b840d	48895118			mov qword ptr [rcx+0x18], rdx
+	main.go:95	0x4b8411	eb07				jmp 0x4b841a
+	main.go:95	0x4b8413	e848cdfaff			call $runtime.gcWriteBarrierDX
+	main.go:95	0x4b8418	eb00				jmp 0x4b841a
+	main.go:95	0x4b841a	488b442468			mov rax, qword ptr [rsp+0x68]
+	main.go:95	0x4b841f	90				nop
+	main.go:95	0x4b8420	e8db82f8ff			call $runtime.newproc
+	main.go:106	0x4b8425	488d05347e0000			lea rax, ptr [rip+0x7e34]
+	main.go:106	0x4b842c	31db				xor ebx, ebx
+	main.go:106	0x4b842e	e8cdcbf4ff			call $runtime.makechan
+	main.go:106	0x4b8433	4889442430			mov qword ptr [rsp+0x30], rax
+	main.go:109	0x4b8438	488b8424c0000000		mov rax, qword ptr [rsp+0xc0]
+	main.go:109	0x4b8440	bb02000000			mov ebx, 0x2
+	main.go:109	0x4b8445	e8164bfbff			call $sync.(*WaitGroup).Add
+	main.go:112	0x4b844a	488b8c24d8000000		mov rcx, qword ptr [rsp+0xd8]
+	main.go:112	0x4b8452	488b9424e0000000		mov rdx, qword ptr [rsp+0xe0]
+	main.go:112	0x4b845a	48898c2458010000		mov qword ptr [rsp+0x158], rcx
+	main.go:112	0x4b8462	4889942460010000		mov qword ptr [rsp+0x160], rdx
+	main.go:112	0x4b846a	488b8c24c0000000		mov rcx, qword ptr [rsp+0xc0]
+	main.go:112	0x4b8472	48898c24b8000000		mov qword ptr [rsp+0xb8], rcx
+	main.go:112	0x4b847a	488b4c2430			mov rcx, qword ptr [rsp+0x30]
+	main.go:112	0x4b847f	48898c24b0000000		mov qword ptr [rsp+0xb0], rcx
+	main.go:112	0x4b8487	488d0512260100			lea rax, ptr [rip+0x12612]
+	main.go:112	0x4b848e	e82d51f5ff			call $runtime.newobject
+	main.go:112	0x4b8493	4889442460			mov qword ptr [rsp+0x60], rax
+	main.go:112	0x4b8498	488d0d41020000			lea rcx, ptr [main.main.func3]
+	main.go:112	0x4b849f	488908				mov qword ptr [rax], rcx
+	main.go:112	0x4b84a2	488b4c2460			mov rcx, qword ptr [rsp+0x60]
+	main.go:112	0x4b84a7	8401				test byte ptr [rcx], al
+	main.go:112	0x4b84a9	488b942460010000		mov rdx, qword ptr [rsp+0x160]
+	main.go:112	0x4b84b1	488b9c2458010000		mov rbx, qword ptr [rsp+0x158]
+	main.go:112	0x4b84b9	48895908			mov qword ptr [rcx+0x8], rbx
+	main.go:112	0x4b84bd	488d7910			lea rdi, ptr [rcx+0x10]
+	main.go:112	0x4b84c1	833da84a0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:112	0x4b84c8	7402				jz 0x4b84cc
+	main.go:112	0x4b84ca	eb06				jmp 0x4b84d2
+	main.go:112	0x4b84cc	48895110			mov qword ptr [rcx+0x10], rdx
+	main.go:112	0x4b84d0	eb07				jmp 0x4b84d9
+	main.go:112	0x4b84d2	e889ccfaff			call $runtime.gcWriteBarrierDX
+	main.go:112	0x4b84d7	eb00				jmp 0x4b84d9
+	main.go:112	0x4b84d9	488b4c2460			mov rcx, qword ptr [rsp+0x60]
+	main.go:112	0x4b84de	8401				test byte ptr [rcx], al
+	main.go:112	0x4b84e0	488b9424b8000000		mov rdx, qword ptr [rsp+0xb8]
+	main.go:112	0x4b84e8	488d7918			lea rdi, ptr [rcx+0x18]
+	main.go:112	0x4b84ec	833d7d4a0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:112	0x4b84f3	7402				jz 0x4b84f7
+	main.go:112	0x4b84f5	eb09				jmp 0x4b8500
+	main.go:112	0x4b84f7	48895118			mov qword ptr [rcx+0x18], rdx
+	main.go:112	0x4b84fb	eb0a				jmp 0x4b8507
+	main.go:112	0x4b84fd	0f1f00				nop dword ptr [rax], eax
+	main.go:112	0x4b8500	e85bccfaff			call $runtime.gcWriteBarrierDX
+	main.go:112	0x4b8505	eb00				jmp 0x4b8507
+	main.go:112	0x4b8507	488b4c2460			mov rcx, qword ptr [rsp+0x60]
+	main.go:112	0x4b850c	8401				test byte ptr [rcx], al
+	main.go:112	0x4b850e	488b9424b0000000		mov rdx, qword ptr [rsp+0xb0]
+	main.go:112	0x4b8516	488d7920			lea rdi, ptr [rcx+0x20]
+	main.go:112	0x4b851a	833d4f4a0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:112	0x4b8521	7402				jz 0x4b8525
+	main.go:112	0x4b8523	eb06				jmp 0x4b852b
+	main.go:112	0x4b8525	48895120			mov qword ptr [rcx+0x20], rdx
+	main.go:112	0x4b8529	eb07				jmp 0x4b8532
+	main.go:112	0x4b852b	e830ccfaff			call $runtime.gcWriteBarrierDX
+	main.go:112	0x4b8530	eb00				jmp 0x4b8532
+	main.go:112	0x4b8532	488b442460			mov rax, qword ptr [rsp+0x60]
+	main.go:112	0x4b8537	e8c481f8ff			call $runtime.newproc
+	main.go:115	0x4b853c	488b8c24d8000000		mov rcx, qword ptr [rsp+0xd8]
+	main.go:115	0x4b8544	488b9424e0000000		mov rdx, qword ptr [rsp+0xe0]
+	main.go:115	0x4b854c	48898c2448010000		mov qword ptr [rsp+0x148], rcx
+	main.go:115	0x4b8554	4889942450010000		mov qword ptr [rsp+0x150], rdx
+	main.go:115	0x4b855c	488b8c24c0000000		mov rcx, qword ptr [rsp+0xc0]
+	main.go:115	0x4b8564	48898c24a8000000		mov qword ptr [rsp+0xa8], rcx
+	main.go:115	0x4b856c	488b4c2430			mov rcx, qword ptr [rsp+0x30]
+	main.go:115	0x4b8571	48898c24a0000000		mov qword ptr [rsp+0xa0], rcx
+	main.go:115	0x4b8579	488d05e0250100			lea rax, ptr [rip+0x125e0]
+	main.go:115	0x4b8580	e83b50f5ff			call $runtime.newobject
+	main.go:115	0x4b8585	4889442458			mov qword ptr [rsp+0x58], rax
+	main.go:115	0x4b858a	488d0dcf000000			lea rcx, ptr [main.main.func4]
+	main.go:115	0x4b8591	488908				mov qword ptr [rax], rcx
+	main.go:115	0x4b8594	488b4c2458			mov rcx, qword ptr [rsp+0x58]
+	main.go:115	0x4b8599	8401				test byte ptr [rcx], al
+	main.go:115	0x4b859b	488b942450010000		mov rdx, qword ptr [rsp+0x150]
+	main.go:115	0x4b85a3	488b9c2448010000		mov rbx, qword ptr [rsp+0x148]
+	main.go:115	0x4b85ab	48895908			mov qword ptr [rcx+0x8], rbx
+	main.go:115	0x4b85af	488d7910			lea rdi, ptr [rcx+0x10]
+	main.go:115	0x4b85b3	833db6490d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:115	0x4b85ba	7402				jz 0x4b85be
+	main.go:115	0x4b85bc	eb06				jmp 0x4b85c4
+	main.go:115	0x4b85be	48895110			mov qword ptr [rcx+0x10], rdx
+	main.go:115	0x4b85c2	eb07				jmp 0x4b85cb
+	main.go:115	0x4b85c4	e897cbfaff			call $runtime.gcWriteBarrierDX
+	main.go:115	0x4b85c9	eb00				jmp 0x4b85cb
+	main.go:115	0x4b85cb	488b4c2458			mov rcx, qword ptr [rsp+0x58]
+	main.go:115	0x4b85d0	8401				test byte ptr [rcx], al
+	main.go:115	0x4b85d2	488b9424a8000000		mov rdx, qword ptr [rsp+0xa8]
+	main.go:115	0x4b85da	488d7918			lea rdi, ptr [rcx+0x18]
+	main.go:115	0x4b85de	833d8b490d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:115	0x4b85e5	7402				jz 0x4b85e9
+	main.go:115	0x4b85e7	eb06				jmp 0x4b85ef
+	main.go:115	0x4b85e9	48895118			mov qword ptr [rcx+0x18], rdx
+	main.go:115	0x4b85ed	eb07				jmp 0x4b85f6
+	main.go:115	0x4b85ef	e86ccbfaff			call $runtime.gcWriteBarrierDX
+	main.go:115	0x4b85f4	eb00				jmp 0x4b85f6
+	main.go:115	0x4b85f6	488b4c2458			mov rcx, qword ptr [rsp+0x58]
+	main.go:115	0x4b85fb	8401				test byte ptr [rcx], al
+	main.go:115	0x4b85fd	488b9424a0000000		mov rdx, qword ptr [rsp+0xa0]
+	main.go:115	0x4b8605	488d7920			lea rdi, ptr [rcx+0x20]
+	main.go:115	0x4b8609	833d60490d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:115	0x4b8610	7402				jz 0x4b8614
+	main.go:115	0x4b8612	eb06				jmp 0x4b861a
+	main.go:115	0x4b8614	48895120			mov qword ptr [rcx+0x20], rdx
+	main.go:115	0x4b8618	eb08				jmp 0x4b8622
+	main.go:115	0x4b861a	e841cbfaff			call $runtime.gcWriteBarrierDX
+	main.go:115	0x4b861f	90				nop
+	main.go:115	0x4b8620	eb00				jmp 0x4b8622
+	main.go:115	0x4b8622	488b442458			mov rax, qword ptr [rsp+0x58]
+	main.go:115	0x4b8627	e8d480f8ff			call $runtime.newproc
+	main.go:118	0x4b862c	488b8424c0000000		mov rax, qword ptr [rsp+0xc0]
+	main.go:118	0x4b8634	e8674bfbff			call $sync.(*WaitGroup).Wait
+	main.go:119	0x4b8639	488bac24e0010000		mov rbp, qword ptr [rsp+0x1e0]
+	main.go:119	0x4b8641	4881c4e8010000			add rsp, 0x1e8
+	main.go:119	0x4b8648	c3				ret
+	main.go:77	0x4b8649	e832aafaff			call $runtime.morestack_noctxt
+	.:0		0x4b864e	e96df9ffff			jmp $main.main
+(dlv) 
+TEXT main.main(SB) /home/deparker/Code/ultimate-go-debugging/day-2/session/main.go
+	main.go:77	0x4b7fc0	4c8da42498feffff		lea r12, ptr [rsp+0xfffffe98]
+	main.go:77	0x4b7fc8	4d3b6610			cmp r12, qword ptr [r14+0x10]
+	main.go:77	0x4b7fcc	0f8677060000			jbe 0x4b8649
+	main.go:77	0x4b7fd2	4881ece8010000			sub rsp, 0x1e8
+	main.go:77	0x4b7fd9	4889ac24e0010000		mov qword ptr [rsp+0x1e0], rbp
+	main.go:77	0x4b7fe1	488dac24e0010000		lea rbp, ptr [rsp+0x1e0]
+	main.go:79	0x4b7fe9	488d05f01d0100			lea rax, ptr [rip+0x11df0]
+	main.go:79	0x4b7ff0	e8cb55f5ff			call $runtime.newobject
+	main.go:79	0x4b7ff5	48898424c0000000		mov qword ptr [rsp+0xc0], rax
+	main.go:79	0x4b7ffd	48c70000000000			mov qword ptr [rax], 0x0
+	main.go:79	0x4b8004	c7400800000000			mov dword ptr [rax+0x8], 0x0
+	main.go:81	0x4b800b	e8502afdff			call $context.Background
+	main.go:81	0x4b8010	4889842438010000		mov qword ptr [rsp+0x138], rax
+	main.go:81	0x4b8018	48899c2440010000		mov qword ptr [rsp+0x140], rbx
+	main.go:81	0x4b8020	440f11bc2428010000		movups xmmword ptr [rsp+0x128], xmm15
+	main.go:81	0x4b8029	48c784249800000000000000	mov qword ptr [rsp+0x98], 0x0
+	main.go:81	0x4b8035	488b842438010000		mov rax, qword ptr [rsp+0x138]
+	main.go:81	0x4b803d	488b9c2440010000		mov rbx, qword ptr [rsp+0x140]
+	main.go:81	0x4b8045	e8562afdff			call $context.WithCancel
+	main.go:81	0x4b804a	4889842428010000		mov qword ptr [rsp+0x128], rax
+	main.go:81	0x4b8052	48899c2430010000		mov qword ptr [rsp+0x130], rbx
+	main.go:81	0x4b805a	48898c2498000000		mov qword ptr [rsp+0x98], rcx
+	main.go:81	0x4b8062	488b8c2428010000		mov rcx, qword ptr [rsp+0x128]
+	main.go:81	0x4b806a	488b942430010000		mov rdx, qword ptr [rsp+0x130]
+	main.go:81	0x4b8072	48898c24d8000000		mov qword ptr [rsp+0xd8], rcx
+	main.go:81	0x4b807a	48899424e0000000		mov qword ptr [rsp+0xe0], rdx
+	main.go:81	0x4b8082	488b8c2498000000		mov rcx, qword ptr [rsp+0x98]
+	main.go:81	0x4b808a	48894c2438			mov qword ptr [rsp+0x38], rcx
+	main.go:83	0x4b808f	48c78424c801000000000000	mov qword ptr [rsp+0x1c8], 0x0
+	main.go:83	0x4b809b	440f11bc24d0010000		movups xmmword ptr [rsp+0x1d0], xmm15
+	main.go:83	0x4b80a4	440f11bc2418010000		movups xmmword ptr [rsp+0x118], xmm15
+	main.go:83	0x4b80ad	488b1d94590a00			mov rbx, qword ptr [os.Stdin]
+	main.go:83	0x4b80b4	488d05a5890200			lea rax, ptr [rip+0x289a5]
+	main.go:83	0x4b80bb	0f1f440000			nop dword ptr [rax+rax*1], eax
+	main.go:83	0x4b80c0	e8bbd4ffff			call $io/ioutil.ReadAll
+	main.go:83	0x4b80c5	48898424c8010000		mov qword ptr [rsp+0x1c8], rax
+	main.go:83	0x4b80cd	48899c24d0010000		mov qword ptr [rsp+0x1d0], rbx
+	main.go:83	0x4b80d5	48898c24d8010000		mov qword ptr [rsp+0x1d8], rcx
+	main.go:83	0x4b80dd	4889bc2418010000		mov qword ptr [rsp+0x118], rdi
+	main.go:83	0x4b80e5	4889b42420010000		mov qword ptr [rsp+0x120], rsi
+	main.go:83	0x4b80ed	488b8c24c8010000		mov rcx, qword ptr [rsp+0x1c8]
+	main.go:83	0x4b80f5	488b9424d0010000		mov rdx, qword ptr [rsp+0x1d0]
+	main.go:83	0x4b80fd	488b9c24d8010000		mov rbx, qword ptr [rsp+0x1d8]
+	main.go:83	0x4b8105	48898c2468010000		mov qword ptr [rsp+0x168], rcx
+	main.go:83	0x4b810d	4889942470010000		mov qword ptr [rsp+0x170], rdx
+	main.go:83	0x4b8115	48899c2478010000		mov qword ptr [rsp+0x178], rbx
+	main.go:83	0x4b811d	488b8c2418010000		mov rcx, qword ptr [rsp+0x118]
+	main.go:83	0x4b8125	488b942420010000		mov rdx, qword ptr [rsp+0x120]
+	main.go:83	0x4b812d	48898c24c8000000		mov qword ptr [rsp+0xc8], rcx
+	main.go:83	0x4b8135	48899424d0000000		mov qword ptr [rsp+0xd0], rdx
+	main.go:84	0x4b813d	4883bc24c800000000		cmp qword ptr [rsp+0xc8], 0x0
+	main.go:84	0x4b8146	7505				jnz 0x4b814d
+	main.go:84	0x4b8148	e9e4000000			jmp 0x4b8231
+	main.go:85	0x4b814d	440f11bc2408010000		movups xmmword ptr [rsp+0x108], xmm15
+	main.go:85	0x4b8156	488d942408010000		lea rdx, ptr [rsp+0x108]
+	main.go:85	0x4b815e	4889942490000000		mov qword ptr [rsp+0x90], rdx
+	main.go:85	0x4b8166	488b9424c8000000		mov rdx, qword ptr [rsp+0xc8]
+	main.go:85	0x4b816e	488bb424d0000000		mov rsi, qword ptr [rsp+0xd0]
+	main.go:85	0x4b8176	48899424e8000000		mov qword ptr [rsp+0xe8], rdx
+	main.go:85	0x4b817e	4889b424f0000000		mov qword ptr [rsp+0xf0], rsi
+	main.go:85	0x4b8186	4889942488000000		mov qword ptr [rsp+0x88], rdx
+	main.go:85	0x4b818e	4883bc248800000000		cmp qword ptr [rsp+0x88], 0x0
+	main.go:85	0x4b8197	7502				jnz 0x4b819b
+	main.go:85	0x4b8199	eb0e				jmp 0x4b81a9
+	main.go:85	0x4b819b	488b5208			mov rdx, qword ptr [rdx+0x8]
+	main.go:85	0x4b819f	4889942488000000		mov qword ptr [rsp+0x88], rdx
+	main.go:85	0x4b81a7	eb02				jmp 0x4b81ab
+	main.go:85	0x4b81a9	eb00				jmp 0x4b81ab
+	main.go:85	0x4b81ab	488b942490000000		mov rdx, qword ptr [rsp+0x90]
+	main.go:85	0x4b81b3	8402				test byte ptr [rdx], al
+	main.go:85	0x4b81b5	488bb424f0000000		mov rsi, qword ptr [rsp+0xf0]
+	main.go:85	0x4b81bd	4c8b842488000000		mov r8, qword ptr [rsp+0x88]
+	main.go:85	0x4b81c5	4c8902				mov qword ptr [rdx], r8
+	main.go:85	0x4b81c8	488d7a08			lea rdi, ptr [rdx+0x8]
+	main.go:85	0x4b81cc	833d9d4d0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:85	0x4b81d3	7402				jz 0x4b81d7
+	main.go:85	0x4b81d5	eb09				jmp 0x4b81e0
+	main.go:85	0x4b81d7	48897208			mov qword ptr [rdx+0x8], rsi
+	main.go:85	0x4b81db	eb0a				jmp 0x4b81e7
+	main.go:85	0x4b81dd	0f1f00				nop dword ptr [rax], eax
+	main.go:85	0x4b81e0	e8bbcffaff			call $runtime.gcWriteBarrierSI
+	main.go:85	0x4b81e5	eb00				jmp 0x4b81e7
+	main.go:85	0x4b81e7	488b842490000000		mov rax, qword ptr [rsp+0x90]
+	main.go:85	0x4b81ef	8400				test byte ptr [rax], al
+	main.go:85	0x4b81f1	eb00				jmp 0x4b81f3
+	main.go:85	0x4b81f3	48898424b0010000		mov qword ptr [rsp+0x1b0], rax
+	main.go:85	0x4b81fb	48c78424b801000001000000	mov qword ptr [rsp+0x1b8], 0x1
+	main.go:85	0x4b8207	48c78424c001000001000000	mov qword ptr [rsp+0x1c0], 0x1
+	main.go:85	0x4b8213	bb01000000			mov ebx, 0x1
+	main.go:85	0x4b8218	4889d9				mov rcx, rbx
+	main.go:85	0x4b821b	0f1f440000			nop dword ptr [rax+rax*1], eax
+	main.go:85	0x4b8220	e8bb64ffff			call $fmt.Println
+	main.go:86	0x4b8225	b801000000			mov eax, 0x1
+	main.go:86	0x4b822a	e8f119ffff			call $os.Exit
+	main.go:86	0x4b822f	eb02				jmp 0x4b8233
+	main.go:84	0x4b8231	eb00				jmp 0x4b8233
+=>	main.go:88	0x4b8233	440f11bc2408010000		movups xmmword ptr [rsp+0x108], xmm15
+	main.go:88	0x4b823c	488d942408010000		lea rdx, ptr [rsp+0x108]
+	main.go:88	0x4b8244	4889942480000000		mov qword ptr [rsp+0x80], rdx
+	main.go:88	0x4b824c	488b842468010000		mov rax, qword ptr [rsp+0x168]
+	main.go:88	0x4b8254	488b9c2470010000		mov rbx, qword ptr [rsp+0x170]
+	main.go:88	0x4b825c	488b8c2478010000		mov rcx, qword ptr [rsp+0x178]
+	main.go:88	0x4b8264	e8b72af5ff			call $runtime.convTslice
+	main.go:88	0x4b8269	4889442478			mov qword ptr [rsp+0x78], rax
+	main.go:88	0x4b826e	488b942480000000		mov rdx, qword ptr [rsp+0x80]
+	main.go:88	0x4b8276	8402				test byte ptr [rdx], al
+	main.go:88	0x4b8278	488d35a17c0000			lea rsi, ptr [rip+0x7ca1]
+	main.go:88	0x4b827f	488932				mov qword ptr [rdx], rsi
+	main.go:88	0x4b8282	488d7a08			lea rdi, ptr [rdx+0x8]
+	main.go:88	0x4b8286	833de34c0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:88	0x4b828d	7402				jz 0x4b8291
+	main.go:88	0x4b828f	eb06				jmp 0x4b8297
+	main.go:88	0x4b8291	48894208			mov qword ptr [rdx+0x8], rax
+	main.go:88	0x4b8295	eb07				jmp 0x4b829e
+	main.go:88	0x4b8297	e8a4cdfaff			call $runtime.gcWriteBarrier
+	main.go:88	0x4b829c	eb00				jmp 0x4b829e
+	main.go:88	0x4b829e	488b8c2480000000		mov rcx, qword ptr [rsp+0x80]
+	main.go:88	0x4b82a6	8401				test byte ptr [rcx], al
+	main.go:88	0x4b82a8	eb00				jmp 0x4b82aa
+	main.go:88	0x4b82aa	48898c2498010000		mov qword ptr [rsp+0x198], rcx
+	main.go:88	0x4b82b2	48c78424a001000001000000	mov qword ptr [rsp+0x1a0], 0x1
+	main.go:88	0x4b82be	48c78424a801000001000000	mov qword ptr [rsp+0x1a8], 0x1
+	main.go:88	0x4b82ca	488d05b7c00100			lea rax, ptr [rip+0x1c0b7]
+	main.go:88	0x4b82d1	bb0d000000			mov ebx, 0xd
+	main.go:88	0x4b82d6	bf01000000			mov edi, 0x1
+	main.go:88	0x4b82db	4889fe				mov rsi, rdi
+	main.go:88	0x4b82de	6690				data16 nop
+	main.go:88	0x4b82e0	e85b61ffff			call $fmt.Printf
+	main.go:91	0x4b82e5	488d05b47f0000			lea rax, ptr [rip+0x7fb4]
+	main.go:91	0x4b82ec	bb01000000			mov ebx, 0x1
+	main.go:91	0x4b82f1	e80acdf4ff			call $runtime.makechan
+	main.go:91	0x4b82f6	4889442428			mov qword ptr [rsp+0x28], rax
+	main.go:93	0x4b82fb	440f11bc24f8000000		movups xmmword ptr [rsp+0xf8], xmm15
+	main.go:93	0x4b8304	488d9c24f8000000		lea rbx, ptr [rsp+0xf8]
+	main.go:93	0x4b830c	48895c2470			mov qword ptr [rsp+0x70], rbx
+	main.go:93	0x4b8311	8403				test byte ptr [rbx], al
+	main.go:93	0x4b8313	488d159e880200			lea rdx, ptr [rip+0x2889e]
+	main.go:93	0x4b831a	48899424f8000000		mov qword ptr [rsp+0xf8], rdx
+	main.go:93	0x4b8322	488d1597810200			lea rdx, ptr [rip+0x28197]
+	main.go:93	0x4b8329	4889942400010000		mov qword ptr [rsp+0x100], rdx
+	main.go:93	0x4b8331	8403				test byte ptr [rbx], al
+	main.go:93	0x4b8333	eb00				jmp 0x4b8335
+	main.go:93	0x4b8335	48899c2480010000		mov qword ptr [rsp+0x180], rbx
+	main.go:93	0x4b833d	48c784248801000001000000	mov qword ptr [rsp+0x188], 0x1
+	main.go:93	0x4b8349	48c784249001000001000000	mov qword ptr [rsp+0x190], 0x1
+	main.go:93	0x4b8355	488b442428			mov rax, qword ptr [rsp+0x28]
+	main.go:93	0x4b835a	b901000000			mov ecx, 0x1
+	main.go:93	0x4b835f	4889cf				mov rdi, rcx
+	main.go:93	0x4b8362	e819e7ffff			call $os/signal.Notify
+	main.go:95	0x4b8367	488d154a310200			lea rdx, ptr [rip+0x2314a]
+	main.go:95	0x4b836e	4889542450			mov qword ptr [rsp+0x50], rdx
+	main.go:103	0x4b8373	488b542428			mov rdx, qword ptr [rsp+0x28]
+	main.go:103	0x4b8378	4889542448			mov qword ptr [rsp+0x48], rdx
+	main.go:103	0x4b837d	488b542438			mov rdx, qword ptr [rsp+0x38]
+	main.go:103	0x4b8382	4889542440			mov qword ptr [rsp+0x40], rdx
+	main.go:95	0x4b8387	488d0592280100			lea rax, ptr [rip+0x12892]
+	main.go:95	0x4b838e	e82d52f5ff			call $runtime.newobject
+	main.go:95	0x4b8393	4889442468			mov qword ptr [rsp+0x68], rax
+	main.go:95	0x4b8398	488d15c1030000			lea rdx, ptr [main.main.func2]
+	main.go:95	0x4b839f	488910				mov qword ptr [rax], rdx
+	main.go:95	0x4b83a2	488b542468			mov rdx, qword ptr [rsp+0x68]
+	main.go:95	0x4b83a7	8402				test byte ptr [rdx], al
+	main.go:95	0x4b83a9	488b742450			mov rsi, qword ptr [rsp+0x50]
+	main.go:95	0x4b83ae	488d7a08			lea rdi, ptr [rdx+0x8]
+	main.go:95	0x4b83b2	833db74b0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:95	0x4b83b9	7402				jz 0x4b83bd
+	main.go:95	0x4b83bb	eb06				jmp 0x4b83c3
+	main.go:95	0x4b83bd	48897208			mov qword ptr [rdx+0x8], rsi
+	main.go:95	0x4b83c1	eb07				jmp 0x4b83ca
+	main.go:95	0x4b83c3	e8d8cdfaff			call $runtime.gcWriteBarrierSI
+	main.go:95	0x4b83c8	eb00				jmp 0x4b83ca
+	main.go:95	0x4b83ca	488b4c2468			mov rcx, qword ptr [rsp+0x68]
+	main.go:95	0x4b83cf	8401				test byte ptr [rcx], al
+	main.go:95	0x4b83d1	488b542448			mov rdx, qword ptr [rsp+0x48]
+	main.go:95	0x4b83d6	488d7910			lea rdi, ptr [rcx+0x10]
+	main.go:95	0x4b83da	833d8f4b0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:95	0x4b83e1	7402				jz 0x4b83e5
+	main.go:95	0x4b83e3	eb06				jmp 0x4b83eb
+	main.go:95	0x4b83e5	48895110			mov qword ptr [rcx+0x10], rdx
+	main.go:95	0x4b83e9	eb07				jmp 0x4b83f2
+	main.go:95	0x4b83eb	e870cdfaff			call $runtime.gcWriteBarrierDX
+	main.go:95	0x4b83f0	eb00				jmp 0x4b83f2
+	main.go:95	0x4b83f2	488b4c2468			mov rcx, qword ptr [rsp+0x68]
+	main.go:95	0x4b83f7	8401				test byte ptr [rcx], al
+	main.go:95	0x4b83f9	488b542440			mov rdx, qword ptr [rsp+0x40]
+	main.go:95	0x4b83fe	488d7918			lea rdi, ptr [rcx+0x18]
+	main.go:95	0x4b8402	833d674b0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:95	0x4b8409	7402				jz 0x4b840d
+	main.go:95	0x4b840b	eb06				jmp 0x4b8413
+	main.go:95	0x4b840d	48895118			mov qword ptr [rcx+0x18], rdx
+	main.go:95	0x4b8411	eb07				jmp 0x4b841a
+	main.go:95	0x4b8413	e848cdfaff			call $runtime.gcWriteBarrierDX
+	main.go:95	0x4b8418	eb00				jmp 0x4b841a
+	main.go:95	0x4b841a	488b442468			mov rax, qword ptr [rsp+0x68]
+	main.go:95	0x4b841f	90				nop
+	main.go:95	0x4b8420	e8db82f8ff			call $runtime.newproc
+	main.go:106	0x4b8425	488d05347e0000			lea rax, ptr [rip+0x7e34]
+	main.go:106	0x4b842c	31db				xor ebx, ebx
+	main.go:106	0x4b842e	e8cdcbf4ff			call $runtime.makechan
+	main.go:106	0x4b8433	4889442430			mov qword ptr [rsp+0x30], rax
+	main.go:109	0x4b8438	488b8424c0000000		mov rax, qword ptr [rsp+0xc0]
+	main.go:109	0x4b8440	bb02000000			mov ebx, 0x2
+	main.go:109	0x4b8445	e8164bfbff			call $sync.(*WaitGroup).Add
+	main.go:112	0x4b844a	488b8c24d8000000		mov rcx, qword ptr [rsp+0xd8]
+	main.go:112	0x4b8452	488b9424e0000000		mov rdx, qword ptr [rsp+0xe0]
+	main.go:112	0x4b845a	48898c2458010000		mov qword ptr [rsp+0x158], rcx
+	main.go:112	0x4b8462	4889942460010000		mov qword ptr [rsp+0x160], rdx
+	main.go:112	0x4b846a	488b8c24c0000000		mov rcx, qword ptr [rsp+0xc0]
+	main.go:112	0x4b8472	48898c24b8000000		mov qword ptr [rsp+0xb8], rcx
+	main.go:112	0x4b847a	488b4c2430			mov rcx, qword ptr [rsp+0x30]
+	main.go:112	0x4b847f	48898c24b0000000		mov qword ptr [rsp+0xb0], rcx
+	main.go:112	0x4b8487	488d0512260100			lea rax, ptr [rip+0x12612]
+	main.go:112	0x4b848e	e82d51f5ff			call $runtime.newobject
+	main.go:112	0x4b8493	4889442460			mov qword ptr [rsp+0x60], rax
+	main.go:112	0x4b8498	488d0d41020000			lea rcx, ptr [main.main.func3]
+	main.go:112	0x4b849f	488908				mov qword ptr [rax], rcx
+	main.go:112	0x4b84a2	488b4c2460			mov rcx, qword ptr [rsp+0x60]
+	main.go:112	0x4b84a7	8401				test byte ptr [rcx], al
+	main.go:112	0x4b84a9	488b942460010000		mov rdx, qword ptr [rsp+0x160]
+	main.go:112	0x4b84b1	488b9c2458010000		mov rbx, qword ptr [rsp+0x158]
+	main.go:112	0x4b84b9	48895908			mov qword ptr [rcx+0x8], rbx
+	main.go:112	0x4b84bd	488d7910			lea rdi, ptr [rcx+0x10]
+	main.go:112	0x4b84c1	833da84a0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:112	0x4b84c8	7402				jz 0x4b84cc
+	main.go:112	0x4b84ca	eb06				jmp 0x4b84d2
+	main.go:112	0x4b84cc	48895110			mov qword ptr [rcx+0x10], rdx
+	main.go:112	0x4b84d0	eb07				jmp 0x4b84d9
+	main.go:112	0x4b84d2	e889ccfaff			call $runtime.gcWriteBarrierDX
+	main.go:112	0x4b84d7	eb00				jmp 0x4b84d9
+	main.go:112	0x4b84d9	488b4c2460			mov rcx, qword ptr [rsp+0x60]
+	main.go:112	0x4b84de	8401				test byte ptr [rcx], al
+	main.go:112	0x4b84e0	488b9424b8000000		mov rdx, qword ptr [rsp+0xb8]
+	main.go:112	0x4b84e8	488d7918			lea rdi, ptr [rcx+0x18]
+	main.go:112	0x4b84ec	833d7d4a0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:112	0x4b84f3	7402				jz 0x4b84f7
+	main.go:112	0x4b84f5	eb09				jmp 0x4b8500
+	main.go:112	0x4b84f7	48895118			mov qword ptr [rcx+0x18], rdx
+	main.go:112	0x4b84fb	eb0a				jmp 0x4b8507
+	main.go:112	0x4b84fd	0f1f00				nop dword ptr [rax], eax
+	main.go:112	0x4b8500	e85bccfaff			call $runtime.gcWriteBarrierDX
+	main.go:112	0x4b8505	eb00				jmp 0x4b8507
+	main.go:112	0x4b8507	488b4c2460			mov rcx, qword ptr [rsp+0x60]
+	main.go:112	0x4b850c	8401				test byte ptr [rcx], al
+	main.go:112	0x4b850e	488b9424b0000000		mov rdx, qword ptr [rsp+0xb0]
+	main.go:112	0x4b8516	488d7920			lea rdi, ptr [rcx+0x20]
+	main.go:112	0x4b851a	833d4f4a0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:112	0x4b8521	7402				jz 0x4b8525
+	main.go:112	0x4b8523	eb06				jmp 0x4b852b
+	main.go:112	0x4b8525	48895120			mov qword ptr [rcx+0x20], rdx
+	main.go:112	0x4b8529	eb07				jmp 0x4b8532
+	main.go:112	0x4b852b	e830ccfaff			call $runtime.gcWriteBarrierDX
+	main.go:112	0x4b8530	eb00				jmp 0x4b8532
+	main.go:112	0x4b8532	488b442460			mov rax, qword ptr [rsp+0x60]
+	main.go:112	0x4b8537	e8c481f8ff			call $runtime.newproc
+	main.go:115	0x4b853c	488b8c24d8000000		mov rcx, qword ptr [rsp+0xd8]
+	main.go:115	0x4b8544	488b9424e0000000		mov rdx, qword ptr [rsp+0xe0]
+	main.go:115	0x4b854c	48898c2448010000		mov qword ptr [rsp+0x148], rcx
+	main.go:115	0x4b8554	4889942450010000		mov qword ptr [rsp+0x150], rdx
+	main.go:115	0x4b855c	488b8c24c0000000		mov rcx, qword ptr [rsp+0xc0]
+	main.go:115	0x4b8564	48898c24a8000000		mov qword ptr [rsp+0xa8], rcx
+	main.go:115	0x4b856c	488b4c2430			mov rcx, qword ptr [rsp+0x30]
+	main.go:115	0x4b8571	48898c24a0000000		mov qword ptr [rsp+0xa0], rcx
+	main.go:115	0x4b8579	488d05e0250100			lea rax, ptr [rip+0x125e0]
+	main.go:115	0x4b8580	e83b50f5ff			call $runtime.newobject
+	main.go:115	0x4b8585	4889442458			mov qword ptr [rsp+0x58], rax
+	main.go:115	0x4b858a	488d0dcf000000			lea rcx, ptr [main.main.func4]
+	main.go:115	0x4b8591	488908				mov qword ptr [rax], rcx
+	main.go:115	0x4b8594	488b4c2458			mov rcx, qword ptr [rsp+0x58]
+	main.go:115	0x4b8599	8401				test byte ptr [rcx], al
+	main.go:115	0x4b859b	488b942450010000		mov rdx, qword ptr [rsp+0x150]
+	main.go:115	0x4b85a3	488b9c2448010000		mov rbx, qword ptr [rsp+0x148]
+	main.go:115	0x4b85ab	48895908			mov qword ptr [rcx+0x8], rbx
+	main.go:115	0x4b85af	488d7910			lea rdi, ptr [rcx+0x10]
+	main.go:115	0x4b85b3	833db6490d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:115	0x4b85ba	7402				jz 0x4b85be
+	main.go:115	0x4b85bc	eb06				jmp 0x4b85c4
+	main.go:115	0x4b85be	48895110			mov qword ptr [rcx+0x10], rdx
+	main.go:115	0x4b85c2	eb07				jmp 0x4b85cb
+	main.go:115	0x4b85c4	e897cbfaff			call $runtime.gcWriteBarrierDX
+	main.go:115	0x4b85c9	eb00				jmp 0x4b85cb
+	main.go:115	0x4b85cb	488b4c2458			mov rcx, qword ptr [rsp+0x58]
+	main.go:115	0x4b85d0	8401				test byte ptr [rcx], al
+	main.go:115	0x4b85d2	488b9424a8000000		mov rdx, qword ptr [rsp+0xa8]
+	main.go:115	0x4b85da	488d7918			lea rdi, ptr [rcx+0x18]
+	main.go:115	0x4b85de	833d8b490d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:115	0x4b85e5	7402				jz 0x4b85e9
+	main.go:115	0x4b85e7	eb06				jmp 0x4b85ef
+	main.go:115	0x4b85e9	48895118			mov qword ptr [rcx+0x18], rdx
+	main.go:115	0x4b85ed	eb07				jmp 0x4b85f6
+	main.go:115	0x4b85ef	e86ccbfaff			call $runtime.gcWriteBarrierDX
+	main.go:115	0x4b85f4	eb00				jmp 0x4b85f6
+	main.go:115	0x4b85f6	488b4c2458			mov rcx, qword ptr [rsp+0x58]
+	main.go:115	0x4b85fb	8401				test byte ptr [rcx], al
+	main.go:115	0x4b85fd	488b9424a0000000		mov rdx, qword ptr [rsp+0xa0]
+	main.go:115	0x4b8605	488d7920			lea rdi, ptr [rcx+0x20]
+	main.go:115	0x4b8609	833d60490d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:115	0x4b8610	7402				jz 0x4b8614
+	main.go:115	0x4b8612	eb06				jmp 0x4b861a
+	main.go:115	0x4b8614	48895120			mov qword ptr [rcx+0x20], rdx
+	main.go:115	0x4b8618	eb08				jmp 0x4b8622
+	main.go:115	0x4b861a	e841cbfaff			call $runtime.gcWriteBarrierDX
+	main.go:115	0x4b861f	90				nop
+	main.go:115	0x4b8620	eb00				jmp 0x4b8622
+	main.go:115	0x4b8622	488b442458			mov rax, qword ptr [rsp+0x58]
+	main.go:115	0x4b8627	e8d480f8ff			call $runtime.newproc
+	main.go:118	0x4b862c	488b8424c0000000		mov rax, qword ptr [rsp+0xc0]
+	main.go:118	0x4b8634	e8674bfbff			call $sync.(*WaitGroup).Wait
+	main.go:119	0x4b8639	488bac24e0010000		mov rbp, qword ptr [rsp+0x1e0]
+	main.go:119	0x4b8641	4881c4e8010000			add rsp, 0x1e8
+	main.go:119	0x4b8648	c3				ret
+	main.go:77	0x4b8649	e832aafaff			call $runtime.morestack_noctxt
+	.:0		0x4b864e	e96df9ffff			jmp $main.main
+(dlv) step-instruction
+> main.main() ./main.go:88 (PC: 0x4b823c)
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+    87:		}
+=>  88:		fmt.Printf("got data: %s\n", data)
+    89:	
+    90:		// Create a channel to be notified when we get a signal.
+    91:		sigch := make(chan os.Signal, 1)
+    92:		// Ensure we are notified on receipt of SIGTERM.
+    93:		signal.Notify(sigch, syscall.SIGTERM)
+(dlv) disassemble
+TEXT main.main(SB) /home/deparker/Code/ultimate-go-debugging/day-2/session/main.go
+	main.go:77	0x4b7fc0	4c8da42498feffff		lea r12, ptr [rsp+0xfffffe98]
+	main.go:77	0x4b7fc8	4d3b6610			cmp r12, qword ptr [r14+0x10]
+	main.go:77	0x4b7fcc	0f8677060000			jbe 0x4b8649
+	main.go:77	0x4b7fd2	4881ece8010000			sub rsp, 0x1e8
+	main.go:77	0x4b7fd9	4889ac24e0010000		mov qword ptr [rsp+0x1e0], rbp
+	main.go:77	0x4b7fe1	488dac24e0010000		lea rbp, ptr [rsp+0x1e0]
+	main.go:79	0x4b7fe9	488d05f01d0100			lea rax, ptr [rip+0x11df0]
+	main.go:79	0x4b7ff0	e8cb55f5ff			call $runtime.newobject
+	main.go:79	0x4b7ff5	48898424c0000000		mov qword ptr [rsp+0xc0], rax
+	main.go:79	0x4b7ffd	48c70000000000			mov qword ptr [rax], 0x0
+	main.go:79	0x4b8004	c7400800000000			mov dword ptr [rax+0x8], 0x0
+	main.go:81	0x4b800b	e8502afdff			call $context.Background
+	main.go:81	0x4b8010	4889842438010000		mov qword ptr [rsp+0x138], rax
+	main.go:81	0x4b8018	48899c2440010000		mov qword ptr [rsp+0x140], rbx
+	main.go:81	0x4b8020	440f11bc2428010000		movups xmmword ptr [rsp+0x128], xmm15
+	main.go:81	0x4b8029	48c784249800000000000000	mov qword ptr [rsp+0x98], 0x0
+	main.go:81	0x4b8035	488b842438010000		mov rax, qword ptr [rsp+0x138]
+	main.go:81	0x4b803d	488b9c2440010000		mov rbx, qword ptr [rsp+0x140]
+	main.go:81	0x4b8045	e8562afdff			call $context.WithCancel
+	main.go:81	0x4b804a	4889842428010000		mov qword ptr [rsp+0x128], rax
+	main.go:81	0x4b8052	48899c2430010000		mov qword ptr [rsp+0x130], rbx
+	main.go:81	0x4b805a	48898c2498000000		mov qword ptr [rsp+0x98], rcx
+	main.go:81	0x4b8062	488b8c2428010000		mov rcx, qword ptr [rsp+0x128]
+	main.go:81	0x4b806a	488b942430010000		mov rdx, qword ptr [rsp+0x130]
+	main.go:81	0x4b8072	48898c24d8000000		mov qword ptr [rsp+0xd8], rcx
+	main.go:81	0x4b807a	48899424e0000000		mov qword ptr [rsp+0xe0], rdx
+	main.go:81	0x4b8082	488b8c2498000000		mov rcx, qword ptr [rsp+0x98]
+	main.go:81	0x4b808a	48894c2438			mov qword ptr [rsp+0x38], rcx
+	main.go:83	0x4b808f	48c78424c801000000000000	mov qword ptr [rsp+0x1c8], 0x0
+	main.go:83	0x4b809b	440f11bc24d0010000		movups xmmword ptr [rsp+0x1d0], xmm15
+	main.go:83	0x4b80a4	440f11bc2418010000		movups xmmword ptr [rsp+0x118], xmm15
+	main.go:83	0x4b80ad	488b1d94590a00			mov rbx, qword ptr [os.Stdin]
+	main.go:83	0x4b80b4	488d05a5890200			lea rax, ptr [rip+0x289a5]
+	main.go:83	0x4b80bb	0f1f440000			nop dword ptr [rax+rax*1], eax
+	main.go:83	0x4b80c0	e8bbd4ffff			call $io/ioutil.ReadAll
+	main.go:83	0x4b80c5	48898424c8010000		mov qword ptr [rsp+0x1c8], rax
+	main.go:83	0x4b80cd	48899c24d0010000		mov qword ptr [rsp+0x1d0], rbx
+	main.go:83	0x4b80d5	48898c24d8010000		mov qword ptr [rsp+0x1d8], rcx
+	main.go:83	0x4b80dd	4889bc2418010000		mov qword ptr [rsp+0x118], rdi
+	main.go:83	0x4b80e5	4889b42420010000		mov qword ptr [rsp+0x120], rsi
+	main.go:83	0x4b80ed	488b8c24c8010000		mov rcx, qword ptr [rsp+0x1c8]
+	main.go:83	0x4b80f5	488b9424d0010000		mov rdx, qword ptr [rsp+0x1d0]
+	main.go:83	0x4b80fd	488b9c24d8010000		mov rbx, qword ptr [rsp+0x1d8]
+	main.go:83	0x4b8105	48898c2468010000		mov qword ptr [rsp+0x168], rcx
+	main.go:83	0x4b810d	4889942470010000		mov qword ptr [rsp+0x170], rdx
+	main.go:83	0x4b8115	48899c2478010000		mov qword ptr [rsp+0x178], rbx
+	main.go:83	0x4b811d	488b8c2418010000		mov rcx, qword ptr [rsp+0x118]
+	main.go:83	0x4b8125	488b942420010000		mov rdx, qword ptr [rsp+0x120]
+	main.go:83	0x4b812d	48898c24c8000000		mov qword ptr [rsp+0xc8], rcx
+	main.go:83	0x4b8135	48899424d0000000		mov qword ptr [rsp+0xd0], rdx
+	main.go:84	0x4b813d	4883bc24c800000000		cmp qword ptr [rsp+0xc8], 0x0
+	main.go:84	0x4b8146	7505				jnz 0x4b814d
+	main.go:84	0x4b8148	e9e4000000			jmp 0x4b8231
+	main.go:85	0x4b814d	440f11bc2408010000		movups xmmword ptr [rsp+0x108], xmm15
+	main.go:85	0x4b8156	488d942408010000		lea rdx, ptr [rsp+0x108]
+	main.go:85	0x4b815e	4889942490000000		mov qword ptr [rsp+0x90], rdx
+	main.go:85	0x4b8166	488b9424c8000000		mov rdx, qword ptr [rsp+0xc8]
+	main.go:85	0x4b816e	488bb424d0000000		mov rsi, qword ptr [rsp+0xd0]
+	main.go:85	0x4b8176	48899424e8000000		mov qword ptr [rsp+0xe8], rdx
+	main.go:85	0x4b817e	4889b424f0000000		mov qword ptr [rsp+0xf0], rsi
+	main.go:85	0x4b8186	4889942488000000		mov qword ptr [rsp+0x88], rdx
+	main.go:85	0x4b818e	4883bc248800000000		cmp qword ptr [rsp+0x88], 0x0
+	main.go:85	0x4b8197	7502				jnz 0x4b819b
+	main.go:85	0x4b8199	eb0e				jmp 0x4b81a9
+	main.go:85	0x4b819b	488b5208			mov rdx, qword ptr [rdx+0x8]
+	main.go:85	0x4b819f	4889942488000000		mov qword ptr [rsp+0x88], rdx
+	main.go:85	0x4b81a7	eb02				jmp 0x4b81ab
+	main.go:85	0x4b81a9	eb00				jmp 0x4b81ab
+	main.go:85	0x4b81ab	488b942490000000		mov rdx, qword ptr [rsp+0x90]
+	main.go:85	0x4b81b3	8402				test byte ptr [rdx], al
+	main.go:85	0x4b81b5	488bb424f0000000		mov rsi, qword ptr [rsp+0xf0]
+	main.go:85	0x4b81bd	4c8b842488000000		mov r8, qword ptr [rsp+0x88]
+	main.go:85	0x4b81c5	4c8902				mov qword ptr [rdx], r8
+	main.go:85	0x4b81c8	488d7a08			lea rdi, ptr [rdx+0x8]
+	main.go:85	0x4b81cc	833d9d4d0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:85	0x4b81d3	7402				jz 0x4b81d7
+	main.go:85	0x4b81d5	eb09				jmp 0x4b81e0
+	main.go:85	0x4b81d7	48897208			mov qword ptr [rdx+0x8], rsi
+	main.go:85	0x4b81db	eb0a				jmp 0x4b81e7
+	main.go:85	0x4b81dd	0f1f00				nop dword ptr [rax], eax
+	main.go:85	0x4b81e0	e8bbcffaff			call $runtime.gcWriteBarrierSI
+	main.go:85	0x4b81e5	eb00				jmp 0x4b81e7
+	main.go:85	0x4b81e7	488b842490000000		mov rax, qword ptr [rsp+0x90]
+	main.go:85	0x4b81ef	8400				test byte ptr [rax], al
+	main.go:85	0x4b81f1	eb00				jmp 0x4b81f3
+	main.go:85	0x4b81f3	48898424b0010000		mov qword ptr [rsp+0x1b0], rax
+	main.go:85	0x4b81fb	48c78424b801000001000000	mov qword ptr [rsp+0x1b8], 0x1
+	main.go:85	0x4b8207	48c78424c001000001000000	mov qword ptr [rsp+0x1c0], 0x1
+	main.go:85	0x4b8213	bb01000000			mov ebx, 0x1
+	main.go:85	0x4b8218	4889d9				mov rcx, rbx
+	main.go:85	0x4b821b	0f1f440000			nop dword ptr [rax+rax*1], eax
+	main.go:85	0x4b8220	e8bb64ffff			call $fmt.Println
+	main.go:86	0x4b8225	b801000000			mov eax, 0x1
+	main.go:86	0x4b822a	e8f119ffff			call $os.Exit
+	main.go:86	0x4b822f	eb02				jmp 0x4b8233
+	main.go:84	0x4b8231	eb00				jmp 0x4b8233
+	main.go:88	0x4b8233	440f11bc2408010000		movups xmmword ptr [rsp+0x108], xmm15
+=>	main.go:88	0x4b823c	488d942408010000		lea rdx, ptr [rsp+0x108]
+	main.go:88	0x4b8244	4889942480000000		mov qword ptr [rsp+0x80], rdx
+	main.go:88	0x4b824c	488b842468010000		mov rax, qword ptr [rsp+0x168]
+	main.go:88	0x4b8254	488b9c2470010000		mov rbx, qword ptr [rsp+0x170]
+	main.go:88	0x4b825c	488b8c2478010000		mov rcx, qword ptr [rsp+0x178]
+	main.go:88	0x4b8264	e8b72af5ff			call $runtime.convTslice
+	main.go:88	0x4b8269	4889442478			mov qword ptr [rsp+0x78], rax
+	main.go:88	0x4b826e	488b942480000000		mov rdx, qword ptr [rsp+0x80]
+	main.go:88	0x4b8276	8402				test byte ptr [rdx], al
+	main.go:88	0x4b8278	488d35a17c0000			lea rsi, ptr [rip+0x7ca1]
+	main.go:88	0x4b827f	488932				mov qword ptr [rdx], rsi
+	main.go:88	0x4b8282	488d7a08			lea rdi, ptr [rdx+0x8]
+	main.go:88	0x4b8286	833de34c0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:88	0x4b828d	7402				jz 0x4b8291
+	main.go:88	0x4b828f	eb06				jmp 0x4b8297
+	main.go:88	0x4b8291	48894208			mov qword ptr [rdx+0x8], rax
+	main.go:88	0x4b8295	eb07				jmp 0x4b829e
+	main.go:88	0x4b8297	e8a4cdfaff			call $runtime.gcWriteBarrier
+	main.go:88	0x4b829c	eb00				jmp 0x4b829e
+	main.go:88	0x4b829e	488b8c2480000000		mov rcx, qword ptr [rsp+0x80]
+	main.go:88	0x4b82a6	8401				test byte ptr [rcx], al
+	main.go:88	0x4b82a8	eb00				jmp 0x4b82aa
+	main.go:88	0x4b82aa	48898c2498010000		mov qword ptr [rsp+0x198], rcx
+	main.go:88	0x4b82b2	48c78424a001000001000000	mov qword ptr [rsp+0x1a0], 0x1
+	main.go:88	0x4b82be	48c78424a801000001000000	mov qword ptr [rsp+0x1a8], 0x1
+	main.go:88	0x4b82ca	488d05b7c00100			lea rax, ptr [rip+0x1c0b7]
+	main.go:88	0x4b82d1	bb0d000000			mov ebx, 0xd
+	main.go:88	0x4b82d6	bf01000000			mov edi, 0x1
+	main.go:88	0x4b82db	4889fe				mov rsi, rdi
+	main.go:88	0x4b82de	6690				data16 nop
+	main.go:88	0x4b82e0	e85b61ffff			call $fmt.Printf
+	main.go:91	0x4b82e5	488d05b47f0000			lea rax, ptr [rip+0x7fb4]
+	main.go:91	0x4b82ec	bb01000000			mov ebx, 0x1
+	main.go:91	0x4b82f1	e80acdf4ff			call $runtime.makechan
+	main.go:91	0x4b82f6	4889442428			mov qword ptr [rsp+0x28], rax
+	main.go:93	0x4b82fb	440f11bc24f8000000		movups xmmword ptr [rsp+0xf8], xmm15
+	main.go:93	0x4b8304	488d9c24f8000000		lea rbx, ptr [rsp+0xf8]
+	main.go:93	0x4b830c	48895c2470			mov qword ptr [rsp+0x70], rbx
+	main.go:93	0x4b8311	8403				test byte ptr [rbx], al
+	main.go:93	0x4b8313	488d159e880200			lea rdx, ptr [rip+0x2889e]
+	main.go:93	0x4b831a	48899424f8000000		mov qword ptr [rsp+0xf8], rdx
+	main.go:93	0x4b8322	488d1597810200			lea rdx, ptr [rip+0x28197]
+	main.go:93	0x4b8329	4889942400010000		mov qword ptr [rsp+0x100], rdx
+	main.go:93	0x4b8331	8403				test byte ptr [rbx], al
+	main.go:93	0x4b8333	eb00				jmp 0x4b8335
+	main.go:93	0x4b8335	48899c2480010000		mov qword ptr [rsp+0x180], rbx
+	main.go:93	0x4b833d	48c784248801000001000000	mov qword ptr [rsp+0x188], 0x1
+	main.go:93	0x4b8349	48c784249001000001000000	mov qword ptr [rsp+0x190], 0x1
+	main.go:93	0x4b8355	488b442428			mov rax, qword ptr [rsp+0x28]
+	main.go:93	0x4b835a	b901000000			mov ecx, 0x1
+	main.go:93	0x4b835f	4889cf				mov rdi, rcx
+	main.go:93	0x4b8362	e819e7ffff			call $os/signal.Notify
+	main.go:95	0x4b8367	488d154a310200			lea rdx, ptr [rip+0x2314a]
+	main.go:95	0x4b836e	4889542450			mov qword ptr [rsp+0x50], rdx
+	main.go:103	0x4b8373	488b542428			mov rdx, qword ptr [rsp+0x28]
+	main.go:103	0x4b8378	4889542448			mov qword ptr [rsp+0x48], rdx
+	main.go:103	0x4b837d	488b542438			mov rdx, qword ptr [rsp+0x38]
+	main.go:103	0x4b8382	4889542440			mov qword ptr [rsp+0x40], rdx
+	main.go:95	0x4b8387	488d0592280100			lea rax, ptr [rip+0x12892]
+	main.go:95	0x4b838e	e82d52f5ff			call $runtime.newobject
+	main.go:95	0x4b8393	4889442468			mov qword ptr [rsp+0x68], rax
+	main.go:95	0x4b8398	488d15c1030000			lea rdx, ptr [main.main.func2]
+	main.go:95	0x4b839f	488910				mov qword ptr [rax], rdx
+	main.go:95	0x4b83a2	488b542468			mov rdx, qword ptr [rsp+0x68]
+	main.go:95	0x4b83a7	8402				test byte ptr [rdx], al
+	main.go:95	0x4b83a9	488b742450			mov rsi, qword ptr [rsp+0x50]
+	main.go:95	0x4b83ae	488d7a08			lea rdi, ptr [rdx+0x8]
+	main.go:95	0x4b83b2	833db74b0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:95	0x4b83b9	7402				jz 0x4b83bd
+	main.go:95	0x4b83bb	eb06				jmp 0x4b83c3
+	main.go:95	0x4b83bd	48897208			mov qword ptr [rdx+0x8], rsi
+	main.go:95	0x4b83c1	eb07				jmp 0x4b83ca
+	main.go:95	0x4b83c3	e8d8cdfaff			call $runtime.gcWriteBarrierSI
+	main.go:95	0x4b83c8	eb00				jmp 0x4b83ca
+	main.go:95	0x4b83ca	488b4c2468			mov rcx, qword ptr [rsp+0x68]
+	main.go:95	0x4b83cf	8401				test byte ptr [rcx], al
+	main.go:95	0x4b83d1	488b542448			mov rdx, qword ptr [rsp+0x48]
+	main.go:95	0x4b83d6	488d7910			lea rdi, ptr [rcx+0x10]
+	main.go:95	0x4b83da	833d8f4b0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:95	0x4b83e1	7402				jz 0x4b83e5
+	main.go:95	0x4b83e3	eb06				jmp 0x4b83eb
+	main.go:95	0x4b83e5	48895110			mov qword ptr [rcx+0x10], rdx
+	main.go:95	0x4b83e9	eb07				jmp 0x4b83f2
+	main.go:95	0x4b83eb	e870cdfaff			call $runtime.gcWriteBarrierDX
+	main.go:95	0x4b83f0	eb00				jmp 0x4b83f2
+	main.go:95	0x4b83f2	488b4c2468			mov rcx, qword ptr [rsp+0x68]
+	main.go:95	0x4b83f7	8401				test byte ptr [rcx], al
+	main.go:95	0x4b83f9	488b542440			mov rdx, qword ptr [rsp+0x40]
+	main.go:95	0x4b83fe	488d7918			lea rdi, ptr [rcx+0x18]
+	main.go:95	0x4b8402	833d674b0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:95	0x4b8409	7402				jz 0x4b840d
+	main.go:95	0x4b840b	eb06				jmp 0x4b8413
+	main.go:95	0x4b840d	48895118			mov qword ptr [rcx+0x18], rdx
+	main.go:95	0x4b8411	eb07				jmp 0x4b841a
+	main.go:95	0x4b8413	e848cdfaff			call $runtime.gcWriteBarrierDX
+	main.go:95	0x4b8418	eb00				jmp 0x4b841a
+	main.go:95	0x4b841a	488b442468			mov rax, qword ptr [rsp+0x68]
+	main.go:95	0x4b841f	90				nop
+	main.go:95	0x4b8420	e8db82f8ff			call $runtime.newproc
+	main.go:106	0x4b8425	488d05347e0000			lea rax, ptr [rip+0x7e34]
+	main.go:106	0x4b842c	31db				xor ebx, ebx
+	main.go:106	0x4b842e	e8cdcbf4ff			call $runtime.makechan
+	main.go:106	0x4b8433	4889442430			mov qword ptr [rsp+0x30], rax
+	main.go:109	0x4b8438	488b8424c0000000		mov rax, qword ptr [rsp+0xc0]
+	main.go:109	0x4b8440	bb02000000			mov ebx, 0x2
+	main.go:109	0x4b8445	e8164bfbff			call $sync.(*WaitGroup).Add
+	main.go:112	0x4b844a	488b8c24d8000000		mov rcx, qword ptr [rsp+0xd8]
+	main.go:112	0x4b8452	488b9424e0000000		mov rdx, qword ptr [rsp+0xe0]
+	main.go:112	0x4b845a	48898c2458010000		mov qword ptr [rsp+0x158], rcx
+	main.go:112	0x4b8462	4889942460010000		mov qword ptr [rsp+0x160], rdx
+	main.go:112	0x4b846a	488b8c24c0000000		mov rcx, qword ptr [rsp+0xc0]
+	main.go:112	0x4b8472	48898c24b8000000		mov qword ptr [rsp+0xb8], rcx
+	main.go:112	0x4b847a	488b4c2430			mov rcx, qword ptr [rsp+0x30]
+	main.go:112	0x4b847f	48898c24b0000000		mov qword ptr [rsp+0xb0], rcx
+	main.go:112	0x4b8487	488d0512260100			lea rax, ptr [rip+0x12612]
+	main.go:112	0x4b848e	e82d51f5ff			call $runtime.newobject
+	main.go:112	0x4b8493	4889442460			mov qword ptr [rsp+0x60], rax
+	main.go:112	0x4b8498	488d0d41020000			lea rcx, ptr [main.main.func3]
+	main.go:112	0x4b849f	488908				mov qword ptr [rax], rcx
+	main.go:112	0x4b84a2	488b4c2460			mov rcx, qword ptr [rsp+0x60]
+	main.go:112	0x4b84a7	8401				test byte ptr [rcx], al
+	main.go:112	0x4b84a9	488b942460010000		mov rdx, qword ptr [rsp+0x160]
+	main.go:112	0x4b84b1	488b9c2458010000		mov rbx, qword ptr [rsp+0x158]
+	main.go:112	0x4b84b9	48895908			mov qword ptr [rcx+0x8], rbx
+	main.go:112	0x4b84bd	488d7910			lea rdi, ptr [rcx+0x10]
+	main.go:112	0x4b84c1	833da84a0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:112	0x4b84c8	7402				jz 0x4b84cc
+	main.go:112	0x4b84ca	eb06				jmp 0x4b84d2
+	main.go:112	0x4b84cc	48895110			mov qword ptr [rcx+0x10], rdx
+	main.go:112	0x4b84d0	eb07				jmp 0x4b84d9
+	main.go:112	0x4b84d2	e889ccfaff			call $runtime.gcWriteBarrierDX
+	main.go:112	0x4b84d7	eb00				jmp 0x4b84d9
+	main.go:112	0x4b84d9	488b4c2460			mov rcx, qword ptr [rsp+0x60]
+	main.go:112	0x4b84de	8401				test byte ptr [rcx], al
+	main.go:112	0x4b84e0	488b9424b8000000		mov rdx, qword ptr [rsp+0xb8]
+	main.go:112	0x4b84e8	488d7918			lea rdi, ptr [rcx+0x18]
+	main.go:112	0x4b84ec	833d7d4a0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:112	0x4b84f3	7402				jz 0x4b84f7
+	main.go:112	0x4b84f5	eb09				jmp 0x4b8500
+	main.go:112	0x4b84f7	48895118			mov qword ptr [rcx+0x18], rdx
+	main.go:112	0x4b84fb	eb0a				jmp 0x4b8507
+	main.go:112	0x4b84fd	0f1f00				nop dword ptr [rax], eax
+	main.go:112	0x4b8500	e85bccfaff			call $runtime.gcWriteBarrierDX
+	main.go:112	0x4b8505	eb00				jmp 0x4b8507
+	main.go:112	0x4b8507	488b4c2460			mov rcx, qword ptr [rsp+0x60]
+	main.go:112	0x4b850c	8401				test byte ptr [rcx], al
+	main.go:112	0x4b850e	488b9424b0000000		mov rdx, qword ptr [rsp+0xb0]
+	main.go:112	0x4b8516	488d7920			lea rdi, ptr [rcx+0x20]
+	main.go:112	0x4b851a	833d4f4a0d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:112	0x4b8521	7402				jz 0x4b8525
+	main.go:112	0x4b8523	eb06				jmp 0x4b852b
+	main.go:112	0x4b8525	48895120			mov qword ptr [rcx+0x20], rdx
+	main.go:112	0x4b8529	eb07				jmp 0x4b8532
+	main.go:112	0x4b852b	e830ccfaff			call $runtime.gcWriteBarrierDX
+	main.go:112	0x4b8530	eb00				jmp 0x4b8532
+	main.go:112	0x4b8532	488b442460			mov rax, qword ptr [rsp+0x60]
+	main.go:112	0x4b8537	e8c481f8ff			call $runtime.newproc
+	main.go:115	0x4b853c	488b8c24d8000000		mov rcx, qword ptr [rsp+0xd8]
+	main.go:115	0x4b8544	488b9424e0000000		mov rdx, qword ptr [rsp+0xe0]
+	main.go:115	0x4b854c	48898c2448010000		mov qword ptr [rsp+0x148], rcx
+	main.go:115	0x4b8554	4889942450010000		mov qword ptr [rsp+0x150], rdx
+	main.go:115	0x4b855c	488b8c24c0000000		mov rcx, qword ptr [rsp+0xc0]
+	main.go:115	0x4b8564	48898c24a8000000		mov qword ptr [rsp+0xa8], rcx
+	main.go:115	0x4b856c	488b4c2430			mov rcx, qword ptr [rsp+0x30]
+	main.go:115	0x4b8571	48898c24a0000000		mov qword ptr [rsp+0xa0], rcx
+	main.go:115	0x4b8579	488d05e0250100			lea rax, ptr [rip+0x125e0]
+	main.go:115	0x4b8580	e83b50f5ff			call $runtime.newobject
+	main.go:115	0x4b8585	4889442458			mov qword ptr [rsp+0x58], rax
+	main.go:115	0x4b858a	488d0dcf000000			lea rcx, ptr [main.main.func4]
+	main.go:115	0x4b8591	488908				mov qword ptr [rax], rcx
+	main.go:115	0x4b8594	488b4c2458			mov rcx, qword ptr [rsp+0x58]
+	main.go:115	0x4b8599	8401				test byte ptr [rcx], al
+	main.go:115	0x4b859b	488b942450010000		mov rdx, qword ptr [rsp+0x150]
+	main.go:115	0x4b85a3	488b9c2448010000		mov rbx, qword ptr [rsp+0x148]
+	main.go:115	0x4b85ab	48895908			mov qword ptr [rcx+0x8], rbx
+	main.go:115	0x4b85af	488d7910			lea rdi, ptr [rcx+0x10]
+	main.go:115	0x4b85b3	833db6490d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:115	0x4b85ba	7402				jz 0x4b85be
+	main.go:115	0x4b85bc	eb06				jmp 0x4b85c4
+	main.go:115	0x4b85be	48895110			mov qword ptr [rcx+0x10], rdx
+	main.go:115	0x4b85c2	eb07				jmp 0x4b85cb
+	main.go:115	0x4b85c4	e897cbfaff			call $runtime.gcWriteBarrierDX
+	main.go:115	0x4b85c9	eb00				jmp 0x4b85cb
+	main.go:115	0x4b85cb	488b4c2458			mov rcx, qword ptr [rsp+0x58]
+	main.go:115	0x4b85d0	8401				test byte ptr [rcx], al
+	main.go:115	0x4b85d2	488b9424a8000000		mov rdx, qword ptr [rsp+0xa8]
+	main.go:115	0x4b85da	488d7918			lea rdi, ptr [rcx+0x18]
+	main.go:115	0x4b85de	833d8b490d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:115	0x4b85e5	7402				jz 0x4b85e9
+	main.go:115	0x4b85e7	eb06				jmp 0x4b85ef
+	main.go:115	0x4b85e9	48895118			mov qword ptr [rcx+0x18], rdx
+	main.go:115	0x4b85ed	eb07				jmp 0x4b85f6
+	main.go:115	0x4b85ef	e86ccbfaff			call $runtime.gcWriteBarrierDX
+	main.go:115	0x4b85f4	eb00				jmp 0x4b85f6
+	main.go:115	0x4b85f6	488b4c2458			mov rcx, qword ptr [rsp+0x58]
+	main.go:115	0x4b85fb	8401				test byte ptr [rcx], al
+	main.go:115	0x4b85fd	488b9424a0000000		mov rdx, qword ptr [rsp+0xa0]
+	main.go:115	0x4b8605	488d7920			lea rdi, ptr [rcx+0x20]
+	main.go:115	0x4b8609	833d60490d0000			cmp dword ptr [runtime.writeBarrier], 0x0
+	main.go:115	0x4b8610	7402				jz 0x4b8614
+	main.go:115	0x4b8612	eb06				jmp 0x4b861a
+	main.go:115	0x4b8614	48895120			mov qword ptr [rcx+0x20], rdx
+	main.go:115	0x4b8618	eb08				jmp 0x4b8622
+	main.go:115	0x4b861a	e841cbfaff			call $runtime.gcWriteBarrierDX
+	main.go:115	0x4b861f	90				nop
+	main.go:115	0x4b8620	eb00				jmp 0x4b8622
+	main.go:115	0x4b8622	488b442458			mov rax, qword ptr [rsp+0x58]
+	main.go:115	0x4b8627	e8d480f8ff			call $runtime.newproc
+	main.go:118	0x4b862c	488b8424c0000000		mov rax, qword ptr [rsp+0xc0]
+	main.go:118	0x4b8634	e8674bfbff			call $sync.(*WaitGroup).Wait
+	main.go:119	0x4b8639	488bac24e0010000		mov rbp, qword ptr [rsp+0x1e0]
+	main.go:119	0x4b8641	4881c4e8010000			add rsp, 0x1e8
+	main.go:119	0x4b8648	c3				ret
+	main.go:77	0x4b8649	e832aafaff			call $runtime.morestack_noctxt
+	.:0		0x4b864e	e96df9ffff			jmp $main.main
+(dlv) restart
+Process restarted with PID 4003633
+(dlv) continue main.main
+Breakpoint 1 set at 0x4b7fd2 for main.main() ./main.go:77
+> main.main() ./main.go:77 (hits goroutine(1):1 total:1) (PC: 0x4b7fd2)
+    72:				}
+    73:			}
+    74:		}
+    75:	}
+    76:	
+=>  77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+(dlv) next
+> main.main() ./main.go:79 (PC: 0x4b7fe9)
+    74:		}
+    75:	}
+    76:	
+    77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+=>  79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+(dlv) 
+> main.main() ./main.go:81 (PC: 0x4b800b)
+    76:	
+    77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+=>  81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+(dlv) 
+> main.main() ./main.go:83 (PC: 0x4b808f)
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+=>  83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+    87:		}
+    88:		fmt.Printf("got data: %s\n", data)
+(dlv) 
+> main.main() ./main.go:84 (PC: 0x4b813d)
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+=>  84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+    87:		}
+    88:		fmt.Printf("got data: %s\n", data)
+    89:	
+(dlv) 
+> main.main() ./main.go:88 (PC: 0x4b8233)
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+    87:		}
+=>  88:		fmt.Printf("got data: %s\n", data)
+    89:	
+    90:		// Create a channel to be notified when we get a signal.
+    91:		sigch := make(chan os.Signal, 1)
+    92:		// Ensure we are notified on receipt of SIGTERM.
+    93:		signal.Notify(sigch, syscall.SIGTERM)
+(dlv) print data
+[]uint8 len: 10, cap: 512, [102,111,111,98,97,114,98,97,122,10]
+(dlv) print string(data)
+"foobarbaz\n"
+(dlv) restart <stdin2.txt
+Process restarted with PID 4004968
+(dlv) continue main.main
+Breakpoint 1 set at 0x4b7fd2 for main.main() ./main.go:77
+> main.main() ./main.go:77 (hits goroutine(1):1 total:1) (PC: 0x4b7fd2)
+    72:				}
+    73:			}
+    74:		}
+    75:	}
+    76:	
+=>  77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+(dlv) n
+> main.main() ./main.go:79 (PC: 0x4b7fe9)
+    74:		}
+    75:	}
+    76:	
+    77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+=>  79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+(dlv) 
+> main.main() ./main.go:81 (PC: 0x4b800b)
+    76:	
+    77:	func main() {
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+=>  81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+(dlv) 
+> main.main() ./main.go:83 (PC: 0x4b808f)
+    78:		// Create a WaitGroup to ensure program does not exit before goroutines finish.
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+=>  83:		data, err := ioutil.ReadAll(os.Stdin)
+    84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+    87:		}
+    88:		fmt.Printf("got data: %s\n", data)
+(dlv) 
+> main.main() ./main.go:84 (PC: 0x4b813d)
+    79:		var wg sync.WaitGroup
+    80:		// Create a context object to pass to our goroutines.
+    81:		ctx, cancel := context.WithCancel(context.Background())
+    82:	
+    83:		data, err := ioutil.ReadAll(os.Stdin)
+=>  84:		if err != nil {
+    85:			fmt.Println(err)
+    86:			os.Exit(1)
+    87:		}
+    88:		fmt.Printf("got data: %s\n", data)
+    89:	
+(dlv) print string(data)
+"and now for something completely different\n"
+(dlv) help restart
+Restart process.
+
+For recorded targets the command takes the following forms:
+
+	restart					resets to the start of the recording
+	restart [checkpoint]			resets the recording to the given checkpoint
+	restart -r [newargv...]	[redirects...]	re-records the target process
+	
+For live targets the command takes the following forms:
+
+	restart [newargv...] [redirects...]	restarts the process
+
+If newargv is omitted the process is restarted (or re-recorded) with the same argument vector.
+If -noargs is specified instead, the argument vector is cleared.
+
+A list of file redirections can be specified after the new argument list to override the redirections defined using the '--redirect' command line option. A syntax similar to Unix shells is used:
+
+	<input.txt	redirects the standard input of the target process from input.txt
+	>output.txt	redirects the standard output of the target process to output.txt
+	2>error.txt	redirects the standard error of the target process to error.txt
+
+(dlv) break mainfunc main.main
+Breakpoint mainfunc set at 0x4b7fd2 for main.main() ./main.go:77
+(dlv) breakpionts
+(dlv) breakpoints
+Breakpoint runtime-fatal-throw (enabled) at 0x436340 for runtime.throw() /home/deparker/Code/goroot/src/runtime/panic.go:982 (0)
+Breakpoint unrecovered-panic (enabled) at 0x436700 for runtime.fatalpanic() /home/deparker/Code/goroot/src/runtime/panic.go:1065 (0)
+	print runtime.curg._panic.arg
+Breakpoint mainfunc (enabled) at 0x4b7fd2 for main.main() ./main.go:77 (0)
+(dlv) clear mainfunc
+Breakpoint mainfunc cleared at 0x4b7fd2 for main.main() ./main.go:77
+(dlv) break main.main
+Breakpoint 3 set at 0x4b7fd2 for main.main() ./main.go:77
+(dlv) clear 3
+Breakpoint 3 cleared at 0x4b7fd2 for main.main() ./main.go:77
+(dlv) break /^main.*/
+Breakpoint 4 set at 0x4b7592 for main.produceValues() ./main.go:23
+Breakpoint 5 set at 0x4b7906 for main.produceValues.func1() ./main.go:25
+Breakpoint 6 set at 0x4b7972 for main.consumeValues() ./main.go:53
+Breakpoint 7 set at 0x4b7ea6 for main.consumeValues.func1() ./main.go:55
+Breakpoint 8 set at 0x4b7f0a for main.main.func1() ./main.go:95
+Breakpoint 9 set at 0x4b7fd2 for main.main() ./main.go:77
+Breakpoint 10 set at 0x4b8666 for main.main.func4() ./main.go:115
+Breakpoint 11 set at 0x4b86e6 for main.main.func3() ./main.go:112
+Breakpoint 12 set at 0x4b8766 for main.main.func2() ./main.go:95
+(dlv) clearall
+Breakpoint 4 cleared at 0x4b7592 for main.produceValues() ./main.go:23
+Breakpoint 5 cleared at 0x4b7906 for main.produceValues.func1() ./main.go:25
+Breakpoint 6 cleared at 0x4b7972 for main.consumeValues() ./main.go:53
+Breakpoint 7 cleared at 0x4b7ea6 for main.consumeValues.func1() ./main.go:55
+Breakpoint 8 cleared at 0x4b7f0a for main.main.func1() ./main.go:95
+Breakpoint 9 cleared at 0x4b7fd2 for main.main() ./main.go:77
+Breakpoint 10 cleared at 0x4b8666 for main.main.func4() ./main.go:115
+Breakpoint 11 cleared at 0x4b86e6 for main.main.func3() ./main.go:112
+Breakpoint 12 cleared at 0x4b8766 for main.main.func2() ./main.go:95
+(dlv) break m33 main.go:33
+Breakpoint m33 set at 0x4b7681 for main.produceValues() ./main.go:33
+(dlv) help cond
+Set breakpoint condition.
+
+	condition <breakpoint name or id> <boolean expression>.
+	condition -hitcount <breakpoint name or id> <operator> <argument>.
+	condition -clear <breakpoint name or id>.
+
+Specifies that the breakpoint, tracepoint or watchpoint should break only if the boolean expression is true.
+
+See Documentation/cli/expr.md for a description of supported expressions.
+
+With the -hitcount option a condition on the breakpoint hit count can be set, the following operators are supported
+
+	condition -hitcount bp > n
+	condition -hitcount bp >= n
+	condition -hitcount bp < n
+	condition -hitcount bp <= n
+	condition -hitcount bp == n
+	condition -hitcount bp != n
+	condition -hitcount bp % n
+
+With the -clear option a condtion on the breakpoint can removed.
+	
+The '% n' form means we should stop at the breakpoint when the hitcount is a multiple of n.
+
+Examples:
+
+	cond 2 i == 10				breakpoint 2 will stop when variable i equals 10
+	cond name runtime.curg.goid == 5	breakpoint 'name' will stop only on goroutine 5
+	cond -clear 2				the condition on breakpoint 2 will be removed
+
+(dlv) restar
+(dlv) restart
+Process restarted with PID 4006978
+(dlv) cond -hitcount m33 == 5
+(dlv) continue
+> [m33] main.produceValues() ./main.go:33 (hits goroutine(19):5 total:5) (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) breakpoints
+Breakpoint runtime-fatal-throw (enabled) at 0x436340 for runtime.throw() /home/deparker/Code/goroot/src/runtime/panic.go:982 (0)
+Breakpoint unrecovered-panic (enabled) at 0x436700 for runtime.fatalpanic() /home/deparker/Code/goroot/src/runtime/panic.go:1065 (0)
+	print runtime.curg._panic.arg
+Breakpoint m33 (disabled) at 0x4b7681 for main.produceValues() ./main.go:33 (5)
+	cond -hitcount == 5
+(dlv) cond -clear m33
+(dlv) clear m33
+Breakpoint m33 cleared at 0x4b7681 for main.produceValues() ./main.go:33
+(dlv) help on
+Executes a command when a breakpoint is hit.
+
+	on <breakpoint name or id> <command>
+	on <breakpoint name or id> -edit
+	
+
+Supported commands: print, stack, goroutine, trace and cond. 
+To convert a breakpoint into a tracepoint use:
+	
+	on <breakpoint name or id> trace
+
+The command 'on <bp> cond <cond-arguments>' is equivalent to 'cond <bp> <cond-arguments>'.
+
+The command 'on x -edit' can be used to edit the list of commands executed when the breakpoint is hit.
+(dlv) break m33 main.go:33
+Breakpoint m33 set at 0x4b7681 for main.produceValues() ./main.go:33
+(dlv) on m33 print i
+(dlv) continue
+> [m33] main.produceValues() ./main.go:33 (hits goroutine(19):1 total:1) (PC: 0x4b7681)
+	i: (unreadable eval error: could not find symbol value for i)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) on m33 print id
+(dlv) continue
+> [m33] main.produceValues() ./main.go:33 (hits goroutine(19):2 total:2) (PC: 0x4b7681)
+	i: (unreadable eval error: could not find symbol value for i)
+	id: 6842348953158377901
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) toggle m33
+Breakpoint m33 toggled at 0x4b7681 for main.produceValues() ./main.go:33
+(dlv) breakpoints
+Breakpoint runtime-fatal-throw (enabled) at 0x436340 for runtime.throw() /home/deparker/Code/goroot/src/runtime/panic.go:982 (0)
+Breakpoint unrecovered-panic (enabled) at 0x436700 for runtime.fatalpanic() /home/deparker/Code/goroot/src/runtime/panic.go:1065 (0)
+	print runtime.curg._panic.arg
+Breakpoint m33 (disabled) at 0x4b7681 for main.produceValues() ./main.go:33 (2)
+	print i
+	print id
+(dlv) continue
+received SIGINT, stopping process (will not forward signal)
+> runtime.futex() /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 (PC: 0x466ec3)
+Warning: debugging optimized function
+   548:		MOVQ	ts+16(FP), R10
+   549:		MOVQ	addr2+24(FP), R8
+   550:		MOVL	val3+32(FP), R9
+   551:		MOVL	$SYS_futex, AX
+   552:		SYSCALL
+=> 553:		MOVL	AX, ret+40(FP)
+   554:		RET
+   555:	
+   556:	// int32 clone(int32 flags, void *stk, M *mp, G *gp, void (*fn)(void));
+   557:	TEXT runtime·clone(SB),NOSPLIT,$0
+   558:		MOVL	flags+0(FP), DI
+(dlv) toggle m33
+Breakpoint m33 toggled at 0x4b7681 for main.produceValues() ./main.go:33
+(dlv) continue
+> [m33] main.produceValues() ./main.go:33 (hits goroutine(19):3 total:3) (PC: 0x4b7681)
+	i: (unreadable eval error: could not find symbol value for i)
+	id: 8668961271770521123
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) clearall
+Breakpoint m33 cleared at 0x4b7681 for main.produceValues() ./main.go:33
+(dlv) continue main.go:62
+(dlv) continue main.go:63
+Breakpoint 15 set at 0x4b7e40 for main.consumeValues() ./main.go:63
+received SIGINT, stopping process (will not forward signal)
+> runtime.futex() /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 (PC: 0x466ec3)
+Warning: debugging optimized function
+   548:		MOVQ	ts+16(FP), R10
+   549:		MOVQ	addr2+24(FP), R8
+   550:		MOVL	val3+32(FP), R9
+   551:		MOVL	$SYS_futex, AX
+   552:		SYSCALL
+=> 553:		MOVL	AX, ret+40(FP)
+   554:		RET
+   555:	
+   556:	// int32 clone(int32 flags, void *stk, M *mp, G *gp, void (*fn)(void));
+   557:	TEXT runtime·clone(SB),NOSPLIT,$0
+   558:		MOVL	flags+0(FP), DI
+(dlv) continue main.go:62
+(dlv) continue main.go:61
+Breakpoint 16 set at 0x4b7a37 for main.consumeValues() ./main.go:61
+> main.consumeValues() ./main.go:61 (hits goroutine(20):1 total:1) (PC: 0x4b7a37)
+    56:	
+    57:		// Create buffer to store values in-memory.
+    58:		buf := make([]packet, 0)
+    59:		for {
+    60:			select {
+=>  61:			case <-ctx.Done():
+    62:				// If the context has been cancelled, return.
+    63:				return
+    64:			case pkt := <-ch:
+    65:				// Store data in our buffer.
+    66:				buf = append(buf, pkt)
+(dlv) locals
+buf = []main.packet len: 631, cap: 852, [...]
+(dlv) continue main.go:31
+Breakpoint 17 set at 0x4b7675 for main.produceValues() ./main.go:31
+> main.produceValues() ./main.go:31 (hits goroutine(19):1 total:1) (PC: 0x4b7675)
+    26:		// Create a bytes buffer of length 64.
+    27:		buf := make([]byte, 1<<6)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+=>  31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+    33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+(dlv) lsit
+(dlv) list
+> main.produceValues() ./main.go:31 (hits total:0) (PC: 0x4b7675)
+    26:		// Create a bytes buffer of length 64.
+    27:		buf := make([]byte, 1<<6)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+=>  31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+    33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+(dlv) help watch
+Set watchpoint.
+	
+	watch [-r|-w|-rw] <expr>
+	
+	-r	stops when the memory location is read
+	-w	stops when the memory location is written
+	-rw	stops when the memory location is read or written
+
+The memory location is specified with the same expression language used by 'print', for example:
+
+	watch v
+
+will watch the address of variable 'v'.
+
+Note that writes that do not change the value of the watched memory address might not be reported.
+
+See also: "help print".
+(dlv) watch -rw id
+(dlv) next
+> main.produceValues() ./main.go:33 (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+(dlv) watch -rw id
+(dlv) help watch
+Set watchpoint.
+	
+	watch [-r|-w|-rw] <expr>
+	
+	-r	stops when the memory location is read
+	-w	stops when the memory location is written
+	-rw	stops when the memory location is read or written
+
+The memory location is specified with the same expression language used by 'print', for example:
+
+	watch v
+
+will watch the address of variable 'v'.
+
+Note that writes that do not change the value of the watched memory address might not be reported.
+
+See also: "help print".
+(dlv) watch -w id
+Watchpoint id set at 0xc0000b4e30
+(dlv) continue
+> watchpoint on [id] main.produceValues() ./main.go:49 (hits goroutine(19):1 total:1) (PC: 0x4b7836)
+    44:			}
+    45:	
+    46:			id -= 16
+    47:	
+    48:			// Sleep 0.5 seconds.
+=>  49:			time.Sleep(10 * time.Millisecond)
+    50:		}
+    51:	}
+    52:	
+    53:	func consumeValues(ctx context.Context, wg *sync.WaitGroup, ch <-chan packet) {
+    54:		// Let WaitGroup know we're finished executing.
+(dlv) args
+ctx = context.Context(*context.cancelCtx) 0xc0000b4f98
+wg = (*sync.WaitGroup)(0xc000016160)
+ch = chan<- main.packet 0/0
+(dlv) locals
+buf = []uint8 len: 64, cap: 64, [...]
+id = 7864629642541061252
+p = main.packet {id: 7864629642541061268, val: []uint8 len: 64, cap: 64, [...]}
+(dlv) vars
+strconv.optimize = true
+strconv.ErrRange = error(*errors.errorString) 0x55de48
+strconv.ErrSyntax = error(*errors.errorString) 0x55de58
+strconv.leftcheats = []strconv.leftCheat len: 61, cap: 61, [...]
+strconv.detailedPowersOfTen = [696][2]uint64 [...]
+strconv.float32info = strconv.floatInfo {mantbits: 23, expbits: 8, bias: -127}
+strconv.float64info = strconv.floatInfo {mantbits: 52, expbits: 11, bias: -1023}
+strconv.uint64pow10 = [20]uint64 [...]
+strconv.isPrint16 = []uint16 len: 434, cap: 434, [...]
+strconv.isNotPrint16 = []uint16 len: 132, cap: 132, [...]
+strconv.isPrint32 = []uint32 len: 468, cap: 468, [...]
+strconv.isNotPrint32 = []uint16 len: 95, cap: 95, [...]
+strconv.isGraphic = []uint16 len: 16, cap: 16, [...]
+os/signal.handlers = struct { sync.Mutex; os/signal.m map[chan<- os.Signal]*os/signal.handler; os/signal.ref [65]int64; os/signal.stopping []os/signal.stopping } {Mutex: (*sync.Mutex)(0x55e5a0), m: map[chan<- os.Signal]*os/signal.handler [...], ref: [65]int64 [...],...+1 more}
+os/signal.watchSignalLoopOnce = sync.Once {done: 1, m: (*sync.Mutex)(0x58cf24)}
+os/signal.watchSignalLoop = os/signal.loop
+internal/cpu.DebugOptions = true
+internal/cpu.CacheLineSize = 64
+internal/cpu.X86 = struct { internal/cpu._ internal/cpu.CacheLinePad; HasAES bool; HasADX bool; HasAVX bool; HasAVX2 bool; HasBMI1 bool; HasBMI2 bool; HasERMS bool; HasFMA bool; HasOSXSAVE bool; HasPCLMULQDQ bool; HasPOPCNT bool; HasRDTSCP bool; HasSSE3 bool; HasSSSE3 bool; HasSSE41 bool; HasSSE42 bool; internal/cpu._ internal/cpu.CacheLinePad } {_: (*"internal/cpu.CacheLinePad")(0x58d380), HasAES: true, HasADX: true,...+15 more}
+internal/cpu.options = []internal/cpu.option len: 15, cap: 15, [...]
+internal/cpu.maxExtendedFunctionInformation = 2147483680
+math/rand.globalRand = ("*math/rand.Rand")(0xc0000b8150)
+math/rand.rngCooked = [607]int64 [...]
+io/ioutil.Discard = io.Writer(io.discard) {}
+fmt.ppFree = sync.Pool {noCopy: sync.noCopy {}, local: unsafe.Pointer(0xc0000c3000), localSize: 32,...+3 more}
+fmt.complexError = error(*errors.errorString) 0x55dbf8
+fmt.boolError = error(*errors.errorString) 0x55dbe8
+os.dirBufPool = sync.Pool {noCopy: sync.noCopy {}, local: unsafe.Pointer(0x0), localSize: 0,...+3 more}
+os.ErrInvalid = error(*errors.errorString) 0x55ddb8
+os.ErrPermission = error(*errors.errorString) 0x55dde8
+os.ErrExist = error(*errors.errorString) 0x55dda8
+os.ErrNotExist = error(*errors.errorString) 0x55ddd8
+os.ErrClosed = error(*errors.errorString) 0x55dd88
+os.ErrNoDeadline = error(*errors.errorString) 0x55ddc8
+os.ErrDeadlineExceeded = error(*internal/poll.DeadlineExceededError) 0x55dd98
+os.ErrProcessDone = error(*errors.errorString) 0x55ddf8
+os.Stdin = (*os.File)(0xc00000e010)
+os.Stdout = (*os.File)(0xc00000e018)
+os.Stderr = (*os.File)(0xc00000e020)
+os.errWriteAtInAppendMode = error(*errors.errorString) 0x55de18
+os.Args = []string len: 1, cap: 1, [...]
+os.errPatternHasSeparator = error(*errors.errorString) 0x55de08
+internal/poll.errEAGAIN = error(syscall.Errno) EAGAIN (11)
+internal/poll.errEINVAL = error(syscall.Errno) EINVAL (22)
+internal/poll.errENOENT = error(syscall.Errno) ENOENT (2)
+internal/poll.ErrFileClosing = error(*errors.errorString) 0x55dc58
+internal/poll.ErrNoDeadline = error(*errors.errorString) 0x55dc68
+internal/poll.ErrDeadlineExceeded = error(*internal/poll.DeadlineExceededError) 0x556518
+internal/poll.ErrNotPollable = error(*errors.errorString) 0x55dc78
+internal/poll.serverInit = sync.Once {done: 0, m: (*sync.Mutex)(0x58cf04)}
+internal/poll.CloseFunc = syscall.Close
+internal/bytealg.MaxLen = 63
+internal/syscall/unix.FcntlSyscall = 72
+internal/testlog.panicOnExit0 = struct { internal/testlog.mu sync.Mutex; internal/testlog.val bool } {mu: (*sync.Mutex)(0x58cf10), val: false}
+io/fs.ErrInvalid = error(*errors.errorString) 0x55dd38
+io/fs.ErrPermission = error(*errors.errorString) 0x55dd58
+io/fs.ErrExist = error(*errors.errorString) 0x55dd28
+io/fs.ErrNotExist = error(*errors.errorString) 0x55dd48
+io/fs.ErrClosed = error(*errors.errorString) 0x55dd18
+io/fs.SkipDir = error(*errors.errorString) 0x55dd68
+runtime.useAeshash = true
+runtime.aeskeysched = [128]uint8 [...]
+runtime.hashkey = [4]uintptr [...]
+runtime.iscgo = false
+runtime.cgoHasExtraM = false
+runtime.cgo_yield = (*unsafe.Pointer)(0x55da18)
+runtime.ncgocall = 0
+runtime.x86HasPOPCNT = true
+runtime.x86HasSSE41 = true
+runtime.x86HasFMA = true
+runtime.useAVXmemmove = true
+runtime.cpuprof = runtime.cpuProfile {lock: (*runtime.mutex)(0x5603a0), on: false, log: *runtime.profBuf nil,...+4 more}
+runtime._cgo_setenv = unsafe.Pointer(0x0)
+runtime._cgo_unsetenv = unsafe.Pointer(0x0)
+runtime.boundsErrorFmts = [9]string [...]
+runtime.boundsNegErrorFmts = [8]string [...]
+runtime.defaultGOROOT = "/home/deparker/Code/goroot"
+runtime.buildVersion = "go1.18.4"
+runtime.fastlog2Table = [33]float64 [...]
+runtime.inf = +Inf
+runtime.itabLock = runtime.mutex {lockRankStruct: runtime.lockRankStruct {}, key: 0}
+runtime.itabTable = (*runtime.itabTableType)(0x55c9c0)
+runtime.itabTableInit = runtime.itabTableType {size: 512, count: 23, entries: [512]*runtime.itab [...]}
+runtime.uint16Eface = (unreadable could not resolve interface type)
+runtime.uint32Eface = (unreadable could not resolve interface type)
+runtime.uint64Eface = (unreadable could not resolve interface type)
+runtime.stringEface = (unreadable could not resolve interface type)
+runtime.sliceEface = (unreadable could not resolve interface type)
+runtime.uint16Type = (*runtime._type)(0x4c0f60)
+runtime.uint32Type = (*runtime._type)(0x4c0fa0)
+runtime.uint64Type = (*runtime._type)(0x4c0fe0)
+runtime.stringType = (*runtime._type)(0x4c0ea0)
+runtime.sliceType = (*runtime._type)(0x4c2900)
+runtime.staticuint64s = [256]uint64 [...]
+runtime.lockNames = []string len: 51, cap: 51, [...]
+runtime.physPageSize = 4096
+runtime.physHugePageSize = 2097152
+runtime.physHugePageShift = 21
+runtime.zerobase = 0
+runtime.globalAlloc = struct { runtime.mutex; runtime.persistentAlloc } {mutex: (*runtime.mutex)(0x58cf80), persistentAlloc: (*runtime.persistentAlloc)(0x58cf88)}
+runtime.persistentChunks = (*runtime.notInHeap)(0x7f9ec4f40000)
+runtime.zeroVal = [1024]uint8 [...]
+runtime.emptymspan = runtime.mspan {next: *runtime.mspan nil, prev: *runtime.mspan nil, list: *runtime.mSpanList nil,...+18 more}
+runtime.useCheckmark = false
+runtime.adviseUnused = 8
+runtime.finlock = runtime.mutex {lockRankStruct: runtime.lockRankStruct {}, key: 0}
+runtime.fing = (*runtime.g)(0xc0000036c0)
+runtime.finq = *runtime.finblock nil
+runtime.finc = *runtime.finblock nil
+runtime.finptrmask = [64]uint8 [...]
+runtime.fingwait = true
+runtime.fingwake = false
+runtime.allfin = *runtime.finblock nil
+runtime.finalizer1 = [5]uint8 [...]
+runtime.fingCreate = 1
+runtime.fingRunning = false
+runtime.gcphase = 0
+runtime.writeBarrier = struct { runtime.enabled bool; runtime.pad [3]uint8; runtime.needed bool; runtime.cgo bool; runtime.alignme uint64 } {enabled: false, pad: [3]uint8 [...], needed: false,...+2 more}
+runtime.gcBlackenEnabled = 0
+runtime.work = struct { runtime.full runtime.lfstack; runtime.empty runtime.lfstack; runtime.pad0 internal/cpu.CacheLinePad; runtime.wbufSpans struct { runtime.lock runtime.mutex; runtime.free runtime.mSpanList; runtime.busy runtime.mSpanList }; runtime._ uint32; runtime.bytesMarked uint64; runtime.markrootNext uint32; runtime.markrootJobs uint32; runtime.nproc uint32; runtime.tstart int64; runtime.nwait uint32; runtime.nDataRoots int; runtime.nBSSRoots int; runtime.nSpanRoots int; runtime.nStackRoots int; runtime.baseData uint32; runtime.baseBSS uint32; runtime.baseSpans uint32; runtime.baseStacks uint32; runtime.baseEnd uint32; runtime.stackRoots []*runtime.g; runtime.startSema uint32; runtime.markDoneSema uint32; runtime.bgMarkReady runtime.note; runtime.bgMarkDone uint32; runtime.mode runtime.gcMode; runtime.userForced bool; runtime.totaltime int64; runtime.initialHeapLive uint64; runtime.assistQueue struct { runtime.lock runtime.mutex; runtime.q runtime.gQueue }; runtime.sweepWaiters struct { runtime.lock runtime.mutex; runtime.list runtime.gList }; runtime.cycles uint32; runtime.stwprocs int32; runtime.maxprocs int32; runtime.tSweepTerm int64; runtime.tMark int64; runtime.tMarkTerm int64; runtime.tEnd int64; runtime.pauseNS int64; runtime.pauseStart int64; runtime.heap0 uint64; runtime.heap1 uint64; runtime.heap2 uint64; runtime.heapGoal uint64 } {full: 0, empty: 0, pad0: (*"internal/cpu.CacheLinePad")(0x55e3f0),...+41 more}
+runtime.gcMarkDoneFlushed = 0
+runtime.poolcleanup = sync.poolCleanup
+runtime.oneptrmask = [1]uint8 [...]
+runtime.gcController = runtime.gcControllerState {gcPercent: (*"runtime/internal/atomic.Int32")(0x58d740), _: 0, heapMinimum: 4194304,...+29 more}
+runtime.scavenge = struct { runtime.lock runtime.mutex; runtime.g *runtime.g; runtime.parked bool; runtime.timer *runtime.timer; runtime.sysmonWake uint32; runtime.printControllerReset bool } {lock: (*runtime.mutex)(0x55e140), g: (*runtime.g)(0xc000003040), parked: true,...+3 more}
+runtime.sweep = runtime.sweepdata {lock: (*runtime.mutex)(0x55e180), g: (*runtime.g)(0xc000002ea0), parked: true,...+5 more}
+runtime.mheap_ = runtime.mheap {lock: (*runtime.mutex)(0x5762c0), pages: (*runtime.pageAlloc)(0x5762c8), sweepgen: 0,...+27 more}
+runtime.mSpanStateNames = []string len: 4, cap: 4, [...]
+runtime.gcBitsArenas = struct { runtime.lock runtime.mutex; runtime.free *runtime.gcBitsArena; runtime.next *runtime.gcBitsArena; runtime.current *runtime.gcBitsArena; runtime.previous *runtime.gcBitsArena } {lock: (*runtime.mutex)(0x58d000), free: *runtime.gcBitsArena nil, next: (*runtime.gcBitsArena)(0x7f9ec4fc0000),...+2 more}
+runtime.maxSearchAddr = runtime.offAddr {a: 140737488355327}
+runtime.levelBits = [5]uint [...]
+runtime.levelShift = [5]uint [...]
+runtime.levelLogPages = [5]uint [...]
+runtime.proflock = runtime.mutex {lockRankStruct: runtime.lockRankStruct {}, key: 0}
+runtime.mbuckets = *runtime.bucket nil
+runtime.bbuckets = *runtime.bucket nil
+runtime.xbuckets = *runtime.bucket nil
+runtime.buckhash = *[179999]*runtime.bucket nil
+runtime.bucketmem = 0
+runtime.mProf = struct { runtime.cycle uint32; runtime.flushed bool } {cycle: 0, flushed: false}
+runtime.blockprofilerate = 0
+runtime.mutexprofilerate = 0
+runtime.MemProfileRate = 0
+runtime.disableMemoryProfiling = true
+runtime.tracelock = runtime.mutex {lockRankStruct: runtime.lockRankStruct {}, key: 0}
+runtime.minOffAddr = runtime.offAddr {a: 18446603336221196288}
+runtime.maxOffAddr = runtime.offAddr {a: 140737488355327}
+runtime.spanSetBlockPool = runtime.spanSetBlockAlloc {stack: 0}
+runtime.memstats = runtime.mstats {alloc: 0, total_alloc: 0, sys: 0,...+33 more}
+runtime.netpollInitLock = runtime.mutex {lockRankStruct: runtime.lockRankStruct {}, key: 0}
+runtime.netpollInited = 1
+runtime.pollcache = runtime.pollCache {lock: (*runtime.mutex)(0x58cf60), first: *runtime.pollDesc nil}
+runtime.netpollWaiters = 0
+runtime.pdEface = interface {}(*runtime.pollDesc) 0x556668
+runtime.pdType = (*runtime._type)(0x4c6860)
+runtime.epfd = 3
+runtime.netpollBreakRd = 4
+runtime.netpollBreakWr = 5
+runtime.netpollWakeSig = 0
+runtime.procAuxv = []uint8 len: 16, cap: 16, [...]
+runtime.addrspace_vec = [1]uint8 [...]
+runtime.startupRandomData = []uint8 len: 16, cap: 16, [...]
+runtime.sysTHPSizePath = []uint8 len: 51, cap: 51, [...]
+runtime.urandom_dev = []uint8 len: 13, cap: 13, [...]
+runtime.perThreadSyscall = runtime.perThreadSyscallArgs {trap: 0, a1: 0, a2: 0,...+6 more}
+runtime.sigset_all = runtime.sigset [...]
+runtime.shiftError = error(runtime.errorString) "negative shift amount"
+runtime.divideError = error(runtime.errorString) "integer divide by zero"
+runtime.overflowError = error(runtime.errorString) "integer overflow"
+runtime.floatError = error(runtime.errorString) "floating point error"
+runtime.memoryError = error(runtime.errorString) "invalid memory address or nil pointer dereference"
+runtime.runningPanicDefers = 0
+runtime.panicking = 0
+runtime.paniclk = runtime.mutex {lockRankStruct: runtime.lockRankStruct {}, key: 0}
+runtime.didothers = false
+runtime.deadlock = runtime.mutex {lockRankStruct: runtime.lockRankStruct {}, key: 0}
+runtime.asyncPreemptStack = 472
+runtime.printBacklog = [512]uint8 [...]
+runtime.printBacklogIndex = 0
+runtime.debuglock = runtime.mutex {lockRankStruct: runtime.lockRankStruct {}, key: 0}
+runtime.minhexdigits = 0
+runtime.modinfo = "0w�\f�t\b\x02A��\a��\x18�path\tgithub.com/ultimate-debug/session\nmod\tgithu...+379 more"
+runtime.m0 = runtime.m {g0: (*runtime.g)(0x55e240), morebuf: (*runtime.gobuf)(0x55e7e8), divmod: 0,...+60 more}
+runtime.g0 = runtime.g {stack: (*runtime.stack)(0x55e240), stackguard0: 140732464892280, stackguard1: 140732464892280,...+48 more}
+runtime.mcache0 = *runtime.mcache nil
+runtime.main_init_done = chan bool 0/0
+runtime.mainStarted = true
+runtime.runtimeInitTime = 1051065073748692
+runtime.initSigmask = runtime.sigset [...]
+runtime.badmorestackg0Msg = "fatal: morestack on g0\n"
+runtime.badmorestackgsignalMsg = "fatal: morestack on gsignal\n"
+runtime.allglock = runtime.mutex {lockRankStruct: runtime.lockRankStruct {}, key: 0}
+runtime.allgs = []*runtime.g len: 10, cap: 16, [...]
+runtime.allglen = 10
+runtime.allgptr = (**runtime.g)(0xc000188000)
+runtime.fastrandseed = 12408362452072663822
+runtime.freezing = 0
+runtime.worldsema = 1
+runtime.gcsema = 1
+runtime.earlycgocallback = []uint8 len: 42, cap: 42, [...]
+runtime.extram = 0
+runtime.extraMCount = 0
+runtime.extraMWaiters = 0
+runtime.allocmLock = runtime.rwmutex {rLock: (*runtime.mutex)(0x58d080), readers: 0, readerPass: 0,...+4 more}
+runtime.execLock = runtime.rwmutex {rLock: (*runtime.mutex)(0x58d0c0), readers: 0, readerPass: 0,...+4 more}
+runtime.newmHandoff = struct { runtime.lock runtime.mutex; runtime.newm runtime.muintptr; runtime.waiting bool; runtime.wake runtime.note; runtime.haveTemplateThread uint32 } {lock: (*runtime.mutex)(0x58d040), newm: 0, waiting: true,...+2 more}
+runtime.inForkedChild = false
+runtime.prof = struct { runtime.signalLock uint32; runtime.hz int32 } {signalLock: 0, hz: 0}
+runtime.forcegcperiod = 120000000000
+runtime.starttime = 0
+runtime.stealOrder = runtime.randomOrder {count: 32, coprimes: []uint32 len: 16, cap: 16, [...]}
+runtime.inittrace = runtime.tracestat {active: false, id: 0, allocs: 0,...+1 more}
+runtime.envs = []string len: 87, cap: 87, [...]
+runtime.argslice = []string len: 1, cap: 1, [...]
+runtime.traceback_cache = 4
+runtime.traceback_env = 4
+runtime.argc = 1
+runtime.argv = (**uint8)(0x7ffed49505a8)
+runtime.test_z64 = 3298534883331
+runtime.test_x64 = 42
+runtime.debug = struct { runtime.cgocheck int32; runtime.clobberfree int32; runtime.efence int32; runtime.gccheckmark int32; runtime.gcpacertrace int32; runtime.gcshrinkstackoff int32; runtime.gcstoptheworld int32; runtime.gctrace int32; runtime.invalidptr int32; runtime.madvdontneed int32; runtime.scavtrace int32; runtime.scheddetail int32; runtime.schedtrace int32; runtime.tracebackancestors int32; runtime.asyncpreemptoff int32; runtime.harddecommit int32; runtime.malloc bool; runtime.allocfreetrace int32; runtime.inittrace int32; runtime.sbrk int32 } {cgocheck: 1, clobberfree: 0, efence: 0,...+17 more}
+runtime.dbgvars = []runtime.dbgVar len: 19, cap: 19, [...]
+runtime.waitReasonStrings = [27]string [...]
+runtime.allm = (*runtime.m)(0xc00018c000)
+runtime.gomaxprocs = 32
+runtime.ncpu = 32
+runtime.forcegc = runtime.forcegcstate {lock: (*runtime.mutex)(0x55dfb0), g: (*runtime.g)(0xc000002680), idle: 1}
+runtime.sched = runtime.schedt {goidgen: 32, lastpoll: 1051560627461714, pollUntil: 0,...+34 more}
+runtime.newprocs = 0
+runtime.allpLock = runtime.mutex {lockRankStruct: runtime.lockRankStruct {}, key: 0}
+runtime.allp = []*runtime.p len: 32, cap: 32, [...]
+runtime.idlepMask = runtime.pMask len: 1, cap: 1, [...]
+runtime.timerpMask = runtime.pMask len: 1, cap: 1, [...]
+runtime.gcBgMarkWorkerPool = 0
+runtime.gcBgMarkWorkerCount = 0
+runtime.processorVersionInfo = 8851216
+runtime.isIntel = false
+runtime.islibrary = false
+runtime.isarchive = false
+runtime.chansendpc = 4215488
+runtime.chanrecvpc = 4218048
+runtime.semtable = [251]struct { runtime.root runtime.semaRoot; runtime.pad [40]uint8 } [...]
+runtime.fwdSig = [65]uintptr [...]
+runtime.handlingSig = [65]uint32 [...]
+runtime.disableSigChan = chan uint32 0/0
+runtime.enableSigChan = chan uint32 0/0
+runtime.maskUpdatedChan = chan struct {} 0/0
+runtime.signalsOK = true
+runtime.sigprofCallers = runtime.cgoCallers [...]
+runtime.sigprofCallersUse = 0
+runtime.crashing = 0
+runtime.testSigtrap = nil
+runtime.testSigusr1 = nil
+runtime.badginsignalMsg = "fatal: bad g in signal handler\n"
+runtime.sigsetAllExiting = runtime.sigset [...]
+runtime.sig = struct { runtime.note runtime.note; runtime.mask [3]uint32; runtime.wanted [3]uint32; runtime.ignored [3]uint32; runtime.recv [3]uint32; runtime.state uint32; runtime.delivering uint32; runtime.inuse bool } {note: (*runtime.note)(0x58d1a0), mask: [3]uint32 [...], wanted: [3]uint32 [...],...+5 more}
+runtime.sigtable = [65]runtime.sigTabT [...]
+runtime.class_to_size = [68]uint16 [...]
+runtime.class_to_allocnpages = [68]uint8 [...]
+runtime.class_to_divmagic = [68]uint32 [...]
+runtime.size_to_class8 = [129]uint8 [...]
+runtime.size_to_class128 = [249]uint8 [...]
+runtime.stackpool = [4]struct { runtime.item runtime.stackpoolItem; runtime._ [40]uint8 } [...]
+runtime.stackLarge = struct { runtime.lock runtime.mutex; runtime.free [35]runtime.mSpanList } {lock: (*runtime.mutex)(0x58dcc0), free: [35]runtime.mSpanList [...]}
+runtime.maxstacksize = 1000000000
+runtime.maxstackceiling = 2000000000
+runtime.methodValueCallFrameObjs = [1]runtime.stackObjectRecord [...]
+runtime.badsystemstackMsg = "fatal: systemstack called from unexpected goroutine"
+runtime.intArgRegs = 9
+runtime.pinnedTypemaps = []map[runtime.typeOff]*runtime._type len: 0, cap: 0, nil
+runtime.firstmoduledata = runtime.moduledata {pcHeader: (*runtime.pcHeader)(0x4e2b60), funcnametab: []uint8 len: 50744, cap: 50744, [...], cutab: []uint32 len: 1968, cap: 1968, [...],...+38 more}
+runtime.modulesSlice = (*[]*runtime.moduledata)(0xc00000c000)
+runtime.faketime = 0
+runtime.overrideWrite = nil
+runtime.trace = struct { runtime.lock runtime.mutex; runtime.lockOwner *runtime.g; runtime.enabled bool; runtime.shutdown bool; runtime.headerWritten bool; runtime.footerWritten bool; runtime.shutdownSema uint32; runtime.seqStart uint64; runtime.ticksStart int64; runtime.ticksEnd int64; runtime.timeStart int64; runtime.timeEnd int64; runtime.seqGC uint64; runtime.reading runtime.traceBufPtr; runtime.empty runtime.traceBufPtr; runtime.fullHead runtime.traceBufPtr; runtime.fullTail runtime.traceBufPtr; runtime.reader runtime.guintptr; runtime.stackTab runtime.traceStackTable; runtime.stringsLock runtime.mutex; runtime.strings map[string]uint64; runtime.stringSeq uint64; runtime.markWorkerLabels [4]uint64; runtime.bufLock runtime.mutex; runtime.buf runtime.traceBufPtr } {lock: (*runtime.mutex)(0x5661e0), lockOwner: *runtime.g nil, enabled: false,...+22 more}
+runtime.gStatusStrings = [10]string [...]
+runtime.cgoTraceback = unsafe.Pointer(0x0)
+runtime.cgoSymbolizer = unsafe.Pointer(0x0)
+runtime.reflectOffs = struct { runtime.lock runtime.mutex; runtime.next int32; runtime.m map[int32]unsafe.Pointer; runtime.minv map[unsafe.Pointer]int32 } {lock: (*runtime.mutex)(0x55e0c0), next: 0, m: map[int32]unsafe.Pointer nil,...+1 more}
+runtime.vdsoLinuxVersion = runtime.vdsoVersionKey {version: "LINUX_2.6", verHash: 61765110}
+runtime.vdsoSymbolKeys = []runtime.vdsoSymbolKey len: 2, cap: 2, [...]
+runtime.vdsoGettimeofdaySym = 140732465503184
+runtime.vdsoClockgettimeSym = 140732465503248
+_cgo_init = unsafe.Pointer(0x0)
+_cgo_thread_start = unsafe.Pointer(0x0)
+_cgo_notify_runtime_init_done = unsafe.Pointer(0x0)
+_cgo_callers = unsafe.Pointer(0x0)
+_cgo_yield = unsafe.Pointer(0x0)
+_cgo_mmap = unsafe.Pointer(0x0)
+_cgo_munmap = unsafe.Pointer(0x0)
+_cgo_sigaction = unsafe.Pointer(0x0)
+path.ErrBadPattern = error(*errors.errorString) 0x55de28
+internal/reflectlite.kindNames = []string len: 27, cap: 27, [...]
+errors.errorType = internal/reflectlite.Type(*internal/reflectlite.rtype) 0x55dbd8
+sync/atomic.firstStoreInProgress = 0
+sync.expunged = unsafe.Pointer(0xc000010040)
+sync.allPoolsMu = sync.Mutex {state: 0, sema: 0}
+sync.allPools = []*sync.Pool len: 1, cap: 1, [...]
+sync.oldPools = []*sync.Pool len: 0, cap: 0, nil
+io.ErrShortWrite = error(*errors.errorString) 0x55dcc8
+io.errInvalidWrite = error(*errors.errorString) 0x55dce8
+io.ErrShortBuffer = error(*errors.errorString) 0x55dcb8
+io.EOF = error(*errors.errorString) 0x55dc88
+io.ErrUnexpectedEOF = error(*errors.errorString) 0x55dcd8
+io.ErrNoProgress = error(*errors.errorString) 0x55dca8
+io.errWhence = error(*errors.errorString) 0x55dd08
+io.errOffset = error(*errors.errorString) 0x55dcf8
+io.Discard = io.Writer(io.discard) {}
+io.ErrClosedPipe = error(*errors.errorString) 0x55dc98
+unicode/utf8.first = [256]uint8 [...]
+unicode/utf8.acceptRanges = [16]unicode/utf8.acceptRange [...]
+unicode.Categories = map[string]*unicode.RangeTable [...]
+unicode.Cc = (*unicode.RangeTable)(0x558960)
+unicode.Cf = (*unicode.RangeTable)(0x559ee0)
+unicode.Co = (*unicode.RangeTable)(0x55a3a0)
+unicode.Cs = (*unicode.RangeTable)(0x556c20)
+unicode.Nd = (*unicode.RangeTable)(0x558e60)
+unicode.L = (*unicode.RangeTable)(0x556ea0)
+unicode.Lm = (*unicode.RangeTable)(0x5574e0)
+unicode.Lo = (*unicode.RangeTable)(0x5577e0)
+unicode.Ll = (*unicode.RangeTable)(0x5571a0)
+unicode.M = (*unicode.RangeTable)(0x558020)
+unicode.Mc = (*unicode.RangeTable)(0x558320)
+unicode.Me = (*unicode.RangeTable)(0x558620)
+unicode.Mn = (*unicode.RangeTable)(0x558820)
+unicode.Nl = (*unicode.RangeTable)(0x5591e0)
+unicode.No = (*unicode.RangeTable)(0x559520)
+unicode.N = (*unicode.RangeTable)(0x558b60)
+unicode.C = (*unicode.RangeTable)(0x556a20)
+unicode.Pc = (*unicode.RangeTable)(0x559ba0)
+unicode.Pd = (*unicode.RangeTable)(0x559de0)
+unicode.Pe = (*unicode.RangeTable)(0x55a0e0)
+unicode.Pf = (*unicode.RangeTable)(0x55a120)
+unicode.Pi = (*unicode.RangeTable)(0x55a160)
+unicode.Po = (*unicode.RangeTable)(0x55a1a0)
+unicode.Ps = (*unicode.RangeTable)(0x55a1e0)
+unicode.P = (*unicode.RangeTable)(0x5598a0)
+unicode.Sc = (*unicode.RangeTable)(0x55a260)
+unicode.Sk = (*unicode.RangeTable)(0x55a2a0)
+unicode.Sm = (*unicode.RangeTable)(0x55a2e0)
+unicode.So = (*unicode.RangeTable)(0x55a320)
+unicode.Z = (*unicode.RangeTable)(0x55a360)
+unicode.S = (*unicode.RangeTable)(0x55a220)
+unicode.Lt = (*unicode.RangeTable)(0x557ae0)
+unicode.Lu = (*unicode.RangeTable)(0x557d20)
+unicode.Zl = (*unicode.RangeTable)(0x55a3e0)
+unicode.Zp = (*unicode.RangeTable)(0x55a420)
+unicode.Zs = (*unicode.RangeTable)(0x55a460)
+unicode.Scripts = map[string]*unicode.RangeTable [...]
+unicode.Adlam = (*unicode.RangeTable)(0x55a4a0)
+unicode.Ahom = (*unicode.RangeTable)(0x556a60)
+unicode.Anatolian_Hieroglyphs = (*unicode.RangeTable)(0x556aa0)
+unicode.Arabic = (*unicode.RangeTable)(0x556ae0)
+unicode.Armenian = (*unicode.RangeTable)(0x556b20)
+unicode.Avestan = (*unicode.RangeTable)(0x556b60)
+unicode.Balinese = (*unicode.RangeTable)(0x556ba0)
+unicode.Bamum = (*unicode.RangeTable)(0x556be0)
+unicode.Bassa_Vah = (*unicode.RangeTable)(0x556c60)
+unicode.Batak = (*unicode.RangeTable)(0x556ca0)
+unicode.Bengali = (*unicode.RangeTable)(0x556ce0)
+unicode.Bhaiksuki = (*unicode.RangeTable)(0x556d20)
+unicode.Bopomofo = (*unicode.RangeTable)(0x556d60)
+unicode.Brahmi = (*unicode.RangeTable)(0x556da0)
+unicode.Braille = (*unicode.RangeTable)(0x556de0)
+unicode.Buginese = (*unicode.RangeTable)(0x556e20)
+unicode.Buhid = (*unicode.RangeTable)(0x556e60)
+unicode.Canadian_Aboriginal = (*unicode.RangeTable)(0x556ee0)
+unicode.Carian = (*unicode.RangeTable)(0x556f20)
+unicode.Caucasian_Albanian = (*unicode.RangeTable)(0x556f60)
+unicode.Chakma = (*unicode.RangeTable)(0x556fa0)
+unicode.Cham = (*unicode.RangeTable)(0x556fe0)
+unicode.Cherokee = (*unicode.RangeTable)(0x557020)
+unicode.Chorasmian = (*unicode.RangeTable)(0x557060)
+unicode.Common = (*unicode.RangeTable)(0x5570a0)
+unicode.Coptic = (*unicode.RangeTable)(0x5570e0)
+unicode.Cuneiform = (*unicode.RangeTable)(0x557120)
+unicode.Cypriot = (*unicode.RangeTable)(0x557160)
+unicode.Cyrillic = (*unicode.RangeTable)(0x5571e0)
+unicode.Deseret = (*unicode.RangeTable)(0x557220)
+unicode.Devanagari = (*unicode.RangeTable)(0x557260)
+unicode.Dives_Akuru = (*unicode.RangeTable)(0x5572a0)
+unicode.Dogra = (*unicode.RangeTable)(0x5572e0)
+unicode.Duployan = (*unicode.RangeTable)(0x557320)
+unicode.Egyptian_Hieroglyphs = (*unicode.RangeTable)(0x557360)
+unicode.Elbasan = (*unicode.RangeTable)(0x5573a0)
+unicode.Elymaic = (*unicode.RangeTable)(0x5573e0)
+unicode.Ethiopic = (*unicode.RangeTable)(0x557420)
+unicode.Georgian = (*unicode.RangeTable)(0x557460)
+unicode.Glagolitic = (*unicode.RangeTable)(0x5574a0)
+unicode.Gothic = (*unicode.RangeTable)(0x557520)
+unicode.Grantha = (*unicode.RangeTable)(0x557560)
+unicode.Greek = (*unicode.RangeTable)(0x5575a0)
+unicode.Gujarati = (*unicode.RangeTable)(0x5575e0)
+unicode.Gunjala_Gondi = (*unicode.RangeTable)(0x557620)
+unicode.Gurmukhi = (*unicode.RangeTable)(0x557660)
+unicode.Han = (*unicode.RangeTable)(0x5576a0)
+unicode.Hangul = (*unicode.RangeTable)(0x5576e0)
+unicode.Hanifi_Rohingya = (*unicode.RangeTable)(0x557720)
+unicode.Hanunoo = (*unicode.RangeTable)(0x557760)
+unicode.Hatran = (*unicode.RangeTable)(0x5577a0)
+unicode.Hebrew = (*unicode.RangeTable)(0x557820)
+unicode.Hiragana = (*unicode.RangeTable)(0x557860)
+unicode.Imperial_Aramaic = (*unicode.RangeTable)(0x5578a0)
+unicode.Inherited = (*unicode.RangeTable)(0x5578e0)
+unicode.Inscriptional_Pahlavi = (*unicode.RangeTable)(0x557920)
+unicode.Inscriptional_Parthian = (*unicode.RangeTable)(0x557960)
+unicode.Javanese = (*unicode.RangeTable)(0x5579a0)
+unicode.Kaithi = (*unicode.RangeTable)(0x5579e0)
+unicode.Kannada = (*unicode.RangeTable)(0x557a20)
+unicode.Katakana = (*unicode.RangeTable)(0x557a60)
+unicode.Kayah_Li = (*unicode.RangeTable)(0x557aa0)
+unicode.Kharoshthi = (*unicode.RangeTable)(0x557b20)
+unicode.Khitan_Small_Script = (*unicode.RangeTable)(0x557b60)
+unicode.Khmer = (*unicode.RangeTable)(0x557ba0)
+unicode.Khojki = (*unicode.RangeTable)(0x557be0)
+unicode.Khudawadi = (*unicode.RangeTable)(0x557c20)
+unicode.Lao = (*unicode.RangeTable)(0x557c60)
+unicode.Latin = (*unicode.RangeTable)(0x557ca0)
+unicode.Lepcha = (*unicode.RangeTable)(0x557ce0)
+unicode.Limbu = (*unicode.RangeTable)(0x557d60)
+unicode.Linear_A = (*unicode.RangeTable)(0x557da0)
+unicode.Linear_B = (*unicode.RangeTable)(0x557de0)
+unicode.Lisu = (*unicode.RangeTable)(0x557e20)
+unicode.Lycian = (*unicode.RangeTable)(0x557e60)
+unicode.Lydian = (*unicode.RangeTable)(0x557ea0)
+unicode.Mahajani = (*unicode.RangeTable)(0x557ee0)
+unicode.Makasar = (*unicode.RangeTable)(0x557f20)
+unicode.Malayalam = (*unicode.RangeTable)(0x557f60)
+unicode.Mandaic = (*unicode.RangeTable)(0x557fa0)
+unicode.Manichaean = (*unicode.RangeTable)(0x557fe0)
+unicode.Marchen = (*unicode.RangeTable)(0x558060)
+unicode.Masaram_Gondi = (*unicode.RangeTable)(0x5580a0)
+unicode.Medefaidrin = (*unicode.RangeTable)(0x5580e0)
+unicode.Meetei_Mayek = (*unicode.RangeTable)(0x558120)
+unicode.Mende_Kikakui = (*unicode.RangeTable)(0x558160)
+unicode.Meroitic_Cursive = (*unicode.RangeTable)(0x5581a0)
+unicode.Meroitic_Hieroglyphs = (*unicode.RangeTable)(0x5581e0)
+unicode.Miao = (*unicode.RangeTable)(0x558220)
+unicode.Modi = (*unicode.RangeTable)(0x558260)
+unicode.Mongolian = (*unicode.RangeTable)(0x5582a0)
+unicode.Mro = (*unicode.RangeTable)(0x5582e0)
+unicode.Multani = (*unicode.RangeTable)(0x558360)
+unicode.Myanmar = (*unicode.RangeTable)(0x5583a0)
+unicode.Nabataean = (*unicode.RangeTable)(0x5583e0)
+unicode.Nandinagari = (*unicode.RangeTable)(0x558420)
+unicode.New_Tai_Lue = (*unicode.RangeTable)(0x558460)
+unicode.Newa = (*unicode.RangeTable)(0x5584a0)
+unicode.Nko = (*unicode.RangeTable)(0x5584e0)
+unicode.Nushu = (*unicode.RangeTable)(0x558520)
+unicode.Nyiakeng_Puachue_Hmong = (*unicode.RangeTable)(0x558560)
+unicode.Ogham = (*unicode.RangeTable)(0x5585a0)
+unicode.Ol_Chiki = (*unicode.RangeTable)(0x5585e0)
+unicode.Old_Hungarian = (*unicode.RangeTable)(0x558660)
+unicode.Old_Italic = (*unicode.RangeTable)(0x5586a0)
+unicode.Old_North_Arabian = (*unicode.RangeTable)(0x5586e0)
+unicode.Old_Permic = (*unicode.RangeTable)(0x558720)
+unicode.Old_Persian = (*unicode.RangeTable)(0x558760)
+unicode.Old_Sogdian = (*unicode.RangeTable)(0x5587a0)
+unicode.Old_South_Arabian = (*unicode.RangeTable)(0x5587e0)
+unicode.Old_Turkic = (*unicode.RangeTable)(0x558860)
+unicode.Oriya = (*unicode.RangeTable)(0x5588a0)
+unicode.Osage = (*unicode.RangeTable)(0x5588e0)
+unicode.Osmanya = (*unicode.RangeTable)(0x558920)
+unicode.Pahawh_Hmong = (*unicode.RangeTable)(0x5589a0)
+unicode.Palmyrene = (*unicode.RangeTable)(0x5589e0)
+unicode.Pau_Cin_Hau = (*unicode.RangeTable)(0x558a20)
+unicode.Phags_Pa = (*unicode.RangeTable)(0x558a60)
+unicode.Phoenician = (*unicode.RangeTable)(0x558aa0)
+unicode.Psalter_Pahlavi = (*unicode.RangeTable)(0x558ae0)
+unicode.Rejang = (*unicode.RangeTable)(0x558b20)
+unicode.Runic = (*unicode.RangeTable)(0x558ba0)
+unicode.Samaritan = (*unicode.RangeTable)(0x558be0)
+unicode.Saurashtra = (*unicode.RangeTable)(0x558c20)
+unicode.Sharada = (*unicode.RangeTable)(0x558c60)
+unicode.Shavian = (*unicode.RangeTable)(0x558ca0)
+unicode.Siddham = (*unicode.RangeTable)(0x558ce0)
+unicode.SignWriting = (*unicode.RangeTable)(0x558d20)
+unicode.Sinhala = (*unicode.RangeTable)(0x558d60)
+unicode.Sogdian = (*unicode.RangeTable)(0x558da0)
+unicode.Sora_Sompeng = (*unicode.RangeTable)(0x558de0)
+unicode.Soyombo = (*unicode.RangeTable)(0x558e20)
+unicode.Sundanese = (*unicode.RangeTable)(0x558ea0)
+unicode.Syloti_Nagri = (*unicode.RangeTable)(0x558ee0)
+unicode.Syriac = (*unicode.RangeTable)(0x558f20)
+unicode.Tagalog = (*unicode.RangeTable)(0x558f60)
+unicode.Tagbanwa = (*unicode.RangeTable)(0x558fa0)
+unicode.Tai_Le = (*unicode.RangeTable)(0x558fe0)
+unicode.Tai_Tham = (*unicode.RangeTable)(0x559020)
+unicode.Tai_Viet = (*unicode.RangeTable)(0x559060)
+unicode.Takri = (*unicode.RangeTable)(0x5590a0)
+unicode.Tamil = (*unicode.RangeTable)(0x5590e0)
+unicode.Tangut = (*unicode.RangeTable)(0x559120)
+unicode.Telugu = (*unicode.RangeTable)(0x559160)
+unicode.Thaana = (*unicode.RangeTable)(0x5591a0)
+unicode.Thai = (*unicode.RangeTable)(0x559220)
+unicode.Tibetan = (*unicode.RangeTable)(0x559260)
+unicode.Tifinagh = (*unicode.RangeTable)(0x5592a0)
+unicode.Tirhuta = (*unicode.RangeTable)(0x5592e0)
+unicode.Ugaritic = (*unicode.RangeTable)(0x559320)
+unicode.Vai = (*unicode.RangeTable)(0x559360)
+unicode.Wancho = (*unicode.RangeTable)(0x5593a0)
+unicode.Warang_Citi = (*unicode.RangeTable)(0x5593e0)
+unicode.Yezidi = (*unicode.RangeTable)(0x559420)
+unicode.Yi = (*unicode.RangeTable)(0x559460)
+unicode.Zanabazar_Square = (*unicode.RangeTable)(0x5594a0)
+unicode.Properties = map[string]*unicode.RangeTable [...]
+unicode.ASCII_Hex_Digit = (*unicode.RangeTable)(0x5594e0)
+unicode.Bidi_Control = (*unicode.RangeTable)(0x559560)
+unicode.Dash = (*unicode.RangeTable)(0x5595a0)
+unicode.Deprecated = (*unicode.RangeTable)(0x5595e0)
+unicode.Diacritic = (*unicode.RangeTable)(0x559620)
+unicode.Extender = (*unicode.RangeTable)(0x559660)
+unicode.Hex_Digit = (*unicode.RangeTable)(0x5596a0)
+unicode.Hyphen = (*unicode.RangeTable)(0x5596e0)
+unicode.IDS_Binary_Operator = (*unicode.RangeTable)(0x559720)
+unicode.IDS_Trinary_Operator = (*unicode.RangeTable)(0x559760)
+unicode.Ideographic = (*unicode.RangeTable)(0x5597a0)
+unicode.Join_Control = (*unicode.RangeTable)(0x5597e0)
+unicode.Logical_Order_Exception = (*unicode.RangeTable)(0x559820)
+unicode.Noncharacter_Code_Point = (*unicode.RangeTable)(0x559860)
+unicode.Other_Alphabetic = (*unicode.RangeTable)(0x5598e0)
+unicode.Other_Default_Ignorable_Code_Point = (*unicode.RangeTable)(0x559920)
+unicode.Other_Grapheme_Extend = (*unicode.RangeTable)(0x559960)
+unicode.Other_ID_Continue = (*unicode.RangeTable)(0x5599a0)
+unicode.Other_ID_Start = (*unicode.RangeTable)(0x5599e0)
+unicode.Other_Lowercase = (*unicode.RangeTable)(0x559a20)
+unicode.Other_Math = (*unicode.RangeTable)(0x559a60)
+unicode.Other_Uppercase = (*unicode.RangeTable)(0x559aa0)
+unicode.Pattern_Syntax = (*unicode.RangeTable)(0x559ae0)
+unicode.Pattern_White_Space = (*unicode.RangeTable)(0x559b20)
+unicode.Prepended_Concatenation_Mark = (*unicode.RangeTable)(0x559b60)
+unicode.Quotation_Mark = (*unicode.RangeTable)(0x559be0)
+unicode.Radical = (*unicode.RangeTable)(0x559c20)
+unicode.Regional_Indicator = (*unicode.RangeTable)(0x559c60)
+unicode.Sentence_Terminal = (*unicode.RangeTable)(0x559ca0)
+unicode.Soft_Dotted = (*unicode.RangeTable)(0x559ce0)
+unicode.Terminal_Punctuation = (*unicode.RangeTable)(0x559d20)
+unicode.Unified_Ideograph = (*unicode.RangeTable)(0x559d60)
+unicode.Variation_Selector = (*unicode.RangeTable)(0x559da0)
+unicode.White_Space = (*unicode.RangeTable)(0x559e20)
+unicode.FoldCategory = map[string]*unicode.RangeTable [...]
+unicode.foldL = (*unicode.RangeTable)(0x559e60)
+unicode.foldLl = (*unicode.RangeTable)(0x559ea0)
+unicode.foldLt = (*unicode.RangeTable)(0x559f20)
+unicode.foldLu = (*unicode.RangeTable)(0x559f60)
+unicode.foldM = (*unicode.RangeTable)(0x559fa0)
+unicode.foldMn = (*unicode.RangeTable)(0x559fe0)
+unicode.FoldScript = map[string]*unicode.RangeTable [...]
+unicode.foldCommon = (*unicode.RangeTable)(0x55a020)
+unicode.foldGreek = (*unicode.RangeTable)(0x55a060)
+unicode.foldInherited = (*unicode.RangeTable)(0x55a0a0)
+bytes.ErrTooLarge = error(*errors.errorString) 0x55db88
+bytes.errNegativeRead = error(*errors.errorString) 0x55db98
+bytes.errUnreadByte = error(*errors.errorString) 0x55dba8
+internal/oserror.ErrInvalid = error(*errors.errorString) 0x55dc28
+internal/oserror.ErrPermission = error(*errors.errorString) 0x55dc48
+internal/oserror.ErrExist = error(*errors.errorString) 0x55dc18
+internal/oserror.ErrNotExist = error(*errors.errorString) 0x55dc38
+internal/oserror.ErrClosed = error(*errors.errorString) 0x55dc08
+syscall.envOnce = sync.Once {done: 0, m: (*sync.Mutex)(0x58cf34)}
+syscall.envLock = sync.RWMutex {w: (*sync.Mutex)(0x58cfa0), writerSem: 0, readerSem: 0,...+2 more}
+syscall.env = map[string]int nil
+syscall.envs = []string len: 87, cap: 88, [...]
+syscall._zero = 0
+syscall.Stdin = 0
+syscall.Stdout = 1
+syscall.Stderr = 2
+syscall.errEAGAIN = error(syscall.Errno) EAGAIN (11)
+syscall.errEINVAL = error(syscall.Errno) EINVAL (22)
+syscall.errENOENT = error(syscall.Errno) ENOENT (2)
+syscall.errors = [133]string [...]
+syscall.signals = [32]string [...]
+time.std0x = [6]int [...]
+time.longDayNames = []string len: 7, cap: 7, [...]
+time.longMonthNames = []string len: 12, cap: 12, [...]
+time.atoiError = error(*errors.errorString) 0x55de68
+time.errBad = error(*errors.errorString) 0x55de88
+time.errLeadingInt = error(*errors.errorString) 0x55de98
+time.unitMap = map[string]uint64 [...]
+time.daysBefore = [13]int32 [...]
+time.startNano = 1051065074458842
+time.UTC = (*time.Location)(0x55a5a0)
+time.utcLoc = time.Location {name: "UTC", zone: []time.zone len: 0, cap: 0, nil, tx: []time.zoneTrans len: 0, cap: 0, nil,...+4 more}
+time.Local = (*time.Location)(0x55e1c0)
+time.localLoc = time.Location {name: "", zone: []time.zone len: 0, cap: 0, nil, tx: []time.zoneTrans len: 0, cap: 0, nil,...+4 more}
+time.localOnce = sync.Once {done: 0, m: (*sync.Mutex)(0x58cf44)}
+time.errLocation = error(*errors.errorString) 0x55dea8
+time.loadFromEmbeddedTZData = nil
+time.badData = error(*errors.errorString) 0x55de78
+time.loadTzinfoFromTzdata = nil
+time.zoneSources = []string len: 4, cap: 4, [...]
+context.Canceled = error(*errors.errorString) 0x55dbb8
+context.background = (*context.emptyCtx)(0xc000016138)
+context.todo = (*context.emptyCtx)(0xc000016150)
+context.goroutines = 0
+context.cancelCtxKey = 0
+context.closedchan = chan struct {} 0/0
+math.useFMA = true
+encoding/binary.overflow = error(*errors.errorString) 0x55dbc8
+reflect.intArgRegs = 9
+reflect.floatArgRegs = 15
+reflect.floatRegSize = 8
+reflect.kindNames = []string len: 27, cap: 27, [...]
+reflect.layoutCache = sync.Map {mu: (*sync.Mutex)(0x55e100), read: (*"sync/atomic.Value")(0x55e108), dirty: map[interface {}]*sync.entry nil,...+1 more}
+reflect.uint8Type = (*reflect.rtype)(0x4c1160)
+reflect.stringType = (*reflect.rtype)(0x4c1020)
+reflect.dummy = struct { reflect.b bool; reflect.x interface {} } {b: false, x: interface {} nil}
+(dlv) vars reflect
+runtime.reflectOffs = struct { runtime.lock runtime.mutex; runtime.next int32; runtime.m map[int32]unsafe.Pointer; runtime.minv map[unsafe.Pointer]int32 } {lock: (*runtime.mutex)(0x55e0c0), next: 0, m: map[int32]unsafe.Pointer nil,...+1 more}
+internal/reflectlite.kindNames = []string len: 27, cap: 27, [...]
+reflect.intArgRegs = 9
+reflect.floatArgRegs = 15
+reflect.floatRegSize = 8
+reflect.kindNames = []string len: 27, cap: 27, [...]
+reflect.layoutCache = sync.Map {mu: (*sync.Mutex)(0x55e100), read: (*"sync/atomic.Value")(0x55e108), dirty: map[interface {}]*sync.entry nil,...+1 more}
+reflect.uint8Type = (*reflect.rtype)(0x4c1160)
+reflect.stringType = (*reflect.rtype)(0x4c1020)
+reflect.dummy = struct { reflect.b bool; reflect.x interface {} } {b: false, x: interface {} nil}
+(dlv) display -a id
+0: id = 7864629642541061252
+(dlv) next
+> main.produceValues() ./main.go:31 (PC: 0x4b7847)
+    26:		// Create a bytes buffer of length 64.
+    27:		buf := make([]byte, 1<<6)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+=>  31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+    33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+0: id = error could not find symbol value for id
+(dlv) next
+> watchpoint on [id] main.produceValues() ./main.go:33 (hits goroutine(19):2 total:2) (PC: 0x4b7681)
+    28:	
+    29:		for {
+    30:			// Create a random ID.
+    31:			id := rand.Int()
+    32:			// Read some random data into our buffer.
+=>  33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+0: id = 5024324190041915365
+(dlv) next
+> main.produceValues() ./main.go:37 (PC: 0x4b76d8)
+    32:			// Read some random data into our buffer.
+    33:			if _, err := rand.Read(buf); err != nil {
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+=>  37:			p := packet{id: id, val: buf}
+    38:			select {
+    39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+    42:			case ch <- p:
+0: id = 5024324190041915365
+(dlv) display -a id == 5
+1: id == 5 = false
+(dlv) next
+> main.produceValues() ./main.go:39 (PC: 0x4b7727)
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+=>  39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+    42:			case ch <- p:
+    43:				// Do nothing.
+    44:			}
+0: id = 5024324190041915365
+1: id == 5 = false
+(dlv) locals
+buf = []uint8 len: 64, cap: 64, [...]
+id = 5024324190041915365
+p = main.packet {id: 5024324190041915365, val: []uint8 len: 64, cap: 64, [...]}
+(dlv) print &p
+(*main.packet)(0xc0000b4f20)
+(dlv) examinemem -fmt hex -count 20 0xc0000b4f20
+0xc0000b4f20:   0xe5   0xbf   0xd9   0x17   0x3b   0xfc   0xb9   0x45   
+0xc0000b4f28:   0x40   0xe2   0x01   0x00   0xc0   0x00   0x00   0x00   
+0xc0000b4f30:   0x40   0x00   0x00   0x00   
+(dlv) help x
+Examine raw memory at the given address.
+
+Examine memory:
+
+	examinemem [-fmt <format>] [-count|-len <count>] [-size <size>] <address>
+	examinemem [-fmt <format>] [-count|-len <count>] [-size <size>] -x <expression>
+
+Format represents the data format and the value is one of this list (default hex): bin(binary), oct(octal), dec(decimal), hex(hexadecimal), addr(address).
+Length is the number of bytes (default 1) and must be less than or equal to 1000.
+Address is the memory location of the target to examine. Please note '-len' is deprecated by '-count and -size'.
+Expression can be an integer expression or pointer value of the memory location to examine.
+
+For example:
+
+    x -fmt hex -count 20 -size 1 0xc00008af38
+    x -fmt hex -count 20 -size 1 -x 0xc00008af38 + 8
+    x -fmt hex -count 20 -size 1 -x &myVar
+    x -fmt hex -count 20 -size 1 -x myPtrVar
+(dlv) examinemem -fmt hex -size 8 -count 20 0xc0000b4f20
+0xc0000b4f20:   0x45b9fc3b17d9bfe5   0x000000c00001e240   0x0000000000000040   0x0000000000000040   0x000000c000184000   0x000000c0000b4f60   0x000000c000184060   0x0000000000000000   
+0xc0000b4f60:   0x6d24c6fdc5aad494   0x000000c00001e240   0x0000000000000040   0x0000000000000040   0x000000c0000b4fd0   0x00000000004b8735   0x00000000004e0c10   0x000000c0000c6040   
+0xc0000b4fa0:   0x000000c000016160   0x000000c000184000   0x000000c000184000   0x000000c000016160   
+(dlv) whatis p
+main.packet
+(dlv) locals
+buf = []uint8 len: 64, cap: 64, [...]
+id = 5024324190041915365
+p = main.packet {id: 5024324190041915365, val: []uint8 len: 64, cap: 64, [...]}
+(dlv) print p.id
+5024324190041915365
+(dlv) print p.val
+[]uint8 len: 64, cap: 64, [198,85,4,89,245,224,17,42,217,31,9,45,228,70,190,186,20,251,59,140,227,251,47,156,148,24,21,178,203,90,59,64,110,45,136,123,121,18,187,160,124,141,199,202,171,152,54,130,125,169,60,167,31,165,173,168,16,218,30,94,155,9,115,133]
+(dlv) print p.val[13]
+70
+(dlv) print p.val[1000]
+(dlv) set p.id = 500
+(dlv) print p.id
+500
+(dlv) print p
+main.packet {
+	id: 500,
+	val: []uint8 len: 64, cap: 64, [198,85,4,89,245,224,17,42,217,31,9,45,228,70,190,186,20,251,59,140,227,251,47,156,148,24,21,178,203,90,59,64,110,45,136,123,121,18,187,160,124,141,199,202,171,152,54,130,125,169,60,167,31,165,173,168,16,218,30,94,155,9,115,133],}
+(dlv) regs
+    Rip = 0x00000000004b7727
+    Rsp = 0x000000c0000b4df8
+    Rax = 0x0000000000000040
+    Rbx = 0x000000c00001e240
+    Rcx = 0x0000000000000040
+    Rdx = 0x0000000000000040
+    Rsi = 0x0000000000000000
+    Rdi = 0x00000000004e0b90
+    Rbp = 0x000000c0000b4f80
+     R8 = 0x000000c0000b8170
+     R9 = 0x0000000000000000
+    R10 = 0x00000000004e0b68
+    R11 = 0x00000000004e0b68
+    R12 = 0x000000c0000b4c78
+    R13 = 0x0000000000000000
+    R14 = 0x000000c000180340
+    R15 = 0x0000000000000000
+ Rflags = 0x0000000000000246	[PF ZF IF IOPL=0]
+     Es = 0x0000000000000000
+     Cs = 0x0000000000000033
+     Ss = 0x000000000000002b
+     Ds = 0x0000000000000000
+     Fs = 0x0000000000000000
+     Gs = 0x0000000000000000
+Fs_base = 0x000000c00007e490
+Gs_base = 0x0000000000000000
+
+(dlv) regs -a
+    Rip = 0x00000000004b7727
+    Rsp = 0x000000c0000b4df8
+    Rax = 0x0000000000000040
+    Rbx = 0x000000c00001e240
+    Rcx = 0x0000000000000040
+    Rdx = 0x0000000000000040
+    Rsi = 0x0000000000000000
+    Rdi = 0x00000000004e0b90
+    Rbp = 0x000000c0000b4f80
+     R8 = 0x000000c0000b8170
+     R9 = 0x0000000000000000
+    R10 = 0x00000000004e0b68
+    R11 = 0x00000000004e0b68
+    R12 = 0x000000c0000b4c78
+    R13 = 0x0000000000000000
+    R14 = 0x000000c000180340
+    R15 = 0x0000000000000000
+   XMM0 = 0x00000000000000000000000000000000	v2_int={ 0000000000000000 0000000000000000 }	v4_int={ 00000000 00000000 00000000 00000000 }	v8_int={ 0000 0000 0000 0000 0000 0000 0000 0000 }	v16_int={ 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 }	v2_float={ 0 0 }	v4_float={ 0 0 0 0 }
+   XMM1 = 0x00000000000000400000000000000040	v2_int={ 0000000000000040 0000000000000040 }	v4_int={ 00000040 00000000 00000040 00000000 }	v8_int={ 0040 0000 0000 0000 0040 0000 0000 0000 }	v16_int={ 40 00 00 00 00 00 00 00 40 00 00 00 00 00 00 00 }	v2_float={ 3.16e-322 3.16e-322 }	v4_float={ 9e-44 0 9e-44 0 }
+   XMM2 = 0x000000c00001e24021cb199693ed2afe	v2_int={ 21cb199693ed2afe 000000c00001e240 }	v4_int={ 93ed2afe 21cb1996 0001e240 000000c0 }	v8_int={ 2afe 93ed 1996 21cb e240 0001 00c0 0000 }	v16_int={ fe 2a ed 93 96 19 cb 21 40 e2 01 00 c0 00 00 00 }	v2_float={ 6.782044944290663e-146 4.074232528607e-312 }	v4_float={ -5.9869605e-27 1.3762588e-18 1.72999e-40 2.69e-43 }
+   XMM3 = 0x000000c00001e2402523e732eb1e6a0d	v2_int={ 2523e732eb1e6a0d 000000c00001e240 }	v4_int={ eb1e6a0d 2523e732 0001e240 000000c0 }	v8_int={ 6a0d eb1e e732 2523 e240 0001 00c0 0000 }	v16_int={ 0d 6a 1e eb 32 e7 23 25 40 e2 01 00 c0 00 00 00 }	v2_float={ 8.972904681825568e-130 4.074232528607e-312 }	v4_float={ -1.9151109e+26 1.4216328e-16 1.72999e-40 2.69e-43 }
+   XMM4 = 0x000000c00001e2404d65822107fcfd52	v2_int={ 4d65822107fcfd52 000000c00001e240 }	v4_int={ 07fcfd52 4d658221 0001e240 000000c0 }	v8_int={ fd52 07fc 8221 4d65 e240 0001 00c0 0000 }	v16_int={ 52 fd fc 07 21 82 65 4d 40 e2 01 00 c0 00 00 00 }	v2_float={ 7.078406569534682e+64 4.074232528607e-312 }	v4_float={ 3.8065634e-34 2.4065691e+08 1.72999e-40 2.69e-43 }
+   XMM5 = 0x000000c00001e2402523e732eb1e6a0d	v2_int={ 2523e732eb1e6a0d 000000c00001e240 }	v4_int={ eb1e6a0d 2523e732 0001e240 000000c0 }	v8_int={ 6a0d eb1e e732 2523 e240 0001 00c0 0000 }	v16_int={ 0d 6a 1e eb 32 e7 23 25 40 e2 01 00 c0 00 00 00 }	v2_float={ 8.972904681825568e-130 4.074232528607e-312 }	v4_float={ -1.9151109e+26 1.4216328e-16 1.72999e-40 2.69e-43 }
+   XMM6 = 0x00000000000000400000000000000040	v2_int={ 0000000000000040 0000000000000040 }	v4_int={ 00000040 00000000 00000040 00000000 }	v8_int={ 0040 0000 0000 0000 0040 0000 0000 0000 }	v16_int={ 40 00 00 00 00 00 00 00 40 00 00 00 00 00 00 00 }	v2_float={ 3.16e-322 3.16e-322 }	v4_float={ 9e-44 0 9e-44 0 }
+   XMM7 = 0x000000c00001e2403c945a0a241b20b6	v2_int={ 3c945a0a241b20b6 000000c00001e240 }	v4_int={ 241b20b6 3c945a0a 0001e240 000000c0 }	v8_int={ 20b6 241b 5a0a 3c94 e240 0001 00c0 0000 }	v16_int={ b6 20 1b 24 0a 5a 94 3c 40 e2 01 00 c0 00 00 00 }	v2_float={ 7.060920334524967e-17 4.074232528607e-312 }	v4_float={ 3.3637975e-17 0.01810934 1.72999e-40 2.69e-43 }
+   XMM8 = 0x00000000000000400000000000000040	v2_int={ 0000000000000040 0000000000000040 }	v4_int={ 00000040 00000000 00000040 00000000 }	v8_int={ 0040 0000 0000 0000 0040 0000 0000 0000 }	v16_int={ 40 00 00 00 00 00 00 00 40 00 00 00 00 00 00 00 }	v2_float={ 3.16e-322 3.16e-322 }	v4_float={ 9e-44 0 9e-44 0 }
+   XMM9 = 0x000000c00001e24031ae0d360a2773d0	v2_int={ 31ae0d360a2773d0 000000c00001e240 }	v4_int={ 0a2773d0 31ae0d36 0001e240 000000c0 }	v8_int={ 73d0 0a27 0d36 31ae e240 0001 00c0 0000 }	v16_int={ d0 73 27 0a 36 0d ae 31 40 e2 01 00 c0 00 00 00 }	v2_float={ 2.1771015855875438e-69 4.074232528607e-312 }	v4_float={ 8.0625394e-33 5.0655684e-09 1.72999e-40 2.69e-43 }
+  XMM10 = 0x00000000000000400000000000000040	v2_int={ 0000000000000040 0000000000000040 }	v4_int={ 00000040 00000000 00000040 00000000 }	v8_int={ 0040 0000 0000 0000 0040 0000 0000 0000 }	v16_int={ 40 00 00 00 00 00 00 00 40 00 00 00 00 00 00 00 }	v2_float={ 3.16e-322 3.16e-322 }	v4_float={ 9e-44 0 9e-44 0 }
+  XMM11 = 0x000000c00001e2400e544a6d2ef2eca6	v2_int={ 0e544a6d2ef2eca6 000000c00001e240 }	v4_int={ 2ef2eca6 0e544a6d 0001e240 000000c0 }	v8_int={ eca6 2ef2 4a6d 0e54 e240 0001 00c0 0000 }	v16_int={ a6 ec f2 2e 6d 4a 54 0e 40 e2 01 00 c0 00 00 00 }	v2_float={ 1.2171976357056767e-239 4.074232528607e-312 }	v4_float={ 1.1046923e-10 2.6166852e-30 1.72999e-40 2.69e-43 }
+  XMM12 = 0x00000000000000400000000000000040	v2_int={ 0000000000000040 0000000000000040 }	v4_int={ 00000040 00000000 00000040 00000000 }	v8_int={ 0040 0000 0000 0000 0040 0000 0000 0000 }	v16_int={ 40 00 00 00 00 00 00 00 40 00 00 00 00 00 00 00 }	v2_float={ 3.16e-322 3.16e-322 }	v4_float={ 9e-44 0 9e-44 0 }
+  XMM13 = 0x6c61636f6c2e2f72656b72617065642f	v2_int={ 656b72617065642f 6c61636f6c2e2f72 }	v4_int={ 7065642f 656b7261 6c2e2f72 6c61636f }	v8_int={ 642f 7065 7261 656b 2f72 6c2e 636f 6c61 }	v16_int={ 2f 64 65 70 61 72 6b 65 72 2f 2e 6c 6f 63 61 6c }	v2_float={ 3.5590912818451917e+180 1.170757717138007e+214 }	v4_float={ 2.8397273e+29 6.9491628e+22 8.423086e+26 1.0899115e+27 }
+  XMM14 = 0x736e6961724274654a2f65726168732f	v2_int={ 4a2f65726168732f 736e696172427465 }	v4_int={ 6168732f 4a2f6572 72427465 736e6961 }	v8_int={ 732f 6168 6572 4a2f 7465 7242 6961 736e }	v16_int={ 2f 73 68 61 72 65 2f 4a 65 74 42 72 61 69 6e 73 }	v2_float={ 2.294285479774902e+49 1.0631788654131109e+248 }	v4_float={ 2.6799653e+20 2.8736925e+06 3.8515715e+30 1.8888916e+31 }
+  XMM15 = 0x00000000000000000000000000000000	v2_int={ 0000000000000000 0000000000000000 }	v4_int={ 00000000 00000000 00000000 00000000 }	v8_int={ 0000 0000 0000 0000 0000 0000 0000 0000 }	v16_int={ 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 }	v2_float={ 0 0 }	v4_float={ 0 0 0 0 }
+  ST(0) = 0x00000000000000000000	0
+  ST(1) = 0x00000000000000000000	0
+  ST(2) = 0x00000000000000000000	0
+  ST(3) = 0x00000000000000000000	0
+  ST(4) = 0x00000000000000000000	0
+  ST(5) = 0x00000000000000000000	0
+  ST(6) = 0x00000000000000000000	0
+  ST(7) = 0x00000000000000000000	0
+ Rflags = 0x0000000000000246	[PF ZF IF IOPL=0]
+     Es = 0x0000000000000000
+     Cs = 0x0000000000000033
+     Ss = 0x000000000000002b
+     Ds = 0x0000000000000000
+     Fs = 0x0000000000000000
+     Gs = 0x0000000000000000
+Fs_base = 0x000000c00007e490
+Gs_base = 0x0000000000000000
+  MXCSR = 0x00001fa0	[RZ/RN=0 PM UM OM ZM DM IM PE]
+     CW = 0x037f
+     SW = 0x0000
+
+(dlv) goroutines
+  Goroutine 1 - User: /home/deparker/Code/goroot/src/runtime/sema.go:56 sync.runtime_Semacquire (0x4618a5) [semacquire]
+  Goroutine 2 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [force gc (idle)]
+  Goroutine 3 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC sweep wait]
+  Goroutine 4 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC scavenge wait]
+  Goroutine 5 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [finalizer wait]
+  Goroutine 6 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [select]
+  Goroutine 17 - User: /home/deparker/Code/goroot/src/runtime/sigqueue.go:151 os/signal.signal_recv (0x461baf) (thread 4007139)
+  Goroutine 18 - User: ./main.go:97 main.main.func1 (0x4b7f29) [chan receive]
+* Goroutine 19 - User: ./main.go:39 main.produceValues (0x4b7727) (thread 4007137)
+  Goroutine 20 - User: ./main.go:60 main.consumeValues (0x4b7af6) [select]
+[10 goroutines]
+(dlv) help goroutines
+List program goroutines.
+
+	goroutines [-u|-r|-g|-s] [-t [depth]] [-l] [-with loc expr] [-without loc expr] [-group argument]
+
+Print out info for every goroutine. The flag controls what information is shown along with each goroutine:
+
+	-u	displays location of topmost stackframe in user code (default)
+	-r	displays location of topmost stackframe (including frames inside private runtime functions)
+	-g	displays location of go instruction that created the goroutine
+	-s	displays location of the start function
+	-t	displays goroutine's stacktrace (an optional depth value can be specified, default: 10)
+	-l	displays goroutine's labels
+
+If no flag is specified the default is -u, i.e. the first frame within the first 30 frames that is not executing a runtime private function.
+
+FILTERING
+
+If -with or -without are specified only goroutines that match the given condition are returned.
+
+To only display goroutines where the specified location contains (or does not contain, for -without and -wo) expr as a substring, use:
+
+	goroutines -with (userloc|curloc|goloc|startloc) expr
+	goroutines -w (userloc|curloc|goloc|startloc) expr
+	goroutines -without (userloc|curloc|goloc|startloc) expr
+	goroutines -wo (userloc|curloc|goloc|startloc) expr
+	
+To only display goroutines that have (or do not have) the specified label key and value, use:
+	
+
+	goroutines -with label key=value
+	goroutines -without label key=value
+	
+To only display goroutines that have (or do not have) the specified label key, use:
+
+	goroutines -with label key
+	goroutines -without label key
+	
+To only display goroutines that are running (or are not running) on a OS thread, use:
+
+
+	goroutines -with running
+	goroutines -without running
+	
+To only display user (or runtime) goroutines, use:
+
+	goroutines -with user
+	goroutines -without user
+
+GROUPING
+
+	goroutines -group (userloc|curloc|goloc|startloc|running|user)
+
+Groups goroutines by the given location, running status or user classification, up to 5 goroutines per group will be displayed as well as the total number of goroutines in the group.
+
+	goroutines -group label key
+
+Groups goroutines by the value of the label with the specified key.
+
+(dlv) 
+List program goroutines.
+
+	goroutines [-u|-r|-g|-s] [-t [depth]] [-l] [-with loc expr] [-without loc expr] [-group argument]
+
+Print out info for every goroutine. The flag controls what information is shown along with each goroutine:
+
+	-u	displays location of topmost stackframe in user code (default)
+	-r	displays location of topmost stackframe (including frames inside private runtime functions)
+	-g	displays location of go instruction that created the goroutine
+	-s	displays location of the start function
+	-t	displays goroutine's stacktrace (an optional depth value can be specified, default: 10)
+	-l	displays goroutine's labels
+
+If no flag is specified the default is -u, i.e. the first frame within the first 30 frames that is not executing a runtime private function.
+
+FILTERING
+
+If -with or -without are specified only goroutines that match the given condition are returned.
+
+To only display goroutines where the specified location contains (or does not contain, for -without and -wo) expr as a substring, use:
+
+	goroutines -with (userloc|curloc|goloc|startloc) expr
+	goroutines -w (userloc|curloc|goloc|startloc) expr
+	goroutines -without (userloc|curloc|goloc|startloc) expr
+	goroutines -wo (userloc|curloc|goloc|startloc) expr
+	
+To only display goroutines that have (or do not have) the specified label key and value, use:
+	
+
+	goroutines -with label key=value
+	goroutines -without label key=value
+	
+To only display goroutines that have (or do not have) the specified label key, use:
+
+	goroutines -with label key
+	goroutines -without label key
+	
+To only display goroutines that are running (or are not running) on a OS thread, use:
+
+
+	goroutines -with running
+	goroutines -without running
+	
+To only display user (or runtime) goroutines, use:
+
+	goroutines -with user
+	goroutines -without user
+
+GROUPING
+
+	goroutines -group (userloc|curloc|goloc|startloc|running|user)
+
+Groups goroutines by the given location, running status or user classification, up to 5 goroutines per group will be displayed as well as the total number of goroutines in the group.
+
+	goroutines -group label key
+
+Groups goroutines by the value of the label with the specified key.
+
+(dlv) goroutines -r
+  Goroutine 1 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [semacquire]
+  Goroutine 2 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [force gc (idle)]
+  Goroutine 3 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC sweep wait]
+  Goroutine 4 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC scavenge wait]
+  Goroutine 5 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [finalizer wait]
+  Goroutine 6 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [select]
+  Goroutine 17 - Runtime: /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 runtime.futex (0x466ec3) (thread 4007139)
+  Goroutine 18 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [chan receive]
+* Goroutine 19 - Runtime: ./main.go:39 main.produceValues (0x4b7727) (thread 4007137)
+  Goroutine 20 - Runtime: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [select]
+[10 goroutines]
+(dlv) goroutines
+  Goroutine 1 - User: /home/deparker/Code/goroot/src/runtime/sema.go:56 sync.runtime_Semacquire (0x4618a5) [semacquire]
+  Goroutine 2 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [force gc (idle)]
+  Goroutine 3 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC sweep wait]
+  Goroutine 4 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC scavenge wait]
+  Goroutine 5 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [finalizer wait]
+  Goroutine 6 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [select]
+  Goroutine 17 - User: /home/deparker/Code/goroot/src/runtime/sigqueue.go:151 os/signal.signal_recv (0x461baf) (thread 4007139)
+  Goroutine 18 - User: ./main.go:97 main.main.func1 (0x4b7f29) [chan receive]
+* Goroutine 19 - User: ./main.go:39 main.produceValues (0x4b7727) (thread 4007137)
+  Goroutine 20 - User: ./main.go:60 main.consumeValues (0x4b7af6) [select]
+[10 goroutines]
+(dlv) help goroutines
+List program goroutines.
+
+	goroutines [-u|-r|-g|-s] [-t [depth]] [-l] [-with loc expr] [-without loc expr] [-group argument]
+
+Print out info for every goroutine. The flag controls what information is shown along with each goroutine:
+
+	-u	displays location of topmost stackframe in user code (default)
+	-r	displays location of topmost stackframe (including frames inside private runtime functions)
+	-g	displays location of go instruction that created the goroutine
+	-s	displays location of the start function
+	-t	displays goroutine's stacktrace (an optional depth value can be specified, default: 10)
+	-l	displays goroutine's labels
+
+If no flag is specified the default is -u, i.e. the first frame within the first 30 frames that is not executing a runtime private function.
+
+FILTERING
+
+If -with or -without are specified only goroutines that match the given condition are returned.
+
+To only display goroutines where the specified location contains (or does not contain, for -without and -wo) expr as a substring, use:
+
+	goroutines -with (userloc|curloc|goloc|startloc) expr
+	goroutines -w (userloc|curloc|goloc|startloc) expr
+	goroutines -without (userloc|curloc|goloc|startloc) expr
+	goroutines -wo (userloc|curloc|goloc|startloc) expr
+	
+To only display goroutines that have (or do not have) the specified label key and value, use:
+	
+
+	goroutines -with label key=value
+	goroutines -without label key=value
+	
+To only display goroutines that have (or do not have) the specified label key, use:
+
+	goroutines -with label key
+	goroutines -without label key
+	
+To only display goroutines that are running (or are not running) on a OS thread, use:
+
+
+	goroutines -with running
+	goroutines -without running
+	
+To only display user (or runtime) goroutines, use:
+
+	goroutines -with user
+	goroutines -without user
+
+GROUPING
+
+	goroutines -group (userloc|curloc|goloc|startloc|running|user)
+
+Groups goroutines by the given location, running status or user classification, up to 5 goroutines per group will be displayed as well as the total number of goroutines in the group.
+
+	goroutines -group label key
+
+Groups goroutines by the value of the label with the specified key.
+
+(dlv) goroutines
+  Goroutine 1 - User: /home/deparker/Code/goroot/src/runtime/sema.go:56 sync.runtime_Semacquire (0x4618a5) [semacquire]
+  Goroutine 2 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [force gc (idle)]
+  Goroutine 3 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC sweep wait]
+  Goroutine 4 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [GC scavenge wait]
+  Goroutine 5 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [finalizer wait]
+  Goroutine 6 - User: /home/deparker/Code/goroot/src/runtime/proc.go:362 runtime.gopark (0x438e52) [select]
+  Goroutine 17 - User: /home/deparker/Code/goroot/src/runtime/sigqueue.go:151 os/signal.signal_recv (0x461baf) (thread 4007139)
+  Goroutine 18 - User: ./main.go:97 main.main.func1 (0x4b7f29) [chan receive]
+* Goroutine 19 - User: ./main.go:39 main.produceValues (0x4b7727) (thread 4007137)
+  Goroutine 20 - User: ./main.go:60 main.consumeValues (0x4b7af6) [select]
+[10 goroutines]
+(dlv) goroutine 18 stack
+0  0x0000000000438e52 in runtime.gopark
+   at /home/deparker/Code/goroot/src/runtime/proc.go:362
+1  0x0000000000405fcd in runtime.chanrecv
+   at /home/deparker/Code/goroot/src/runtime/chan.go:577
+2  0x0000000000405c98 in runtime.chanrecv1
+   at /home/deparker/Code/goroot/src/runtime/chan.go:440
+3  0x00000000004b7f29 in main.main.func1
+   at ./main.go:97
+4  0x00000000004b87a7 in main.main.func2
+   at ./main.go:103
+5  0x0000000000465001 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) stack
+0  0x00000000004b7727 in main.produceValues
+   at ./main.go:39
+1  0x00000000004b8735 in main.main.func3
+   at ./main.go:112
+2  0x0000000000465001 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) goroutine 18
+Switched from 19 to 18 (thread 4007137)
+(dlv) list
+> runtime.gopark() /home/deparker/Code/goroot/src/runtime/proc.go:362 (PC: 0x438e52)
+Warning: debugging optimized function
+   357:		mp.waittraceev = traceEv
+   358:		mp.waittraceskip = traceskip
+   359:		releasem(mp)
+   360:		// can't do anything that might move the G between Ms here.
+   361:		mcall(park_m)
+=> 362:	}
+   363:	
+   364:	// Puts the current goroutine into a waiting state and unlocks the lock.
+   365:	// The goroutine can be made runnable again by calling goready(gp).
+   366:	func goparkunlock(lock *mutex, reason waitReason, traceEv byte, traceskip int) {
+   367:		gopark(parkunlock_c, unsafe.Pointer(lock), reason, traceEv, traceskip)
+(dlv) stack
+0  0x0000000000438e52 in runtime.gopark
+   at /home/deparker/Code/goroot/src/runtime/proc.go:362
+1  0x0000000000405fcd in runtime.chanrecv
+   at /home/deparker/Code/goroot/src/runtime/chan.go:577
+2  0x0000000000405c98 in runtime.chanrecv1
+   at /home/deparker/Code/goroot/src/runtime/chan.go:440
+3  0x00000000004b7f29 in main.main.func1
+   at ./main.go:97
+4  0x00000000004b87a7 in main.main.func2
+   at ./main.go:103
+5  0x0000000000465001 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) threads
+  Thread 4006978 at 0x466ec3 /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 runtime.futex
+  Thread 4007136 at 0x4668dd /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:149 runtime.usleep
+* Thread 4007137 at 0x4b7727 ./main.go:39 main.produceValues
+  Thread 4007138 at 0x466ec3 /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 runtime.futex
+  Thread 4007139 at 0x466ec3 /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 runtime.futex
+  Thread 4007140 at 0x466ec3 /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 runtime.futex
+  Thread 4007141 at 0x466ec3 /home/deparker/Code/goroot/src/runtime/sys_linux_amd64.s:553 runtime.futex
+(dlv) thread 4007139
+Switched from 4007137 to 4007139
+(dlv) thread 4007137
+Switched from 4007139 to 4007137
+(dlv) help stack
+Print stack trace.
+
+	[goroutine <n>] [frame <m>] stack [<depth>] [-full] [-offsets] [-defer] [-a <n>] [-adepth <depth>] [-mode <mode>]
+
+	-full		every stackframe is decorated with the value of its local variables and arguments.
+	-offsets	prints frame offset of each frame.
+	-defer		prints deferred function call stack for each frame.
+	-a <n>		prints stacktrace of n ancestors of the selected goroutine (target process must have tracebackancestors enabled)
+	-adepth <depth>	configures depth of ancestor stacktrace
+	-mode <mode>	specifies the stacktrace mode, possible values are:
+			normal	- attempts to automatically switch between cgo frames and go frames
+			simple	- disables automatic switch between cgo and go
+			fromg	- starts from the registers stored in the runtime.g struct
+
+(dlv) stack
+0  0x00000000004b7727 in main.produceValues
+   at ./main.go:39
+1  0x00000000004b8735 in main.main.func3
+   at ./main.go:112
+2  0x0000000000465001 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) up
+> main.produceValues() ./main.go:39 (PC: 0x4b7727)
+Frame 1: ./main.go:112 (PC: 4b8735)
+   107:	
+   108:		// Add 2 to our WaitGroup since we are starting 2 goroutines.
+   109:		wg.Add(2)
+   110:	
+   111:		// Begin executing goroutine to produce values.
+=> 112:		go produceValues(ctx, &wg, ch)
+   113:	
+   114:		// Begin executing goroutine to consume values.
+   115:		go consumeValues(ctx, &wg, ch)
+   116:	
+   117:		// Wait until our goroutines have finished.
+(dlv) down
+> main.produceValues() ./main.go:39 (PC: 0x4b7727)
+Frame 0: ./main.go:39 (PC: 4b7727)
+    34:				panic(err)
+    35:			}
+    36:			// Create a packet struct to send over the channel.
+    37:			p := packet{id: id, val: buf}
+    38:			select {
+=>  39:			case <-ctx.Done():
+    40:				// If the context has been cancelled, return.
+    41:				return
+    42:			case ch <- p:
+    43:				// Do nothing.
+    44:			}
+(dlv) stack
+0  0x00000000004b7727 in main.produceValues
+   at ./main.go:39
+1  0x00000000004b8735 in main.main.func3
+   at ./main.go:112
+2  0x0000000000465001 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1571
+(dlv) frame 1 list
+Goroutine 19 frame 1 at /home/deparker/Code/ultimate-go-debugging/day-2/session/main.go:112 (PC: 0x4b8735)
+   107:	
+   108:		// Add 2 to our WaitGroup since we are starting 2 goroutines.
+   109:		wg.Add(2)
+   110:	
+   111:		// Begin executing goroutine to produce values.
+=> 112:		go produceValues(ctx, &wg, ch)
+   113:	
+   114:		// Begin executing goroutine to consume values.
+   115:		go consumeValues(ctx, &wg, ch)
+   116:	
+   117:		// Wait until our goroutines have finished.
+(dlv) frame 1 locals
+(no locals)
+(dlv) frame 1 args
+(no args)
+(dlv) frame 2 args
+(no args)
+(dlv) frame 2 locals
+(no locals)
+(dlv) exit
