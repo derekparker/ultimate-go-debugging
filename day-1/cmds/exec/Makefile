@@ -18,4 +18,4 @@ bin/execmenooptimizations:
 
 .PHONY: dlv-exec-no-optimizations
 dlv-exec-no-optimizations:
-	dlv exec ./bin/execme
+	dlv exec ./bin/execmenooptimizations
