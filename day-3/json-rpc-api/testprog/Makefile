@@ -8,7 +8,7 @@ run:
 
 .PHONY: run-testprog-with-dlv
 run-testprog-with-dlv:
-	cd ./testprog && dlv debug --api-version=2 --headless --accept-multiclient --listen :9090
+	cd ./testprog && dlv debug --continue --api-version=2 --headless --accept-multiclient --listen :9090
 
 .PHONY: kill-dlv-server
 kill-dlv-server:

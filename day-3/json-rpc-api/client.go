@@ -20,7 +20,7 @@ func main() {
 	// won't be an error to handle here.
 	client := rpc2.NewClient(serverAddr)
 
-	defer client.Disconnect(true)
+	defer client.Disconnect(false)
 
 	// Stop the program we are debugging.
 	// The act of halting the program will return it's current state.
