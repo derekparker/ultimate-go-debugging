@@ -24,6 +24,6 @@ func echoHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func startServer() {
-	fmt.Println("Server started on :9999")
-	log.Fatal(http.ListenAndServe(":9999", nil))
+	fmt.Println("Server started on :9998")
+	log.Fatal(http.ListenAndServe(":9998", nil))
 }

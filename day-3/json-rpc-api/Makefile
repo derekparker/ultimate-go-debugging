@@ -1,6 +1,6 @@
 .PHONY: build
 build:
-	go build -o bin/myclient client.go
+	go build -o bin/myclient
 
 .PHONY: run
 run:
