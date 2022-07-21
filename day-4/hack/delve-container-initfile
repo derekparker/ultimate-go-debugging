@@ -1,0 +1,5 @@
+# Configure substitute path rule for GOROOT.
+config substitute-path /usr/local/go /goroot
+
+# Configure substitute path rule for user code.
+config substitute-path /project /src

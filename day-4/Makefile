@@ -74,3 +74,10 @@ change-ptrace-yama:
 .PHONY: run-basic-image-with-ptrace
 run-basic-image-with-ptrace:
 	docker run -it --detach --rm -p 8080:8080 --cap-add=SYS_PTRACE $(BASIC_IMG)
+
+# Exec dlv within basic container, using substitute path config.
+.PHONY: exec-dlv-basic-container-with-src
+exec-dlv-basic-container-with-src:
+	docker cp $$(pwd) $$(docker ps -aqf "ancestor=$(BASIC_IMG)"):/src
+	docker cp $$(go env GOROOT) $$(docker ps -aqf "ancestor=$(BASIC_IMG)"):/goroot
+	docker exec -it $$(docker ps -aqf "ancestor=$(BASIC_IMG)") /dlv --init=/src/hack/delve-container-initfile attach 1
