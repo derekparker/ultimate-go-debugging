@@ -60,3 +60,7 @@ copy-dlv-to-container:
 .PHONY: exec-dlv-basic-container
 exec-dlv-basic-container:
 	docker exec -it $$(docker ps -aqf "ancestor=$(BASIC_IMG)") /dlv attach 1
+
+.PHONY: change-ptrace-yama
+change-ptrace-yama:
+	echo "0" | sudo tee /proc/sys/kernel/yama/ptrace_scope
