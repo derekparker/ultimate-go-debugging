@@ -3,7 +3,7 @@ build:
 	go build -gcflags="all=-N -l" -o bin/prog
 
 .PHONY: build-static
-build:
+build-static:
 	CGO_ENABLED=0 go build -gcflags="all=-N -l" -o bin/prog-static
 
 .PHONY: copy-dlv
