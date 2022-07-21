@@ -41,4 +41,4 @@ DELVE_IMG := buggy-with-delve
 # Build basic container image.
 .PHONY: build-image
 build-image:
-	docker build --pull --rm -f build/Dockerfile-basic -t $(BASIC_IMG):latest .
+	docker build --rm -f build/Dockerfile-basic -t $(BASIC_IMG):latest .
