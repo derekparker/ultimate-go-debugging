@@ -28,4 +28,4 @@ port-forward:
 
 .PHONY: connect-to-remote
 connect-to-remote:
-	dlv connect :4040
+	dlv connect localhost:4040
