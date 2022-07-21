@@ -18,6 +18,10 @@ destroy-vm:
 ssh-to-vm:
 	vagrant ssh
 
+.PHONY: start-headless-server
+start-headless-server:
+	dlv debug --headless --api-version=2 --listen localhost:4040
+
 .PHONY: port-forward
 port-forward:
 	vagrant ssh -- -NL 4040:localhost:4040
