@@ -89,3 +89,7 @@ exec-dlv-basic-container-with-src:
 .PHONY: build-scratch-image
 build-scratch-image:
 	docker build --rm -f build/Dockerfile-scratch -t $(SCRATCH_IMG):latest .
+
+.PHONY: build-debug-image
+build-debug-image:
+	docker build --rm -f build/Dockerfile-debug -t buggy-debug:latest .
