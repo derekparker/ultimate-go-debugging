@@ -20,7 +20,7 @@ ssh-to-vm:
 
 .PHONY: start-headless-server
 start-headless-server:
-	dlv debug --headless --api-version=2 --listen localhost:4040
+	dlv exec --check-go-version=false --headless --api-version=2 --listen localhost:4040 /vagrant/bin/prog
 
 .PHONY: port-forward
 port-forward:
