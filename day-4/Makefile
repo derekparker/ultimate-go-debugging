@@ -38,6 +38,10 @@ BASIC_IMG := buggy-basic
 SCRATCH_IMG := buggy-scratch
 DELVE_IMG := buggy-with-delve
 
+.PHONY: curl-app
+curl-app:
+	curl localhost:8080/foo/bar
+
 # Build basic container image.
 .PHONY: build-image
 build-image:
