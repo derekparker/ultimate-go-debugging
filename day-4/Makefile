@@ -2,6 +2,10 @@
 build:
 	go build -gcflags="all=-N -l" -o bin/prog
 
+.PHONY: build-static
+build:
+	CGO_ENABLED=0 go build -gcflags="all=-N -l" -o bin/prog-static
+
 .PHONY: copy-dlv
 copy-dlv:
 	cp $$(which dlv) ./bin
