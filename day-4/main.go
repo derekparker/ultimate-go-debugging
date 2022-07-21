@@ -22,6 +22,6 @@ func setupHandlers() {
 }
 
 func startServer() {
-	fmt.Println("Server started on :8081")
-	log.Fatal(http.ListenAndServe(":8081", nil))
+	fmt.Println("Server started on :8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
