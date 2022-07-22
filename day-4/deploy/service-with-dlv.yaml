@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: training-with-dlv
+spec:
+  selector:
+    app: DelveTrainingWithDlv
+  ports:
+    - protocol: TCP
+      port: 80
+      name: http
+    - protocol: TCP
+      port: 9090
+      name: dlv
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dlv-deployment
+  labels:
+    app: dlv
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dlv
+  template:
+    metadata:
+      labels:
+        app: dlv
+    spec:
+      containers:
+        - name: dlv
+          image: derekparker/dlv-service:latest
+          ports:
+            - containerPort: 80
+            - containerPort: 9090
+          securityContext:
+            capabilities:
+              add: ["SYS_PTRACE"]
