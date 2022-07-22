@@ -16,7 +16,11 @@ get-allocation-profile:
 
 .PHONY: get-cpu-profile
 get-cpu-profile:
-	curl http://localhost:6060/debug/pprof/cpu > cpu.pprof
+	curl http://localhost:6060/debug/pprof/profile?seconds=10 > cpu.pprof
+
+.PHONY: get-trace-profile
+get-trace-profile:
+	curl http://localhost:6060/debug/pprof/trace?seconds=10 > trace.pprof
 
 .PHONY: go-tool-pprof-allocation
 go-tool-pprof-allocation:
@@ -29,3 +33,7 @@ go-tool-pprof-heap:
 .PHONY: go-tool-pprof-cpu
 go-tool-pprof-cpu:
 	go tool pprof cpu.pprof
+
+.PHONY: run-perf-stat
+run-perf-stat:
+	perf stat ./bin/prog
