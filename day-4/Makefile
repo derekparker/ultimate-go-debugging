@@ -153,5 +153,5 @@ port-forward:
 	kubectl port-forward $(DLV_POD) 9090:9090
 
 .PHONY: connect-to-remote-k8s
-connect-to-remote:
+connect-to-remote-k8s:
 	dlv connect localhost:9090
