@@ -103,3 +103,27 @@ run-scratch-image:
 .PHONY: debug-scratch-image
 debug-scratch-image:
 	docker run -it --rm --privileged --pid="container:buggy-scratch" buggy-debug /bin/bash
+
+#########################
+## Kubernetes commands ##
+#########################
+
+POD := $$(kubectl get pods -o name | head -n 1 | sed 's/pod\///g')
+DLV_POD := $$(kubectl get pods -o name | grep dlv | head -n 1 | sed 's/pod\///g')
+KIND_CLUSTER := buggycluster
+
+.PHONY: install-kind
+install-kind:
+	go install sigs.k8s.io/kind@v0.11.1
+
+.PHONY: devinstall-osx
+devinstall-osx:
+	brew install kubectl
+
+.PHONY: devinstall-linux
+devinstall-linux:
+	snap install kubectl --classic
+
+.PHONY: create-cluster
+create-cluster:
+	kind create cluster --name=$(KIND_CLUSTER)
