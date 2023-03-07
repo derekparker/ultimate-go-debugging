@@ -9,3 +9,7 @@ install-delve:
 .PHONY: debug
 debug:
 	dlv debug
+
+.PHONY: debug-with-arg
+debug-with-arg:
+	dlv debug -- "foobar"
