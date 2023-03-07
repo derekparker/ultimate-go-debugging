@@ -71,7 +71,7 @@ For installation instructions, [click here](https://kind.sigs.k8s.io/docs/user/q
 
 ### Day 1
 
-* Basics of using Debugging
+* Basics of using Delve
 * Intro into CLI usage
 * Navigating your program
 * Inspecting / changing program state
