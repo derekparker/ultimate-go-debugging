@@ -1,0 +1,135 @@
+(dlv) continue
+> [unrecovered-panic] runtime.fatalpanic() /home/deparker/Code/goroot/src/runtime/panic.go:1141 (hits goroutine(1):1 total:1) (PC: 0x437e80)
+Warning: debugging optimized function
+	runtime.curg._panic.arg: interface {}(string) "Invalid response received: -1\n"
+  1136:	// fatalpanic implements an unrecoverable panic. It is like fatalthrow, except
+  1137:	// that if msgs != nil, fatalpanic also prints panic messages and decrements
+  1138:	// runningPanicDefers once main is blocked from exiting.
+  1139:	//
+  1140:	//go:nosplit
+=>1141:	func fatalpanic(msgs *_panic) {
+  1142:		pc := getcallerpc()
+  1143:		sp := getcallersp()
+  1144:		gp := getg()
+  1145:		var docrash bool
+  1146:		// Switch to the system stack to avoid any stack growth, which
+(dlv) stack
+0  0x0000000000437e80 in runtime.fatalpanic
+   at /home/deparker/Code/goroot/src/runtime/panic.go:1141
+1  0x000000000043764c in runtime.gopanic
+   at /home/deparker/Code/goroot/src/runtime/panic.go:987
+2  0x00000000004b4ac8 in main.gatherSentiment
+   at ./main.go:38
+3  0x00000000004b457c in main.main
+   at ./main.go:9
+4  0x000000000043a1d3 in runtime.main
+   at /home/deparker/Code/goroot/src/runtime/proc.go:250
+5  0x0000000000466ca1 in runtime.goexit
+   at /home/deparker/Code/goroot/src/runtime/asm_amd64.s:1598
+(dlv) break ./main.go:38
+Breakpoint 1 set at 0x4b4a0c for main.gatherSentiment() ./main.go:38
+(dlv) restart
+Process restarted with PID 1075869
+(dlv) continue
+> main.gatherSentiment() ./main.go:38 (hits goroutine(1):1 total:1) (PC: 0x4b4a0c)
+    33:		case i > 2 && i < 7:
+    34:			fmt.Println("Guess it's going alright... :-|")
+    35:		case i > 6 && i < 11:
+    36:			fmt.Println("Guess it's going GREAT!!! :-D")
+    37:		default:
+=>  38:			panic(fmt.Sprintf("Invalid response received: %d\n", i))
+    39:		}
+    40:	}
+    41:	
+    42:	func withinBounds(n *int) bool {
+    43:		*n -= 10
+(dlv) list -15
+Showing /home/deparker/Code/workshops/march-monthly-2023/ultimate-go-debugging/day-1/cmds/debug/user-input/main.go:23 (PC: 0x4b4ae5)
+    18:		fmt.Println("How would you rate the class from 1-10:")
+    19:	
+    20:		var i int
+    21:		_, err := fmt.Scanln(&i)
+    22:		if err != nil {
+    23:			panic(err)
+    24:		}
+    25:	
+    26:		if !withinBounds(&i) {
+    27:			panic("user input not within expected bounds")
+    28:		}
+(dlv) print i
+-1
+(dlv) list -15
+Showing /home/deparker/Code/workshops/march-monthly-2023/ultimate-go-debugging/day-1/cmds/debug/user-input/main.go:23 (PC: 0x4b4ae5)
+    18:		fmt.Println("How would you rate the class from 1-10:")
+    19:	
+    20:		var i int
+    21:		_, err := fmt.Scanln(&i)
+    22:		if err != nil {
+    23:			panic(err)
+    24:		}
+    25:	
+    26:		if !withinBounds(&i) {
+    27:			panic("user input not within expected bounds")
+    28:		}
+(dlv) break ./main.go:21
+Breakpoint 2 set at 0x4b472e for main.gatherSentiment() ./main.go:21
+(dlv) r
+Process restarted with PID 1076837
+(dlv) c
+> main.gatherSentiment() ./main.go:21 (hits goroutine(1):1 total:1) (PC: 0x4b472e)
+    16:	
+    17:	func gatherSentiment() {
+    18:		fmt.Println("How would you rate the class from 1-10:")
+    19:	
+    20:		var i int
+=>  21:		_, err := fmt.Scanln(&i)
+    22:		if err != nil {
+    23:			panic(err)
+    24:		}
+    25:	
+    26:		if !withinBounds(&i) {
+(dlv) next
+> main.gatherSentiment() ./main.go:22 (PC: 0x4b47f3)
+    17:	func gatherSentiment() {
+    18:		fmt.Println("How would you rate the class from 1-10:")
+    19:	
+    20:		var i int
+    21:		_, err := fmt.Scanln(&i)
+=>  22:		if err != nil {
+    23:			panic(err)
+    24:		}
+    25:	
+    26:		if !withinBounds(&i) {
+    27:			panic("user input not within expected bounds")
+(dlv) next
+> main.gatherSentiment() ./main.go:26 (PC: 0x4b47fe)
+    21:		_, err := fmt.Scanln(&i)
+    22:		if err != nil {
+    23:			panic(err)
+    24:		}
+    25:	
+=>  26:		if !withinBounds(&i) {
+    27:			panic("user input not within expected bounds")
+    28:		}
+    29:	
+    30:		switch {
+    31:		case i > 0 && i < 3:
+(dlv) print i
+9
+(dlv) watch -w i
+Watchpoint i set at 0xc000018138
+(dlv) continue
+> watchpoint on [i] main.withinBounds() ./main.go:44 (hits goroutine(1):1 total:1) (PC: 0x4b4b70)
+    39:		}
+    40:	}
+    41:	
+    42:	func withinBounds(n *int) bool {
+    43:		*n -= 10
+=>  44:		return *n <= 0
+    45:	}
+(dlv) breakpoints
+Breakpoint 1 (enabled) at 0x4b4a0c for main.gatherSentiment() ./main.go:38 (0)
+Breakpoint 2 (enabled) at 0x4b472e for main.gatherSentiment() ./main.go:21 (1)
+Watchpoint i (enabled) at 0xc000018138 (1)
+(dlv) toggle i
+(dlv) exit

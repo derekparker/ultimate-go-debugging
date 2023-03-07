@@ -8,8 +8,8 @@ debug:
 
 .PHONY: debug-headless
 debug-headless:
-	dlv debug --headless --listen :9090 --api-version 2
+	dlv debug --headless --listen :9091 --api-version 2
 
 .PHONY: connect-to-headless-delve
 connect-to-headless-delve:
-	dlv connect :9090
+	dlv connect :9091
