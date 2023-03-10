@@ -1,0 +1,75 @@
+(dlv) disassemble -l main.main
+TEXT main.main(SB) /home/deparker/Code/workshops/march-monthly-2023/ultimate-go-debugging/day-1/cmds/exec/main.go
+	main.go:22	0x482700	493b6610		cmp rsp, qword ptr [r14+0x10]
+	main.go:22	0x482704	0f8648010000		jbe 0x482852
+	main.go:22	0x48270a	4883ec60		sub rsp, 0x60
+	main.go:22	0x48270e	48896c2458		mov qword ptr [rsp+0x58], rbp
+	main.go:22	0x482713	488d6c2458		lea rbp, ptr [rsp+0x58]
+	proc.go:4512	0x482718	e86390fdff		call $runtime.breakpoint
+	main.go:24	0x48271d	450f57ff		xorps xmm15, xmm15
+	main.go:24	0x482721	644c8b3425f8ffffff	mov r14, qword ptr fs:[0xfffffff8]
+	main.go:12	0x48272a	488d054d7e0100		lea rax, ptr [rip+0x17e4d]
+	main.go:12	0x482731	bb01000000		mov ebx, 0x1
+	main.go:12	0x482736	b90a000000		mov ecx, 0xa
+	main.go:12	0x48273b	31ff			xor edi, edi
+	main.go:12	0x48273d	0f1f00			nop dword ptr [rax], eax
+	main.go:12	0x482740	e8db08feff		call $strconv.ParseInt
+	main.go:25	0x482745	440f117c2448		movups xmmword ptr [rsp+0x48], xmm15
+	main.go:20	0x48274b	488d0440		lea rax, ptr [rax+rax*2]
+	main.go:20	0x48274f	48d1e0			shl rax, 0x1
+	main.go:25	0x482752	e84974f8ff		call $runtime.convT64
+	main.go:25	0x482757	488d0da2760000		lea rcx, ptr [rip+0x76a2]
+	main.go:25	0x48275e	48894c2448		mov qword ptr [rsp+0x48], rcx
+	main.go:25	0x482763	4889442450		mov qword ptr [rsp+0x50], rax
+	print.go:314	0x482768	488b1de1c70a00		mov rbx, qword ptr [os.Stdout]
+	print.go:314	0x48276f	488d05d2630300		lea rax, ptr [rip+0x363d2]
+	print.go:314	0x482776	bf01000000		mov edi, 0x1
+	print.go:314	0x48277b	4889fe			mov rsi, rdi
+	print.go:314	0x48277e	488d4c2448		lea rcx, ptr [rsp+0x48]
+	print.go:314	0x482783	e8f8abffff		call $fmt.Fprintln
+	main.go:12	0x482788	488d05ef7d0100		lea rax, ptr [rip+0x17def]
+	main.go:12	0x48278f	bb01000000		mov ebx, 0x1
+	main.go:12	0x482794	b90a000000		mov ecx, 0xa
+	main.go:12	0x482799	31ff			xor edi, edi
+	main.go:12	0x48279b	0f1f440000		nop dword ptr [rax+rax*1], eax
+	main.go:12	0x4827a0	e87b08feff		call $strconv.ParseInt
+	main.go:26	0x4827a5	440f117c2438		movups xmmword ptr [rsp+0x38], xmm15
+	main.go:20	0x4827ab	488d0440		lea rax, ptr [rax+rax*2]
+	main.go:20	0x4827af	48d1e0			shl rax, 0x1
+	main.go:26	0x4827b2	48d1e0			shl rax, 0x1
+	main.go:26	0x4827b5	e8e673f8ff		call $runtime.convT64
+	main.go:26	0x4827ba	488d0d3f760000		lea rcx, ptr [rip+0x763f]
+	main.go:26	0x4827c1	48894c2438		mov qword ptr [rsp+0x38], rcx
+	main.go:26	0x4827c6	4889442440		mov qword ptr [rsp+0x40], rax
+	print.go:314	0x4827cb	488b1d7ec70a00		mov rbx, qword ptr [os.Stdout]
+	print.go:314	0x4827d2	488d056f630300		lea rax, ptr [rip+0x3636f]
+	print.go:314	0x4827d9	bf01000000		mov edi, 0x1
+	print.go:314	0x4827de	4889fe			mov rsi, rdi
+	print.go:314	0x4827e1	488d4c2438		lea rcx, ptr [rsp+0x38]
+	print.go:314	0x4827e6	e895abffff		call $fmt.Fprintln
+	main.go:20	0x4827eb	90			nop
+	main.go:12	0x4827ec	488d058b7d0100		lea rax, ptr [rip+0x17d8b]
+	main.go:12	0x4827f3	bb01000000		mov ebx, 0x1
+	main.go:12	0x4827f8	b90a000000		mov ecx, 0xa
+	main.go:12	0x4827fd	31ff			xor edi, edi
+	main.go:12	0x4827ff	90			nop
+	main.go:12	0x482800	e81b08feff		call $strconv.ParseInt
+	main.go:27	0x482805	440f117c2428		movups xmmword ptr [rsp+0x28], xmm15
+	main.go:27	0x48280b	488d04c0		lea rax, ptr [rax+rax*8]
+	main.go:27	0x48280f	48d1e0			shl rax, 0x1
+	main.go:27	0x482812	e88973f8ff		call $runtime.convT64
+	main.go:27	0x482817	488d0de2750000		lea rcx, ptr [rip+0x75e2]
+	main.go:27	0x48281e	48894c2428		mov qword ptr [rsp+0x28], rcx
+	main.go:27	0x482823	4889442430		mov qword ptr [rsp+0x30], rax
+	print.go:314	0x482828	488b1d21c70a00		mov rbx, qword ptr [os.Stdout]
+	print.go:314	0x48282f	488d0512630300		lea rax, ptr [rip+0x36312]
+	print.go:314	0x482836	488d4c2428		lea rcx, ptr [rsp+0x28]
+	print.go:314	0x48283b	bf01000000		mov edi, 0x1
+	print.go:314	0x482840	4889fe			mov rsi, rdi
+	print.go:314	0x482843	e838abffff		call $fmt.Fprintln
+	main.go:28	0x482848	488b6c2458		mov rbp, qword ptr [rsp+0x58]
+	main.go:28	0x48284d	4883c460		add rsp, 0x60
+	main.go:28	0x482851	c3			ret
+	main.go:22	0x482852	e86991fdff		call $runtime.morestack_noctxt
+	main.go:22	0x482857	e9a4feffff		jmp $main.main
+(dlv) exit
