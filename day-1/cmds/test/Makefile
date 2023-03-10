@@ -5,3 +5,11 @@ clone-trie:
 .PHONY: test
 test:
 	GO111MODULE=off go test -v ./trie
+
+.PHONY: debug
+debug:
+	GO111MODULE=off cd ./trie && dlv debug
+
+.PHONY: dlv-test
+dlv-test:
+	GO111MODULE=off cd ./trie && dlv test
