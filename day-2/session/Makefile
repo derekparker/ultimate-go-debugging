@@ -1,3 +1,3 @@
 .PHONY: debug
 debug:
-	dlv debug -r stdin.txt
+	GO111MODULE=off dlv debug -r stdin.txt
