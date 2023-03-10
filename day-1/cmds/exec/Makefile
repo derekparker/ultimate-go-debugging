@@ -7,4 +7,4 @@ dlv-exec:
 
 .PHONY: build-showing-inlining
 build-showing-inlining:
-	go build -gcflags=-m=2 -o bin/prog
+	go build -gcflags=-m=2 -o bin/prog main.go
