@@ -9,3 +9,7 @@ run:
 .PHONY: curl-app
 curl-app:
 	curl localhost:8081/foo/bar
+
+.PHONY: attach-debugger
+attach-debugger:
+	dlv attach $$(pgrep -f test-attach-program)
