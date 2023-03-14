@@ -11,4 +11,8 @@ trace:
 
 .PHONY: trace-with-stack
 trace-with-stack:
-	dlv trace main.go ^main.callme --stack 10
+	dlv trace main.go ^main.callme --stack 2
+
+.PHONY: trace-with-ebpf
+trace-with-ebpf:
+	sudo env "PATH=$$PATH" dlv trace main.go callme --ebpf
