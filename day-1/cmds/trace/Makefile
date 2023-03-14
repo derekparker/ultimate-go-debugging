@@ -7,4 +7,4 @@ strace:
 
 .PHONY: trace
 trace:
-	dlv trace ^main.callme
+	dlv trace main.go ^main.callme
