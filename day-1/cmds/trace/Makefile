@@ -4,3 +4,7 @@ bin/tracme:
 .PHONY: strace
 strace:
 	strace ./bin/traceme
+
+.PHONY: trace
+trace:
+	dlv trace ^main.callme
