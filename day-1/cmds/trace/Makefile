@@ -3,4 +3,4 @@ bin/tracme:
 
 .PHONY: strace
 strace:
-	strace ./bin/traceme
+	strace ./bin/tracme
