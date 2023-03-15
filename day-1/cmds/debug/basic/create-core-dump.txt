@@ -1,0 +1,133 @@
+(dlv) continue main.main
+Breakpoint 1 set at 0x49eb6f for main.main() ./last-character.go:8
+> main.main() ./last-character.go:8 (hits goroutine(1):1 total:1) (PC: 0x49eb6f)
+     3:	import (
+     4:		"fmt"
+     5:		"os"
+     6:	)
+     7:	
+=>   8:	func main() {
+     9:		fmt.Println("Hello Gophers! Pass me a word and I will print the last character!")
+    10:	
+    11:		if len(os.Args) < 2 {
+    12:			fmt.Println("You must supply an argument to this program")
+    13:			os.Exit(1)
+(dlv) next
+> main.main() ./last-character.go:9 (PC: 0x49eb86)
+     4:		"fmt"
+     5:		"os"
+     6:	)
+     7:	
+     8:	func main() {
+=>   9:		fmt.Println("Hello Gophers! Pass me a word and I will print the last character!")
+    10:	
+    11:		if len(os.Args) < 2 {
+    12:			fmt.Println("You must supply an argument to this program")
+    13:			os.Exit(1)
+    14:		}
+(dlv) 
+> main.main() ./last-character.go:11 (PC: 0x49ebe5)
+     6:	)
+     7:	
+     8:	func main() {
+     9:		fmt.Println("Hello Gophers! Pass me a word and I will print the last character!")
+    10:	
+=>  11:		if len(os.Args) < 2 {
+    12:			fmt.Println("You must supply an argument to this program")
+    13:			os.Exit(1)
+    14:		}
+    15:	
+    16:		arg := os.Args[1]
+(dlv) 
+> main.main() ./last-character.go:16 (PC: 0x49ec64)
+    11:		if len(os.Args) < 2 {
+    12:			fmt.Println("You must supply an argument to this program")
+    13:			os.Exit(1)
+    14:		}
+    15:	
+=>  16:		arg := os.Args[1]
+    17:	
+    18:		fmt.Printf("The last character in that word is: %c\n", arg[len(arg)-1])
+    19:	}
+(dlv) 
+> main.main() ./last-character.go:18 (PC: 0x49ec8f)
+    13:			os.Exit(1)
+    14:		}
+    15:	
+    16:		arg := os.Args[1]
+    17:	
+=>  18:		fmt.Printf("The last character in that word is: %c\n", arg[len(arg)-1])
+    19:	}
+(dlv) help
+The following commands are available:
+
+Running the program:
+    call ------------------------ Resumes process, injecting a function call (EXPERIMENTAL!!!)
+    continue (alias: c) --------- Run until breakpoint or program termination.
+    next (alias: n) ------------- Step over to next source line.
+    rebuild --------------------- Rebuild the target executable and restarts it. It does not work if the executable was not built by delve.
+    restart (alias: r) ---------- Restart process.
+    step (alias: s) ------------- Single step through program.
+    step-instruction (alias: si)  Single step a single cpu instruction.
+    stepout (alias: so) --------- Step out of the current function.
+
+Manipulating breakpoints:
+    break (alias: b) ------- Sets a breakpoint.
+    breakpoints (alias: bp)  Print out info for active breakpoints.
+    clear ------------------ Deletes breakpoint.
+    clearall --------------- Deletes multiple breakpoints.
+    condition (alias: cond)  Set breakpoint condition.
+    on --------------------- Executes a command when a breakpoint is hit.
+    toggle ----------------- Toggles on or off a breakpoint.
+    trace (alias: t) ------- Set tracepoint.
+    watch ------------------ Set watchpoint.
+
+Viewing program variables and memory:
+    args ----------------- Print function arguments.
+    display -------------- Print value of an expression every time the program stops.
+    examinemem (alias: x)  Examine raw memory at the given address.
+    locals --------------- Print local variables.
+    print (alias: p) ----- Evaluate an expression.
+    regs ----------------- Print contents of CPU registers.
+    set ------------------ Changes the value of a variable.
+    vars ----------------- Print package variables.
+    whatis --------------- Prints type of an expression.
+
+Listing and switching between threads and goroutines:
+    goroutine (alias: gr) -- Shows or changes current goroutine
+    goroutines (alias: grs)  List program goroutines.
+    thread (alias: tr) ----- Switch to the specified thread.
+    threads ---------------- Print out info for every traced thread.
+
+Viewing the call stack and selecting frames:
+    deferred --------- Executes command in the context of a deferred call.
+    down ------------- Move the current frame down.
+    frame ------------ Set the current frame, or execute command on a different frame.
+    stack (alias: bt)  Print stack trace.
+    up --------------- Move the current frame up.
+
+Other commands:
+    config --------------------- Changes configuration parameters.
+    disassemble (alias: disass)  Disassembler.
+    dump ----------------------- Creates a core dump from the current process state
+    edit (alias: ed) ----------- Open where you are in $DELVE_EDITOR or $EDITOR
+    exit (alias: quit | q) ----- Exit the debugger.
+    funcs ---------------------- Print list of functions.
+    help (alias: h) ------------ Prints the help message.
+    libraries ------------------ List loaded dynamic libraries
+    list (alias: ls | l) ------- Show source code.
+    source --------------------- Executes a file containing a list of delve commands
+    sources -------------------- Print list of source files.
+    transcript ----------------- Appends command output to a file.
+    types ---------------------- Print list of types
+
+Type help followed by a command for full documentation.
+(dlv) help dump
+Creates a core dump from the current process state
+
+	dump <output file>
+
+The core dump is always written in ELF, even on systems (windows, macOS) where this is not customary. For environments other than linux/amd64 threads and registers are dumped in a format that only Delve can read back.
+(dlv) dump example.core
+Dumping memory 0 / 0...Dumping memory 46870528 / 46870528...
+(dlv) exit
