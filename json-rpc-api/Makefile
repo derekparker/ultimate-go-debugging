@@ -3,7 +3,7 @@ build:
 	go build -o bin/myclient
 
 .PHONY: run
-run:
+run: build
 	./bin/myclient localhost:9090 | jq .
 
 .PHONY: run-testprog-with-dlv
