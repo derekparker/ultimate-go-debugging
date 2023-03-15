@@ -16,3 +16,7 @@ ulimit-unlimited:
 .PHONY: set-core-pattern
 set-core-pattern:
 	echo core | sudo tee /proc/sys/kernel/core_pattern
+
+.PHONY: dlv-core
+dlv-core:
+	dlv core ./bin/crash core.<PID>
