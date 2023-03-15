@@ -4,3 +4,7 @@ bin/crash:
 .PHONY: run-crash
 run-crash: bin/crash
 	./bin/crash
+
+.PHONY: run-crash-gotraceback
+run-crash-gotraceback:
+	GOTRACEBACK=crash ./bin/crash
