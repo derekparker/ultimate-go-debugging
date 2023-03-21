@@ -5,3 +5,7 @@ set-perf-event-paranoid:
 .PHONY: check-perf-list
 check-perf-list:
 	perf list
+
+.PHONY: build
+build:
+	go build -gcflags="all=-N -l" -o bin/recordme main.go
