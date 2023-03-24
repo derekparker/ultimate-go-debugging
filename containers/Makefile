@@ -55,3 +55,13 @@ build-scratch-image:
 .PHONY: build-debug-image
 build-debug-image:
 	docker build --pull --rm -f build/Dockerfile-debug -t buggy-debug:latest .
+
+# Run scratch image.
+.PHONY: run-scratch-image
+run-scratch-image:
+	docker run -it --detach -p 8080:8080 --name=buggy-scratch --rm $(SCRATCH_IMG)
+
+# Debug scratch image.
+.PHONY: debug-scratch-image
+debug-scratch-image:
+	docker run -it --rm --pid="container:buggy-scratch" buggy-debug /bin/bash
