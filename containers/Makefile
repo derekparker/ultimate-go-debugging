@@ -32,3 +32,12 @@ exec-dlv-basic-container:
 .PHONY: change-ptrace-yama
 change-ptrace-yama:
 	echo "0" | sudo tee /proc/sys/kernel/yama/ptrace_scope
+
+.PHONY: change-ptrace-yama-back
+change-ptrace-yama-back:
+	echo "1" | sudo tee /proc/sys/kernel/yama/ptrace_scope
+
+# Run basic image with ptrace SYS_CAP.
+.PHONY: run-basic-image-with-ptrace
+run-basic-image-with-ptrace:
+	docker run -it --detach --rm -p 8080:8080 --cap-add=SYS_PTRACE $(BASIC_IMG)
