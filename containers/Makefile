@@ -79,4 +79,4 @@ run-dlv-container:
 # Connect to headless dlv server within container.
 .PHONY: connect-to-remote-dlv
 connect-to-remote-dlv:
-	dlv connect localhost:9090
+	dlv connect localhost:9091
