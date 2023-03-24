@@ -65,3 +65,8 @@ run-scratch-image:
 .PHONY: debug-scratch-image
 debug-scratch-image:
 	docker run -it --rm --cap-add=SYS_PTRACE --pid="container:buggy-scratch" buggy-debug /bin/bash
+
+# Build docker image containing Delve binary already.
+.PHONY: build-image-with-delve
+build-image-with-delve:
+	docker build --rm -f build/Dockerfile-with-delve -t $(DELVE_IMG):latest .
