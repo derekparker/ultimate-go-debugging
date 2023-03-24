@@ -10,3 +10,11 @@ DELVE_IMG := buggy-with-delve
 .PHONY: build-image
 build-image:
 	docker build --rm -f build/Dockerfile-basic -t $(BASIC_IMG):latest .
+
+.PHONY: curl-app
+curl-app:
+	curl localhost:8080/foo/bar
+
+.PHONY: run-basic-image
+run-basic-image:
+	docker run -it --detach -p 8080:8080 --rm $(BASIC_IMG)
