@@ -74,7 +74,7 @@ build-image-with-delve:
 # Run docker image containing delve binary.
 .PHONY: run-dlv-container
 run-dlv-container:
-	docker run --rm -it --detach -p 8080:8080 -p 9091:9091 $(DELVE_IMG)
+	docker run --rm -it --detach -p 8080:8080 -p 9091:9090 $(DELVE_IMG)
 
 # Connect to headless dlv server within container.
 .PHONY: connect-to-remote-dlv
