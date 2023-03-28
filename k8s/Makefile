@@ -49,3 +49,7 @@ deploy-dlv-service:
 .PHONY: port-forward
 port-forward:
 	kubectl port-forward $(DLV_POD) 9090:9090
+
+.PHONY: connect-to-remote-dlv
+connect-to-remote-dlv:
+	dlv connect localhost:9090
