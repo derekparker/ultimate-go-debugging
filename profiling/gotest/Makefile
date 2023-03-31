@@ -12,3 +12,7 @@ run-benchmarks-with-profiling:
 .PHONY: view-cpu-profile
 view-cpu-profile:
 	go tool pprof trie/cpu.prof
+
+.PHONY: view-memory-profile
+view-memory-profile:
+	go tool pprof trie/mem.prof
