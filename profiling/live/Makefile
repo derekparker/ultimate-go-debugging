@@ -11,12 +11,12 @@ get-heap-profile:
 	curl http://localhost:6060/debug/pprof/heap > heap.pprof
 
 .PHONY: get-allocation-profile
-get-heap-profile:
+get-allocation-profile:
 	curl http://localhost:6060/debug/pprof/allocation > allocation.pprof
 
 .PHONY: get-cpu-profile
 get-cpu-profile:
-	curl http://localhost:6060/debug/pprof/cpu > cpu.pprof
+	curl http://localhost:6060/debug/pprof/profile?seconds=30 > cpu.pprof
 
 .PHONY: go-tool-pprof-allocation
 go-tool-pprof-allocation:
