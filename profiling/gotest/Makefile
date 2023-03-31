@@ -4,3 +4,7 @@ trie:
 .PHONY: run-benchmarks
 run-benchmarks:
 	cd trie && go test -v -bench ".*"
+
+.PHONY: run-benchmarks-with-profiling
+run-benchmarks-with-profiling:
+	cd trie && go test -v -cpuprofile cpu.prof -memprofile mem.prof -bench ".*"
